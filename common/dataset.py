@@ -1,6 +1,6 @@
 from torch.utils.data import DataLoader
 
-from LMSCNet.data.SemanticKITTI import SemanticKITTI_dataloader
+from SSCNet.data.SemanticKITTI import SemanticKITTI_dataloader
 
 
 def get_dataset(_cfg):

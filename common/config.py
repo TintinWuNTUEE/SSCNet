@@ -1,7 +1,7 @@
 import yaml
 import os
 
-from LMSCNet.common.time import get_date_sting
+from SSCNet.common.time import get_date_sting
 
 
 class CFG:

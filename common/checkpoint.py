@@ -3,7 +3,7 @@ import torch
 import os
 from glob import glob
 
-from LMSCNet.common.io_tools import _remove_recursively, _create_directory
+from SSCNet.common.io_tools import _remove_recursively, _create_directory
 
 
 def load(model, optimizer, scheduler, resume, path, logger):

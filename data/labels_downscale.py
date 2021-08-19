@@ -12,7 +12,7 @@ repo_path, _ = os.path.split(repo_path)
 repo_path, _ = os.path.split(repo_path)
 sys.path.append(repo_path)
 
-import LMSCNet.data.io_data as SemanticKittiIO
+import SSCNet.data.io_data as SemanticKittiIO
 
 
 def parse_args():
