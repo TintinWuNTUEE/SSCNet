@@ -6,8 +6,8 @@ import yaml
 import random
 import sys
 
-import SSCNet.data.io_data as SemanticKittiIO
-from .process_panoptic import PanopticLabelGenerator
+import io_data as SemanticKittiIO
+from process_panoptic import PanopticLabelGenerator
 
 class SemanticKITTI_dataloader(Dataset):
 
@@ -30,7 +30,7 @@ class SemanticKITTI_dataloader(Dataset):
     self.extensions = {'3D_OCCUPANCY': '.bin', '3D_LABEL': '.label', '3D_OCCLUDED': '.occluded',
                        '3D_INVALID': '.invalid'}
     self.data_augmentation = {'FLIPS': dataset['AUGMENTATION']['FLIPS']}
-
+    self.learning_map = self.dataset_config['learning_map']
     self.filepaths = {}
     self.phase = phase
     self.class_frequencies = np.array([5.41773033e+09, 1.57835390e+07, 1.25136000e+05, 1.18809000e+05,
@@ -105,7 +105,11 @@ class SemanticKITTI_dataloader(Dataset):
       for sequence in sequences:
         assert len(os.listdir(sequence)) > 0, 'Error, No files in sequence: {}'.format(sequence)
         self.filepaths['3D_OCCUPANCY'] += sorted(glob(os.path.join(sequence, 'voxels', '*.bin')))
-
+    if modality == 'PANOPTIC':
+      self.filepaths['PANOPTIC'] = []
+      for sequence in sequences:
+        assert len(os.listdir(sequence)) > 0, 'Error, No files in sequence: {}'.format(sequence)
+        self.filepaths['PANOPTIC'] += sorted(glob(os.path.join(sequence,'labels','*.label')))
     # if modality == '2D_RGB':
     #   self.filepaths['2D_RGB'] = []
     #   for sequence in sequences:
@@ -138,7 +142,7 @@ class SemanticKITTI_dataloader(Dataset):
     if self.data_augmentation['FLIPS'] and self.phase == 'train':
       do_flip = random.randint(0, 3)
     ################################################################
-    annotated_data = np.fromfile(self.im_idx[idx].replace('velodyne','labels')[:-3]+'label', dtype=np.uint32).reshape((-1,1))
+    annotated_data = np.fromfile(self.filepaths['PANOPTIC'][idx], dtype=np.uint32).reshape((-1,1))
     sem_data = annotated_data & 0xFFFF #delete high 16 digits binary
     sem_data = np.vectorize(self.learning_map.__getitem__)(sem_data)
     inst_data = annotated_data
@@ -147,7 +151,6 @@ class SemanticKITTI_dataloader(Dataset):
     for modality in self.modalities:
       if (self.modalities[modality]) and (modality in self.filepaths):
         data[modality] = self.get_data_modality(modality, idx, do_flip)
-
     return data, idx, point_label_tuple
 
   def get_data_modality(self, modality, idx, flip):
@@ -183,7 +186,8 @@ class SemanticKITTI_dataloader(Dataset):
     #   # There is a problem on the RGB images.. They are not all the same size and I used those to calculate the mapping
     #   # for the sketch... I need images all te same size..
     #   return RGB
-
+    elif modality == 'PANOPTIC':
+      pass
     else:
       assert False, 'Specified modality not found'
 
@@ -284,34 +288,34 @@ class voxel_dataset(Dataset):
         data = self.point_cloud_dataset[index]
         if len(data) == 3:
             xyz,idx,tuples = data
-            labels,inst = tuples
-        elif len(data) == 4:
-            xyz,labels,insts,feat = data
-            if len(feat.shape) == 1: feat = feat[..., np.newaxis]
+            labels,insts = tuples
+        # elif len(data) == 4:
+        #     xyz,labels,insts,feat = data
+        #     if len(feat.shape) == 1: feat = feat[..., np.newaxis]
         else: raise Exception('Return invalid data tuple')
         if len(labels.shape) == 1: labels = labels[..., np.newaxis]
         if len(insts.shape) == 1: insts = insts[..., np.newaxis]
         
         # random data augmentation by rotation
-        if self.rotate_aug:
-            rotate_rad = np.deg2rad(np.random.random()*360)
-            c, s = np.cos(rotate_rad), np.sin(rotate_rad)
-            j = np.matrix([[c, s], [-s, c]])
-            xyz[:,:2] = np.dot( xyz[:,:2],j)
+        # if self.rotate_aug:
+        #     rotate_rad = np.deg2rad(np.random.random()*360)
+        #     c, s = np.cos(rotate_rad), np.sin(rotate_rad)
+        #     j = np.matrix([[c, s], [-s, c]])
+        #     xyz[:,:2] = np.dot( xyz[:,:2],j)
 
         # random data augmentation by flip x , y or x+y
-        if self.flip_aug:
-            flip_type = np.random.choice(4,1)
-            if flip_type==1:
-                xyz[:,0] = -xyz[:,0]
-            elif flip_type==2:
-                xyz[:,1] = -xyz[:,1]
-            elif flip_type==3:
-                xyz[:,:2] = -xyz[:,:2]
+        # if self.flip_aug:
+        #     flip_type = np.random.choice(4,1)
+        #     if flip_type==1:
+        #         xyz[:,0] = -xyz[:,0]
+        #     elif flip_type==2:
+        #         xyz[:,1] = -xyz[:,1]
+        #     elif flip_type==3:
+        #         xyz[:,:2] = -xyz[:,:2]
 
         # random instance augmentation
-        if self.instance_aug:
-            xyz,labels,insts,feat = self.inst_aug.instance_aug(xyz,labels.squeeze(),insts.squeeze(),feat)
+        # if self.instance_aug:
+        #     xyz,labels,insts,feat = self.inst_aug.instance_aug(xyz,labels.squeeze(),insts.squeeze(),feat)
 
         max_bound = np.percentile(xyz,100,axis = 0)
         min_bound = np.percentile(xyz,0,axis = 0)
@@ -371,8 +375,8 @@ class voxel_dataset(Dataset):
         
         if len(data) == 3:
             return_fea = return_xyz
-        elif len(data) == 4:
-            return_fea = np.concatenate((return_xyz,feat),axis = 1)
+        # elif len(data) == 4:
+        #     return_fea = np.concatenate((return_xyz,feat),axis = 1)
         
         if self.return_test:
             data_tuple += (grid_ind,labels,insts,return_fea,index)
@@ -390,3 +394,101 @@ def polar2cat(input_xyz_polar):
     x = input_xyz_polar[0]*np.cos(input_xyz_polar[1])
     y = input_xyz_polar[0]*np.sin(input_xyz_polar[1])
     return np.stack((x,y,input_xyz_polar[2]),axis=0)
+
+
+if __name__ == '__main__':
+  class CFG:
+    
+    def __init__(self):
+      '''
+      Class constructor
+      :param config_path:
+      '''
+
+      # Initializing dict...
+      self._dict = {}
+      return
+
+    def from_config_yaml(self, config_path):
+      '''
+      Class constructor
+      :param config_path:
+      '''
+
+      # Reading config file
+      self._dict = yaml.load(open(config_path, 'r'), Loader=yaml.FullLoader)
+
+      self._dict['STATUS']['CONFIG'] = config_path
+
+      if not 'OUTPUT_PATH' in self._dict['OUTPUT'].keys():
+        self.set_output_filename()
+        self.init_stats()
+        self.update_config()
+
+      return
+
+    def from_dict(self, config_dict):
+      '''
+      Class constructor
+      :param config_path:
+      '''
+
+      # Reading config file
+      self._dict = config_dict
+      return
+
+    def set_output_filename(self):
+      '''
+      Set output path in the form Model_Dataset_DDYY_HHMMSS
+      '''
+      datetime = get_date_sting()
+      model = self._dict['MODEL']['TYPE']
+      dataset = self._dict['DATASET']['TYPE']
+      OUT_PATH = os.path.join(self._dict['OUTPUT']['OUT_ROOT'], model + '_' + dataset + '_' + datetime)
+      self._dict['OUTPUT']['OUTPUT_PATH'] = OUT_PATH
+      return
+
+    def update_config(self, resume=False):
+      '''
+      Save config file
+      '''
+      if resume:
+        self.set_resume()
+      yaml.dump(self._dict, open(self._dict['STATUS']['CONFIG'], 'w'))
+      return
+
+    def init_stats(self):
+      '''
+      Initialize training stats (i.e. epoch mean time, best loss, best metrics)
+      '''
+      self._dict['OUTPUT']['BEST_LOSS'] = 999999999999
+      self._dict['OUTPUT']['BEST_METRIC'] = -999999999999
+      self._dict['STATUS']['LAST'] = ''
+      return
+
+    def set_resume(self):
+      '''
+      Update resume status dict file
+      '''
+      if not self._dict['STATUS']['RESUME']:
+        self._dict['STATUS']['RESUME'] = True
+      return
+
+    def finish_config(self):
+      self.move_config(os.path.join(self._dict['OUTPUT']['OUTPUT_PATH'], 'config.yaml'))
+      return
+
+    def move_config(self, path):
+      # Remove from original path
+      os.remove(self._dict['STATUS']['CONFIG'])
+      # Change ['STATUS']['CONFIG'] to new path
+      self._dict['STATUS']['CONFIG'] = path
+      # Save to routine output folder
+      yaml.dump(self._dict, open(path, 'w'))
+
+      return
+  _cfg = CFG()
+  _cfg.from_config_yaml("../SSC_configs/LMSCNet_SS.yaml")
+  data = SemanticKITTI_dataloader(_cfg._dict["DATASET"],'train')
+  xyz,idx,tuples = data.__getitem__(0)
+  print(tuples)

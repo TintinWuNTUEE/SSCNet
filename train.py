@@ -10,15 +10,15 @@ repo_path, _ = os.path.split(os.path.realpath(__file__))
 repo_path, _ = os.path.split(repo_path)
 sys.path.append(repo_path)
 
-from SSCNet.common.seed import seed_all
-from SSCNet.common.config import CFG
-from SSCNet.common.dataset import get_dataset
-from SSCNet.common.model import get_model
-from SSCNet.common.logger import get_logger
-from SSCNet.common.optimizer import build_optimizer, build_scheduler
-from SSCNet.common.io_tools import dict_to
-from SSCNet.common.metrics import Metrics
-import SSCNet.common.checkpoint as checkpoint
+from common.seed import seed_all
+from common.config import CFG
+from common.dataset import get_dataset
+from common.model import get_model
+from common.logger import get_logger
+from common.optimizer import build_optimizer, build_scheduler
+from common.io_tools import dict_to
+from common.metrics import Metrics
+import common.checkpoint as checkpoint
 
 def parse_args():
   parser = argparse.ArgumentParser(description='LMSCNet training')

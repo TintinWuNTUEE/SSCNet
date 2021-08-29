@@ -2,12 +2,13 @@ DATALOADER:
   NUM_WORKERS: 4
 DATASET:
   AUGMENTATION:
-    FLIPS: true
+    FLIPS: false
   MODALITIES:
     3D_LABEL: true
     3D_OCCLUDED: true
     3D_OCCUPANCY: true
-  ROOT_DIR: /datasets_local/datasets_lroldaoj/semantic_kitti_v1.0/
+    PANOPTIC: true
+  ROOT_DIR: ../semanticKITTI
   TYPE: SemanticKITTI
 MODEL:
   TYPE: LMSCNet_SS
