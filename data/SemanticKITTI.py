@@ -7,7 +7,7 @@ import random
 import sys
 
 import SSCNet.data.io_data as SemanticKittiIO
-
+from .process_panoptic import PanopticLabelGenerator
 
 class SemanticKITTI_dataloader(Dataset):
 
@@ -45,7 +45,21 @@ class SemanticKITTI_dataloader(Dataset):
     for modality in self.modalities:
       if self.modalities[modality]:
         self.get_filepaths(modality)
-
+    ########################################################################
+    thing_class = self.dataset_config['thing_class']
+    self.thing_list = [cl for cl, ignored in thing_class.items() if ignored]
+    
+    # get class distribution weight 
+    epsilon_w = 0.001
+    origin_class = self.dataset_config['content'].keys()
+    weights = np.zeros((len(self.dataset_config['learning_map_inv'])-1,),dtype = np.float32)
+    for class_num in origin_class:
+      if self.dataset_config['learning_map'][class_num] != 0:
+        weights[self.dataset_config['learning_map'][class_num]-1] += self.dataset_config['content'][class_num]
+    self.CLS_LOSS_WEIGHT = 1/(weights + epsilon_w)
+    # self.instance_pkl_path = instance_pkl_path
+    
+    ########################################################################
     # if self.phase != 'test':
     #   self.check_same_nbr_files()
 
@@ -123,12 +137,18 @@ class SemanticKITTI_dataloader(Dataset):
     do_flip = 0
     if self.data_augmentation['FLIPS'] and self.phase == 'train':
       do_flip = random.randint(0, 3)
-
+    ################################################################
+    annotated_data = np.fromfile(self.im_idx[idx].replace('velodyne','labels')[:-3]+'label', dtype=np.uint32).reshape((-1,1))
+    sem_data = annotated_data & 0xFFFF #delete high 16 digits binary
+    sem_data = np.vectorize(self.learning_map.__getitem__)(sem_data)
+    inst_data = annotated_data
+    point_label_tuple = (sem_data.astype(np.uint8), inst_data)#add lmscnet output as rawdata:((raw_data[:,:3], sem_data.astype(np.uint8),inst_data))
+    ################################################################
     for modality in self.modalities:
       if (self.modalities[modality]) and (modality in self.filepaths):
         data[modality] = self.get_data_modality(modality, idx, do_flip)
 
-    return data, idx
+    return data, idx, point_label_tuple
 
   def get_data_modality(self, modality, idx, flip):
 
@@ -235,3 +255,138 @@ class SemanticKITTI_dataloader(Dataset):
     # Return the number of elements in the dataset
     return self.nbr_files
 
+class voxel_dataset(Dataset):
+  def __init__(self, in_dataset, args, grid_size, ignore_label = 0, return_test = False, fixed_volume_space= True, use_aug = False, max_volume_space = [50,50,1.5], min_volume_space = [-50,-50,-3]):
+        'Initialization'
+        self.point_cloud_dataset = in_dataset
+        self.grid_size = np.asarray(grid_size)
+        self.rotate_aug = args['rotate_aug'] if use_aug else False
+        self.ignore_label = ignore_label
+        self.return_test = return_test
+        self.flip_aug = args['flip_aug'] if use_aug else False
+        self.instance_aug = args['inst_aug'] if use_aug else False
+        self.fixed_volume_space = fixed_volume_space
+        self.max_volume_space = max_volume_space
+        self.min_volume_space = min_volume_space
+
+        self.panoptic_proc = PanopticLabelGenerator(self.grid_size,sigma=args['gt_generator']['sigma'])
+        # if self.instance_aug:
+        #     self.inst_aug = instance_augmentation(self.point_cloud_dataset.instance_pkl_path+'/instance_path.pkl',self.point_cloud_dataset.thing_list,self.point_cloud_dataset.CLS_LOSS_WEIGHT,\
+        #                                         random_flip=args['inst_aug_type']['inst_global_aug'],random_add=args['inst_aug_type']['inst_os'],\
+        #                                         random_rotate=args['inst_aug_type']['inst_global_aug'],local_transformation=args['inst_aug_type']['inst_loc_aug'])
+
+  def __len__(self):
+        'Denotes the total number of samples'
+        return len(self.point_cloud_dataset)
+
+  def __getitem__(self, index):
+        'Generates one sample of data'
+        data = self.point_cloud_dataset[index]
+        if len(data) == 3:
+            xyz,idx,tuples = data
+            labels,inst = tuples
+        elif len(data) == 4:
+            xyz,labels,insts,feat = data
+            if len(feat.shape) == 1: feat = feat[..., np.newaxis]
+        else: raise Exception('Return invalid data tuple')
+        if len(labels.shape) == 1: labels = labels[..., np.newaxis]
+        if len(insts.shape) == 1: insts = insts[..., np.newaxis]
+        
+        # random data augmentation by rotation
+        if self.rotate_aug:
+            rotate_rad = np.deg2rad(np.random.random()*360)
+            c, s = np.cos(rotate_rad), np.sin(rotate_rad)
+            j = np.matrix([[c, s], [-s, c]])
+            xyz[:,:2] = np.dot( xyz[:,:2],j)
+
+        # random data augmentation by flip x , y or x+y
+        if self.flip_aug:
+            flip_type = np.random.choice(4,1)
+            if flip_type==1:
+                xyz[:,0] = -xyz[:,0]
+            elif flip_type==2:
+                xyz[:,1] = -xyz[:,1]
+            elif flip_type==3:
+                xyz[:,:2] = -xyz[:,:2]
+
+        # random instance augmentation
+        if self.instance_aug:
+            xyz,labels,insts,feat = self.inst_aug.instance_aug(xyz,labels.squeeze(),insts.squeeze(),feat)
+
+        max_bound = np.percentile(xyz,100,axis = 0)
+        min_bound = np.percentile(xyz,0,axis = 0)
+        
+        if self.fixed_volume_space:
+            max_bound = np.asarray(self.max_volume_space)
+            min_bound = np.asarray(self.min_volume_space)
+
+        # get grid index
+        crop_range = max_bound - min_bound
+        cur_grid_size = self.grid_size
+        
+        intervals = crop_range/(cur_grid_size-1)
+        if (intervals==0).any(): print("Zero interval!")
+        
+        grid_ind = (np.floor((np.clip(xyz,min_bound,max_bound)-min_bound)/intervals)).astype(np.int)
+
+        # process voxel position
+        voxel_position = np.zeros(self.grid_size,dtype = np.float32)
+        dim_array = np.ones(len(self.grid_size)+1,int)
+        dim_array[0] = -1 
+        voxel_position = (np.indices(self.grid_size) + 0.5)*intervals.reshape(dim_array) + min_bound.reshape(dim_array)
+
+        # process labels
+        processed_label = np.ones(self.grid_size,dtype = np.uint8)*self.ignore_label
+        label_voxel_pair = np.concatenate([grid_ind,labels],axis = 1)
+        label_voxel_pair = label_voxel_pair[np.lexsort((grid_ind[:,0],grid_ind[:,1],grid_ind[:,2])),:]
+        processed_label = nb_process_label(np.copy(processed_label),label_voxel_pair)
+
+        # get thing points mask
+        mask = np.zeros_like(labels,dtype=bool)
+        for label in self.point_cloud_dataset.thing_list:
+            mask[labels == label] = True
+        
+        inst_label = insts[mask].squeeze()
+        unique_label = np.unique(inst_label)
+        unique_label_dict = {label:idx+1 for idx , label in enumerate(unique_label)}
+        if inst_label.size > 1:            
+            inst_label = np.vectorize(unique_label_dict.__getitem__)(inst_label)
+            
+            # process panoptic
+            processed_inst = np.ones(self.grid_size[:2],dtype = np.uint8)*self.ignore_label
+            inst_voxel_pair = np.concatenate([grid_ind[mask[:,0],:2],inst_label[..., np.newaxis]],axis = 1)
+            inst_voxel_pair = inst_voxel_pair[np.lexsort((grid_ind[mask[:,0],0],grid_ind[mask[:,0],1])),:]
+            processed_inst = nb_process_inst(np.copy(processed_inst),inst_voxel_pair)
+        else:
+            processed_inst = None
+
+        center,center_points,offset = self.panoptic_proc(insts[mask],xyz[mask[:,0]],processed_inst,voxel_position[:2,:,:,0],unique_label_dict,min_bound,intervals)
+        
+        data_tuple = (voxel_position,processed_label,center,offset)
+
+        # center data on each voxel for PTnet
+        voxel_centers = (grid_ind.astype(np.float32) + 0.5)*intervals + min_bound
+        return_xyz = xyz - voxel_centers
+        return_xyz = np.concatenate((return_xyz,xyz),axis = 1)
+        
+        if len(data) == 3:
+            return_fea = return_xyz
+        elif len(data) == 4:
+            return_fea = np.concatenate((return_xyz,feat),axis = 1)
+        
+        if self.return_test:
+            data_tuple += (grid_ind,labels,insts,return_fea,index)
+        else:
+            data_tuple += (grid_ind,labels,insts,return_fea)
+        return data_tuple
+
+# transformation between Cartesian coordinates and polar coordinates
+def cart2polar(input_xyz):
+    rho = np.sqrt(input_xyz[:,0]**2 + input_xyz[:,1]**2)
+    phi = np.arctan2(input_xyz[:,1],input_xyz[:,0])
+    return np.stack((rho,phi,input_xyz[:,2]),axis=1)
+
+def polar2cat(input_xyz_polar):
+    x = input_xyz_polar[0]*np.cos(input_xyz_polar[1])
+    y = input_xyz_polar[0]*np.sin(input_xyz_polar[1])
+    return np.stack((x,y,input_xyz_polar[2]),axis=0)

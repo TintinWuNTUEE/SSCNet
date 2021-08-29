@@ -185,6 +185,27 @@ learning_ignore: # Ignore classes
   17: False    # "terrain"
   18: False    # "pole"
   19: False    # "traffic-sign"
+thing_class: # thing class in panoptic segmentation
+  0: False      # "unlabeled", and others ignored
+  1: True     # "car"
+  2: True     # "bicycle"
+  3: True     # "motorcycle"
+  4: True     # "truck"
+  5: True     # "other-vehicle"
+  6: True     # "person"
+  7: True     # "bicyclist"
+  8: True     # "motorcyclist"
+  9: False     # "road"
+  10: False    # "parking"
+  11: False    # "sidewalk"
+  12: False    # "other-ground"
+  13: False    # "building"
+  14: False    # "fence"
+  15: False    # "vegetation"
+  16: False    # "trunk"
+  17: False    # "terrain"
+  18: False    # "pole"
+  19: False    # "traffic-sign"  
 split: # sequence numbers
   train:
     - 0
