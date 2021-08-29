@@ -14,12 +14,12 @@ dataset:
         inst_global_aug: True
     gt_generator:
         sigma: 5
-    grid_size: [480,360,32]
+    grid_size: [256,256,32]
 
 model:
     model_save_path: ./Panoptic_SemKITTI.pt
     pretrained_model: /pretrained_weight/Panoptic_SemKITTI_PolarNet.pt
-    polar: True
+    polar: False
     visibility: True
     
     train_batch_size: 2
