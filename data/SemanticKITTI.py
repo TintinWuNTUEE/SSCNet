@@ -5,10 +5,11 @@ import numpy as np
 import yaml
 import random
 import sys
-
+import numba as nb
 import io_data as SemanticKittiIO
 from process_panoptic import PanopticLabelGenerator
-
+import pickle
+import errno
 class SemanticKITTI_dataloader(Dataset):
 
   def __init__(self, dataset, phase):
@@ -21,7 +22,7 @@ class SemanticKITTI_dataloader(Dataset):
     yaml_path, _ = os.path.split(os.path.realpath(__file__))
     self.dataset_config = yaml.safe_load(open(os.path.join(yaml_path, 'semantic-kitti.yaml'), 'r'))
     self.nbr_classes = self.dataset_config['nbr_classes']
-    self.grid_dimensions = self.dataset_config['grid_dims']   # [W, H, D]
+    self.grid_dimensions = self.dataset_config['grid_dims']   # [W, H, D] [256,32,256]
     self.remap_lut = self.get_remap_lut()
     self.rgb_mean = np.array([0.34749558, 0.36745213, 0.36123651])  # images mean:  [88.61137282 93.70029365 92.11530949]
     self.rgb_std = np.array([0.30599035, 0.3129534 , 0.31933814])   # images std:  [78.02753826 79.80311686 81.43122464]
@@ -394,7 +395,69 @@ def polar2cat(input_xyz_polar):
     x = input_xyz_polar[0]*np.cos(input_xyz_polar[1])
     y = input_xyz_polar[0]*np.sin(input_xyz_polar[1])
     return np.stack((x,y,input_xyz_polar[2]),axis=0)
+  
 
+@nb.jit('u1[:,:,:](u1[:,:,:],i8[:,:])',nopython=True,cache=True,parallel = False)
+def nb_process_label(processed_label,sorted_label_voxel_pair):
+    label_size = 256
+    counter = np.zeros((label_size,),dtype = np.uint16)
+    counter[sorted_label_voxel_pair[0,3]] = 1
+    cur_sear_ind = sorted_label_voxel_pair[0,:3]
+    for i in range(1,sorted_label_voxel_pair.shape[0]):
+        cur_ind = sorted_label_voxel_pair[i,:3]
+        if not np.all(np.equal(cur_ind,cur_sear_ind)):
+            processed_label[cur_sear_ind[0],cur_sear_ind[1],cur_sear_ind[2]] = np.argmax(counter)
+            counter = np.zeros((label_size,),dtype = np.uint16)
+            cur_sear_ind = cur_ind
+        counter[sorted_label_voxel_pair[i,3]] += 1
+    processed_label[cur_sear_ind[0],cur_sear_ind[1],cur_sear_ind[2]] = np.argmax(counter)
+    return processed_label
+
+@nb.jit('u1[:,:](u1[:,:],i8[:,:])',nopython=True,cache=True,parallel = False)
+def nb_process_inst(processed_inst,sorted_inst_voxel_pair):
+    label_size = 256
+    counter = np.zeros((label_size,),dtype = np.uint16)
+    counter[sorted_inst_voxel_pair[0,2]] = 1
+    cur_sear_ind = sorted_inst_voxel_pair[0,:2]
+    for i in range(1,sorted_inst_voxel_pair.shape[0]):
+        cur_ind = sorted_inst_voxel_pair[i,:2]
+        if not np.all(np.equal(cur_ind,cur_sear_ind)):
+            processed_inst[cur_sear_ind[0],cur_sear_ind[1]] = np.argmax(counter)
+            counter = np.zeros((label_size,),dtype = np.uint16)
+            cur_sear_ind = cur_ind
+        counter[sorted_inst_voxel_pair[i,2]] += 1
+    processed_inst[cur_sear_ind[0],cur_sear_ind[1]] = np.argmax(counter)
+    return processed_inst
+
+def collate_fn_BEV(data):
+    data2stack=np.stack([d[0] for d in data]).astype(np.float32)
+    label2stack=np.stack([d[1] for d in data])
+    center2stack=np.stack([d[2] for d in data])
+    offset2stack=np.stack([d[3] for d in data])
+    grid_ind_stack = [d[4] for d in data]
+    point_label = [d[5] for d in data]
+    point_inst = [d[6] for d in data]
+    xyz = [d[7] for d in data]
+    return torch.from_numpy(data2stack),torch.from_numpy(label2stack),torch.from_numpy(center2stack),torch.from_numpy(offset2stack),grid_ind_stack,point_label,point_inst,xyz
+
+def collate_fn_BEV_test(data):    
+    data2stack=np.stack([d[0] for d in data]).astype(np.float32)
+    label2stack=np.stack([d[1] for d in data])
+    center2stack=np.stack([d[2] for d in data])
+    offset2stack=np.stack([d[3] for d in data])
+    grid_ind_stack = [d[4] for d in data]
+    point_label = [d[5] for d in data]
+    point_inst = [d[6] for d in data]
+    xyz = [d[7] for d in data]
+    index = [d[8] for d in data]
+    return torch.from_numpy(data2stack),torch.from_numpy(label2stack),torch.from_numpy(center2stack),torch.from_numpy(offset2stack),grid_ind_stack,point_label,point_inst,xyz,index
+
+# load Semantic KITTI class info
+with open("semantic-kitti.yaml", 'r') as stream:
+    semkittiyaml = yaml.safe_load(stream)
+SemKITTI_label_name = dict()
+for i in sorted(list(semkittiyaml['learning_map'].keys()))[::-1]:
+    SemKITTI_label_name[semkittiyaml['learning_map'][i]] = semkittiyaml['labels'][i]
 
 if __name__ == '__main__':
   class CFG:
@@ -491,4 +554,4 @@ if __name__ == '__main__':
   _cfg.from_config_yaml("../SSC_configs/LMSCNet_SS.yaml")
   data = SemanticKITTI_dataloader(_cfg._dict["DATASET"],'train')
   xyz,idx,tuples = data.__getitem__(0)
-  print(tuples)
+  print(['PANOPTIC'])
