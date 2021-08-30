@@ -36,7 +36,7 @@ class SemKITTI(data.Dataset):
             raise Exception('Split must be train/val/test')
         self.im_idx = []
         for i_folder in split:
-            print(absoluteFilePaths('/'.join([data_path,str(i_folder).zfill(2),'velodyne'])))
+
             self.im_idx += absoluteFilePaths('/'.join([data_path,str(i_folder).zfill(2),'velodyne']))
         self.im_idx.sort()
         # get class distribution weight 
@@ -117,6 +117,7 @@ class SemKITTI(data.Dataset):
 def absoluteFilePaths(directory):
    for dirpath,_,filenames in os.walk(directory):
        for f in filenames:
+           print(os.path.abspath(os.path.join(dirpath, f)))
            yield os.path.abspath(os.path.join(dirpath, f))
 
 class voxel_dataset(data.Dataset):
