@@ -37,7 +37,7 @@ class SemKITTI(data.Dataset):
         self.im_idx = []
         for i_folder in split:
             self.im_idx += absoluteFilePaths('/'.join([data_path,str(i_folder).zfill(2),'velodyne']))
-            print self.im_idx[i_folder]
+            print (self.im_idx[i_folder])
         self.im_idx.sort()
         # get class distribution weight 
         epsilon_w = 0.001
