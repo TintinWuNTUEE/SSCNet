@@ -20,7 +20,7 @@ model:
     model_save_path: ./Panoptic_SemKITTI.pt
     pretrained_model: /pretrained_weight/Panoptic_SemKITTI_PolarNet.pt
     polar: False
-    visibility: True
+    visibility: False
     
     train_batch_size: 2
     val_batch_size: 2
