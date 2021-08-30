@@ -37,7 +37,6 @@ class SemKITTI(data.Dataset):
         self.im_idx = []
         for i_folder in split:
             self.im_idx += absoluteFilePaths('/'.join([data_path,str(i_folder).zfill(2),'velodyne']))
-            print(self.im_idx)
         self.im_idx.sort()
         # get class distribution weight 
         epsilon_w = 0.001
@@ -115,7 +114,6 @@ class SemKITTI(data.Dataset):
             pickle.dump(instance_dict, f)
 
 def absoluteFilePaths(directory):
-    print(directory)
     for dirpath,_,filenames in os.walk(directory):
         for f in filenames:
             yield os.path.abspath(os.path.join(dirpath, f))
