@@ -245,6 +245,7 @@ if __name__ == "__main__":
 
   # evaluator
   evaluator = PanopticEval(classes, ignore=ignore, min_points=1)
+  print ("evaluator made")
   evaluator.addBatch(sem_pred, inst_pred, sem_gt, inst_gt)
   pq, sq, rq, all_pq, all_sq, all_rq = evaluator.getPQ()
   iou, all_iou = evaluator.getSemIoU()
