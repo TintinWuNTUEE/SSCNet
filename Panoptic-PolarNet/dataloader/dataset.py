@@ -37,7 +37,7 @@ class SemKITTI(data.Dataset):
         self.im_idx = []
         for i_folder in split:
             self.im_idx += absoluteFilePaths('/'.join([data_path,str(i_folder).zfill(2),'velodyne']))
-            print(str(absoluteFilePaths))
+            print(self.im_idx)
         self.im_idx.sort()
         # get class distribution weight 
         epsilon_w = 0.001
@@ -115,10 +115,9 @@ class SemKITTI(data.Dataset):
             pickle.dump(instance_dict, f)
 
 def absoluteFilePaths(directory):
-   for dirpath,_,filenames in os.walk(directory):
-       for f in filenames:
-           print(os.path.abspath(os.path.join(dirpath, f)))
-           yield os.path.abspath(os.path.join(dirpath, f))
+    for dirpath,_,filenames in os.walk(directory):
+        for f in filenames:
+            yield os.path.abspath(os.path.join(dirpath, f))
 
 class voxel_dataset(data.Dataset):
   def __init__(self, in_dataset, args, grid_size, ignore_label = 0, return_test = False, fixed_volume_space= True, use_aug = False, max_volume_space = [50,50,1.5], min_volume_space = [-50,-50,-3]):
