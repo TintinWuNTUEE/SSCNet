@@ -126,8 +126,9 @@ def main(args):
                             predict_labels,center,offset = my_model(val_pt_fea_ten, val_grid_ten, val_vox_fea_ten)
                         else:
                             predict_labels,center,offset = my_model(val_pt_fea_ten, val_grid_ten)
-
+                        
                         for count,i_val_grid in enumerate(val_grid):
+                            print("before for loop")
                             # get foreground_mask
                             for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(pytorch_device)
                             for_mask[0,val_grid[count][:,0],val_grid[count][:,1],val_grid[count][:,2]] = True
@@ -137,6 +138,7 @@ def main(args):
                                                                                       top_k=args['model']['post_proc']['top_k'], polar=circular_padding,foreground_mask=for_mask)
                             panoptic_labels = panoptic_labels.cpu().detach().numpy().astype(np.int32)
                             panoptic = panoptic_labels[0,val_grid[count][:,0],val_grid[count][:,1],val_grid[count][:,2]]
+                            print("before addBatch")
                             evaluator.addBatch(panoptic & 0xFFFF,panoptic,np.squeeze(val_pt_labels[count]),np.squeeze(val_pt_ints[count]))
                         del val_vox_label,val_pt_fea_ten,val_label_tensor,val_grid_ten,val_gt_center,val_gt_center_tensor,val_gt_offset,val_gt_offset_tensor,predict_labels,center,offset,panoptic_labels,center_points
                 my_model.train()
