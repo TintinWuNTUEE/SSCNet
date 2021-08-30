@@ -5,13 +5,13 @@ dataset:
     path: data
     output_path: out/SemKITTI
     instance_pkl_path: data
-    rotate_aug: True
-    flip_aug: True
-    inst_aug: True
+    rotate_aug: False
+    flip_aug: False    
+    inst_aug: False
     inst_aug_type:
-        inst_os: True
-        inst_loc_aug: True
-        inst_global_aug: True
+        inst_os: False
+        inst_loc_aug: False
+        inst_global_aug: False
     gt_generator:
         sigma: 5
     grid_size: [256,256,32]
