@@ -121,14 +121,14 @@ def main(args):
                         val_label_tensor=val_vox_label.type(torch.LongTensor).to(pytorch_device)
                         val_gt_center_tensor = val_gt_center.to(pytorch_device)
                         val_gt_offset_tensor = val_gt_offset.to(pytorch_device)
-
+                        print("before if")
                         if visibility:
                             predict_labels,center,offset = my_model(val_pt_fea_ten, val_grid_ten, val_vox_fea_ten)
                         else:
                             predict_labels,center,offset = my_model(val_pt_fea_ten, val_grid_ten)
-                        
+                        print("before for loop")
                         for count,i_val_grid in enumerate(val_grid):
-                            print("before for loop")
+                            print("after for loop")
                             # get foreground_mask
                             for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(pytorch_device)
                             for_mask[0,val_grid[count][:,0],val_grid[count][:,1],val_grid[count][:,2]] = True
