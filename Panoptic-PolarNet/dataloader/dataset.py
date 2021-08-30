@@ -34,12 +34,11 @@ class SemKITTI(data.Dataset):
             split = semkittiyaml['split']['test']
         else:
             raise Exception('Split must be train/val/test')
-        
         self.im_idx = []
         for i_folder in split:
+            print(absoluteFilePaths('/'.join([data_path,str(i_folder).zfill(2),'velodyne'])))
             self.im_idx += absoluteFilePaths('/'.join([data_path,str(i_folder).zfill(2),'velodyne']))
         self.im_idx.sort()
-        print (self.im_idx)
         # get class distribution weight 
         epsilon_w = 0.001
         origin_class = semkittiyaml['content'].keys()
