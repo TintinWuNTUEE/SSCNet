@@ -9,7 +9,7 @@ from utils.configs import merge_configs
 def main(args):
     data_path = args['dataset']['path']
     grid_size = args['dataset']['grid_size']
-    batch_size = args['model']['batch_size']
+    batch_size = args['model']['train_batch_size']
 
 
     #prepare dataset
