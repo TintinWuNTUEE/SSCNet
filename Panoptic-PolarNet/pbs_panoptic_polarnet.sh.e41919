@@ -1,0 +1,1 @@
+  0%|          | 0/9565 [00:00<?, ?it/s]/var/spool/pbs/mom_priv/jobs/41919.pbs.SC: line 7: 269621 Segmentation fault      python train.py

@@ -37,5 +37,22 @@ def main(args):
         print("train_grid : ", train_grid)
         
         return
+        
+if __name__ == '__main__':
+    # Training settings
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('-d', '--data_dir', default='../semanticKITTI/dataset')
+    parser.add_argument('-p', '--model_save_path', default='./Panoptic_SemKITTI.pt')
+    parser.add_argument('-c', '--configs', default='configs/SemanticKITTI_model/Panoptic-PolarNet.yaml')
+    parser.add_argument('--pretrained_model', default='empty')
+
+    args = parser.parse_args()
+    with open(args.configs, 'r') as s:
+        new_args = yaml.safe_load(s)
+    args = merge_configs(args,new_args)
+
+    print(' '.join(sys.argv))
+    print(args)
+    main(args)
 
 
