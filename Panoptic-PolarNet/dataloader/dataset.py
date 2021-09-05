@@ -236,9 +236,11 @@ class voxel_dataset(data.Dataset):
         return_xyz = xyz - voxel_centers
         return_xyz = np.concatenate((return_xyz,xyz),axis = 1)
         
-        if len(data) == 3:
+        # if len(data) == 3:
+        if len(data) == 4:
             return_fea = return_xyz
-        elif len(data) == 4:
+        # elif len(data) == 4:
+        elif len(data) == 5:
             return_fea = np.concatenate((return_xyz,feat),axis = 1)
         
         if self.return_test:
