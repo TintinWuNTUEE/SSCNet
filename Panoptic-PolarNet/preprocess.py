@@ -40,8 +40,8 @@ def main(args):
     print(len(train_dataset_loader))
 
     for i_iter,data in enumerate(train_dataset_loader):
-        print(len(data))
-        (train_vox_fea,train_label_tensor,train_gt_center,train_gt_offset,train_grid,_,_,train_pt_fea, filename) = data
+        (train_vox_fea,train_label_tensor,train_gt_center,train_gt_offset,train_grid,_,_,train_pt_fea, filenames) = data
+
         print("train_vox_fea : ", train_vox_fea.shape)
         print(train_vox_fea)
         
@@ -62,7 +62,13 @@ def main(args):
         print(np.array(train_pt_fea[0]).shape)
         print(train_pt_fea)        
 
-        print(filename)
+        print(filenames)
+
+        for i in range(len(filenames)):
+            label_to_be_save = np.empty(3,object)
+            label_to_be_save[:] = [train_label_tensor[i], train_gt_center[i], train_gt_offset[i]]
+
+            np.save(filenames[i],label_to_be_save)
 
         return
 
