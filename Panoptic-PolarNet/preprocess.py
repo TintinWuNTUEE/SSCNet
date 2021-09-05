@@ -54,7 +54,7 @@ def main(args):
         print("train_grid : ", len(train_grid[1]))
         print(train_grid)
 
-        print("train_pt_fea : ", len(train_pt_fea[1]), len(train_pt_fea[2]))
+        print("train_pt_fea : ", len(train_pt_fea[1]))
         print(train_pt_fea)        
 
         return
