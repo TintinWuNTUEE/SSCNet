@@ -36,10 +36,29 @@ def main(args):
                                                     shuffle = False,
                                                     num_workers = 4)
 
+    print(len(train_dataset_loader))
+    
     for i_iter,(train_vox_fea,train_label_tensor,train_gt_center,train_gt_offset,train_grid,_,_,train_pt_fea) in enumerate(train_dataset_loader):
-        print("train_grid : ", train_grid)
+        print("train_vox_fea : ", train_vox_fea.shape)
+        print(train_vox_fea)
         
+        print("train_label_tensor : ", train_label_tensor.shape)
+        print(train_label_tensor)
+        
+        print("train_gt_center : ", train_gt_center.shape)
+        print(train_gt_center)
+
+        print("train_gt_offset : ", train_gt_offset.shape)
+        print(train_gt_offset)
+
+        print("train_grid : ", train_grid.shape)
+        print(train_grid)
+
+        print("train_pt_fea : ", train_pt_fea.shape)
+        print(train_pt_fea)        
+
         return
+
         
 if __name__ == '__main__':
     # Training settings
