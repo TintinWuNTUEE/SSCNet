@@ -2,6 +2,7 @@ import argparse
 import torch
 import yaml
 import sys
+import numpy as np
 from dataloader.dataset import collate_fn_BEV,SemKITTI,SemKITTI_label_name,spherical_dataset,voxel_dataset
 from utils.configs import merge_configs
 
@@ -52,9 +53,11 @@ def main(args):
         print(train_gt_offset)
 
         print("train_grid : ", len(train_grid[0]), len(train_grid[1]))
+        print(np.array(train_grid[0]).shape)
         print(train_grid)
 
         print("train_pt_fea : ", len(train_pt_fea[0]), len(train_pt_fea[1]))
+        print(np.array(train_pt_fea[0]).shape)
         print(train_pt_fea)        
 
         return
