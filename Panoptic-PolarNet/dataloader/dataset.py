@@ -249,6 +249,7 @@ class voxel_dataset(data.Dataset):
             data_tuple += (grid_ind,labels,insts,return_fea)
 # add filename
         data_tuple += (filename,)
+        print(data[8])
         return data_tuple
 
 # transformation between Cartesian coordinates and polar coordinates
