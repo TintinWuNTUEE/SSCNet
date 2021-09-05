@@ -244,12 +244,11 @@ class voxel_dataset(data.Dataset):
             return_fea = np.concatenate((return_xyz,feat),axis = 1)
         
         if self.return_test:
-            data_tuple += (grid_ind,labels,insts,return_fea,index)
+            data_tuple += (grid_ind,labels,insts,return_fea,index,filename)
         else:
-            data_tuple += (grid_ind,labels,insts,return_fea)
+            data_tuple += (grid_ind,labels,insts,return_fea,filename)
 # add filename
-        data_tuple += (filename,)
-        print(data_tuple[8])
+        print(data_tuple[8], len(data_tuple))
         return data_tuple
 
 # transformation between Cartesian coordinates and polar coordinates

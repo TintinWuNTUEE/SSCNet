@@ -39,7 +39,9 @@ def main(args):
 
     print(len(train_dataset_loader))
 
-    for i_iter,(train_vox_fea,train_label_tensor,train_gt_center,train_gt_offset,train_grid,_,_,train_pt_fea, filename) in enumerate(train_dataset_loader):
+    for i_iter,data in enumerate(train_dataset_loader):
+        print(len(data))
+        (train_vox_fea,train_label_tensor,train_gt_center,train_gt_offset,train_grid,_,_,train_pt_fea, filename) = data
         print("train_vox_fea : ", train_vox_fea.shape)
         print(train_vox_fea)
         
