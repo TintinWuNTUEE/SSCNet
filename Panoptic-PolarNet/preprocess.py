@@ -51,10 +51,10 @@ def main(args):
         print("train_gt_offset : ", train_gt_offset.shape)
         print(train_gt_offset)
 
-        print("train_grid : ", len(train_grid[1]))
+        print("train_grid : ", len(train_grid[0]), len(train_grid[1]))
         print(train_grid)
 
-        print("train_pt_fea : ", len(train_pt_fea[1]))
+        print("train_pt_fea : ", len(train_pt_fea[0]), len(train_pt_fea[1]))
         print(train_pt_fea)        
 
         return
