@@ -449,7 +449,8 @@ def collate_fn_BEV(data):
     point_label = [d[5] for d in data]
     point_inst = [d[6] for d in data]
     xyz = [d[7] for d in data]
-    return torch.from_numpy(data2stack),torch.from_numpy(label2stack),torch.from_numpy(center2stack),torch.from_numpy(offset2stack),grid_ind_stack,point_label,point_inst,xyz
+    filename = [d[8] for d in data]
+    return torch.from_numpy(data2stack),torch.from_numpy(label2stack),torch.from_numpy(center2stack),torch.from_numpy(offset2stack),grid_ind_stack,point_label,point_inst,xyz,filename
 
 def collate_fn_BEV_test(data):    
     data2stack=np.stack([d[0] for d in data]).astype(np.float32)
