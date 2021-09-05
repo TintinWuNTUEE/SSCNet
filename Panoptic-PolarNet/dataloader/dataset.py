@@ -66,7 +66,7 @@ class SemKITTI(data.Dataset):
         if self.return_ref:
             data_tuple += (raw_data[:,3],)
         #file name added
-        data_tuple += self.im_idx[index]
+        data_tuple += (self.im_idx[index])
 
         return data_tuple
 
@@ -246,7 +246,7 @@ class voxel_dataset(data.Dataset):
         else:
             data_tuple += (grid_ind,labels,insts,return_fea)
 # add filename
-        data_tuple += filename
+        data_tuple += (filename)
         return data_tuple
 
 # transformation between Cartesian coordinates and polar coordinates
