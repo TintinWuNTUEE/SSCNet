@@ -65,6 +65,9 @@ class SemKITTI(data.Dataset):
         data_tuple = (raw_data[:,:3], sem_data.astype(np.uint8),inst_data)
         if self.return_ref:
             data_tuple += (raw_data[:,3],)
+        #file name added
+        data_tuple += self.im_idx[index]
+
         return data_tuple
 
     def save_instance(self, out_dir, min_points = 10):
@@ -145,10 +148,12 @@ class voxel_dataset(data.Dataset):
   def __getitem__(self, index):
         'Generates one sample of data'
         data = self.point_cloud_dataset[index]
-        if len(data) == 3:
-            xyz,labels,insts = data
-        elif len(data) == 4:
-            xyz,labels,insts,feat = data
+        # if len(data) == 3:
+        if len(data) == 4:
+            xyz,labels,insts, filename = data
+        # elif len(data) == 4:
+        elif len(data) == 5:
+            xyz,labels,insts,feat, filename = data
             if len(feat.shape) == 1: feat = feat[..., np.newaxis]
         else: raise Exception('Return invalid data tuple')
         if len(labels.shape) == 1: labels = labels[..., np.newaxis]
@@ -240,6 +245,8 @@ class voxel_dataset(data.Dataset):
             data_tuple += (grid_ind,labels,insts,return_fea,index)
         else:
             data_tuple += (grid_ind,labels,insts,return_fea)
+# add filename
+        data_tuple += filename
         return data_tuple
 
 # transformation between Cartesian coordinates and polar coordinates

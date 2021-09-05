@@ -113,7 +113,7 @@ def main(args):
                 my_model.eval()
                 evaluator.reset()
                 with torch.no_grad():
-                    for i_iter_val,(val_vox_fea,val_vox_label,val_gt_center,val_gt_offset,val_grid,val_pt_labels,val_pt_ints,val_pt_fea) in enumerate(val_dataset_loader):
+                    for i_iter_val,(val_vox_fea,val_vox_label,val_gt_center,val_gt_offset,val_grid,val_pt_labels,val_pt_ints,val_pt_fea,_) in enumerate(val_dataset_loader):
                         val_vox_fea_ten = val_vox_fea.to(pytorch_device)
                         val_vox_label = SemKITTI2train(val_vox_label)
                         print("from numpy")
