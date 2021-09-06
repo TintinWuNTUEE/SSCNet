@@ -69,8 +69,9 @@ def main(args):
             label_to_be_save = np.empty(3,object)
             label_to_be_save[:] = [train_label_tensor[i], train_gt_center[i], train_gt_offset[i]]
             if not os.path.exists(filenames[i].replace('velodyne','preprocess')[:-10]):
-                print(os.path.exists(filenames[i].replace('velodyne','preprocess')[:-10]))
-                os.makedirs(os.path.exists(filenames[i].replace('velodyne','preprocess')[:-10]))
+                print(filenames[i].replace('velodyne','preprocess')[:-10])
+                os.makedirs(filenames[i].replace('velodyne','preprocess')[:-10])
+
             np.save((filenames[i].replace('velodyne','preprocess')[:-3]),label_to_be_save)
             # annotated_data = np.fromfile(self.im_idx[index].replace('velodyne','labels')[:-3]+'label', dtype=np.uint32).reshape((-1,1))
 
