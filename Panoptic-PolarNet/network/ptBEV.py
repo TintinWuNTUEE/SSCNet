@@ -8,6 +8,12 @@ import numba as nb
 import multiprocessing
 import torch_scatter
 
+from typing import Optional, Tuple
+def scatter_max(
+        src: torch.Tensor, index: torch.Tensor, dim: int = -1,
+        out: Optional[torch.Tensor] = None,
+        dim_size: Optional[int] = None) -> Tuple[torch.Tensor, torch.Tensor]:
+    return torch.ops.torch_scatter.scatter_max(src, index, dim, out, dim_size)
 class ptBEVnet(nn.Module):
     
     def __init__(self, BEV_net, grid_size, pt_model = 'pointnet', fea_dim = 3, pt_pooling = 'max', kernal_size = 3,
@@ -64,8 +70,8 @@ class ptBEVnet(nn.Module):
             self.pt_fea_dim = self.pool_dim
         
     def forward(self, pt_fea, xy_ind, voxel_fea=None):
-        cur_dev = pt_fea[0].get_device()
-        
+        cur_dev = torch.device('cpu')
+        #  pt_fea[0].get_device()
         # concate everything
         cat_pt_ind = []
         for i_batch in range(len(xy_ind)):
@@ -119,7 +125,7 @@ class ptBEVnet(nn.Module):
             processed_cat_pt_fea = self.PPmodel(cat_pt_fea)
         
         if self.pt_pooling == 'max':
-            pooled_data = torch_scatter.scatter_max(processed_cat_pt_fea, unq_inv, dim=0)[0]
+            pooled_data = scatter_max(processed_cat_pt_fea, unq_inv, dim=0)[0]
         else: raise NotImplementedError
         
         if self.fea_compre:
