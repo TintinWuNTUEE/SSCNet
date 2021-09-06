@@ -7,39 +7,6 @@ import numpy as np
 import numba as nb
 import multiprocessing
 import torch_scatter
-from torch.autograd import Function
-
-class ScatterMax(Function):
-    @staticmethod
-    def forward(ctx, out, src, index, dim):
-        arg = index.new_full(out.size(), -1)
-        func = torch_scatter.get_func('scatter_max', src)
-        func(src, index, out, arg, dim)
-
-        ctx.mark_dirty(out)
-        ctx.dim = dim
-        ctx.save_for_backward(index, arg)
-
-        return out, arg
-
-    @staticmethod
-    def backward(ctx, grad_out, grad_arg):
-        index, arg = ctx.saved_tensors
-
-        grad_src = None
-        if ctx.needs_input_grad[1]:
-            grad_src = grad_out.new_zeros(index.size())
-            grad_src.scatter_(ctx.dim, arg.detach(), grad_out)
-
-        return None, grad_src, None, None
-def scatter_max(src, index, dim=-1, out=None, dim_size=None, fill_value=None):
-    if fill_value is None:
-        op = torch.finfo if torch.is_floating_point(src) else torch.iinfo
-        fill_value = op(src.dtype).min
-    src, out, index, dim = torch_scatter.gen(src, index, dim, out, dim_size, fill_value)
-    if src.size(dim) == 0:  # pragma: no cover
-        return out, index.new_full(out.size(), -1)
-    return ScatterMax.apply(out, src, index, dim)
 
 class ptBEVnet(nn.Module):
     
@@ -97,8 +64,7 @@ class ptBEVnet(nn.Module):
             self.pt_fea_dim = self.pool_dim
         
     def forward(self, pt_fea, xy_ind, voxel_fea=None):
-        cur_dev = torch.device("cpu")
-        #pt_fea[0].get_device()
+        cur_dev = pt_fea[0].get_device()
         
         # concate everything
         cat_pt_ind = []
@@ -153,7 +119,7 @@ class ptBEVnet(nn.Module):
             processed_cat_pt_fea = self.PPmodel(cat_pt_fea)
         
         if self.pt_pooling == 'max':
-            pooled_data = scatter_max(processed_cat_pt_fea, unq_inv, dim=0)[0]
+            pooled_data = torch_scatter.scatter_max(processed_cat_pt_fea, unq_inv, dim=0)[0]
         else: raise NotImplementedError
         
         if self.fea_compre:
