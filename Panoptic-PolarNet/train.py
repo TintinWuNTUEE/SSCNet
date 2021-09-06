@@ -49,7 +49,7 @@ def main(args):
     grid_size = args['dataset']['grid_size']
     visibility = args['model']['visibility']
     use_cuda = torch.cuda.is_available()
-    pytorch_device = torch.device("cpu")
+    pytorch_device = torch.device("cuda")
     if args['model']['polar']:
         fea_dim = 9
         circular_padding = True
