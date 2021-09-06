@@ -68,7 +68,8 @@ def main(args):
             label_to_be_save = np.empty(3,object)
             label_to_be_save[:] = [train_label_tensor[i], train_gt_center[i], train_gt_offset[i]]
 
-            np.save(filenames[i],label_to_be_save)
+            np.save((filenames[i].replace('velodyne','preprocess')[:-3]+'label'),label_to_be_save)
+            annotated_data = np.fromfile(self.im_idx[index].replace('velodyne','labels')[:-3]+'label', dtype=np.uint32).reshape((-1,1))
 
         return
 
