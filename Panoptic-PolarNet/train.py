@@ -7,6 +7,7 @@ import numpy as np
 import yaml
 import torch
 import torch.optim as optim
+from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from network.BEV_Unet import BEV_Unet
@@ -85,12 +86,12 @@ def main(args):
         val_dataset=voxel_dataset(val_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0)
     print("train size = "+str(len(train_dataset)))
     print("val size = "+str(len(val_dataset)))
-    train_dataset_loader = torch.utils.data.DataLoader(dataset = train_dataset,
+    train_dataset_loader = DataLoader(dataset = train_dataset,
                                                     batch_size = train_batch_size,
                                                     collate_fn = collate_fn_BEV,
                                                     shuffle = True,
                                                     num_workers = 4)
-    val_dataset_loader = torch.utils.data.DataLoader(dataset = val_dataset,
+    val_dataset_loader = DataLoader(dataset = val_dataset,
                                                     batch_size = val_batch_size,
                                                     collate_fn = collate_fn_BEV,
                                                     shuffle = False,
@@ -106,31 +107,29 @@ def main(args):
     evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
 
     while epoch < args['model']['max_epoch']:
+        print(len(train_dataset_loader))
         pbar = tqdm(total=len(train_dataset_loader))
-        for i_iter,(train_vox_fea,train_label_tensor,train_gt_center,train_gt_offset,train_grid,_,_,train_pt_fea) in enumerate(train_dataset_loader):
+        for i_iter,(train_vox_fea,train_label_tensor,train_gt_center,train_gt_offset,train_grid,_,_,train_pt_fea,_) in enumerate(train_dataset_loader):
+
             # validation
             if global_iter % check_iter == 0:
                 my_model.eval()
                 evaluator.reset()
                 with torch.no_grad():
+                    
                     for i_iter_val,(val_vox_fea,val_vox_label,val_gt_center,val_gt_offset,val_grid,val_pt_labels,val_pt_ints,val_pt_fea,_) in enumerate(val_dataset_loader):
                         val_vox_fea_ten = val_vox_fea.to(pytorch_device)
                         val_vox_label = SemKITTI2train(val_vox_label)
-                        print("from numpy")
                         val_pt_fea_ten = [torch.from_numpy(i).type(torch.FloatTensor).to(pytorch_device) for i in val_pt_fea]
                         val_grid_ten = [torch.from_numpy(i[:,:2]).to(pytorch_device) for i in val_grid]
-                        print("label type")
                         val_label_tensor=val_vox_label.type(torch.LongTensor).to(pytorch_device)
                         val_gt_center_tensor = val_gt_center.to(pytorch_device)
                         val_gt_offset_tensor = val_gt_offset.to(pytorch_device)
-                        print("before if")
                         if visibility:
                             predict_labels,center,offset = my_model(val_pt_fea_ten, val_grid_ten, val_vox_fea_ten)
                         else:
                             predict_labels,center,offset = my_model(val_pt_fea_ten, val_grid_ten)
-                        print("before for loop")
                         for count,i_val_grid in enumerate(val_grid):
-                            print("after for loop")
                             # get foreground_mask
                             for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(pytorch_device)
                             for_mask[0,val_grid[count][:,0],val_grid[count][:,1],val_grid[count][:,2]] = True
@@ -140,7 +139,6 @@ def main(args):
                                                                                       top_k=args['model']['post_proc']['top_k'], polar=circular_padding,foreground_mask=for_mask)
                             panoptic_labels = panoptic_labels.cpu().detach().numpy().astype(np.int32)
                             panoptic = panoptic_labels[0,val_grid[count][:,0],val_grid[count][:,1],val_grid[count][:,2]]
-                            print("before addBatch")
                             evaluator.addBatch(panoptic & 0xFFFF,panoptic,np.squeeze(val_pt_labels[count]),np.squeeze(val_pt_ints[count]))
                         del val_vox_label,val_pt_fea_ten,val_label_tensor,val_grid_ten,val_gt_center,val_gt_center_tensor,val_gt_offset,val_gt_offset_tensor,predict_labels,center,offset,panoptic_labels,center_points
                 my_model.train()
