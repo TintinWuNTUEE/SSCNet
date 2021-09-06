@@ -68,9 +68,10 @@ def main(args):
         for i in range(len(filenames)):
             label_to_be_save = np.empty(3,object)
             label_to_be_save[:] = [train_label_tensor[i], train_gt_center[i], train_gt_offset[i]]
-            if not os.path.exists(filenames[i].replace('velodyne','preprocess')[:-10]):
-                print(filenames[i].replace('velodyne','preprocess')[:-10])
-                os.makedirs(filenames[i].replace('velodyne','preprocess')[:-10])
+            folder_path = filenames[i].replace('velodyne','preprocess')[:-10]
+            if not os.path.exists(folder_path):
+                print(folder_path)
+                os.makedirs(folder_path)
 
             np.save((filenames[i].replace('velodyne','preprocess')[:-4]),label_to_be_save)
             # use labels = np.load("file name", allow_pickle=True) to get data back, the labels is (3,), 
