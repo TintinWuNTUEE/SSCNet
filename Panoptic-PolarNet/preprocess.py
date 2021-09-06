@@ -43,27 +43,27 @@ def main(args):
     for i_iter,data in enumerate(train_dataset_loader):
         (train_vox_fea,train_label_tensor,train_gt_center,train_gt_offset,train_grid,_,_,train_pt_fea, filenames) = data
 
-        print("train_vox_fea : ", train_vox_fea.shape)
-        print(train_vox_fea)
+        # print("train_vox_fea : ", train_vox_fea.shape)
+        # print(train_vox_fea)
         
-        print("train_label_tensor : ", train_label_tensor.shape)
-        print(train_label_tensor)
+        # print("train_label_tensor : ", train_label_tensor.shape)
+        # print(train_label_tensor)
         
-        print("train_gt_center : ", train_gt_center.shape)
-        print(train_gt_center)
+        # print("train_gt_center : ", train_gt_center.shape)
+        # print(train_gt_center)
 
-        print("train_gt_offset : ", train_gt_offset.shape)
-        print(train_gt_offset)
+        # print("train_gt_offset : ", train_gt_offset.shape)
+        # print(train_gt_offset)
 
-        print("train_grid : ", len(train_grid[0]), len(train_grid[1]))
-        print(np.array(train_grid[0]).shape)
-        print(train_grid)
+        # print("train_grid : ", len(train_grid[0]), len(train_grid[1]))
+        # print(np.array(train_grid[0]).shape)
+        # print(train_grid)
 
-        print("train_pt_fea : ", len(train_pt_fea[0]), len(train_pt_fea[1]))
-        print(np.array(train_pt_fea[0]).shape)
-        print(train_pt_fea)        
+        # print("train_pt_fea : ", len(train_pt_fea[0]), len(train_pt_fea[1]))
+        # print(np.array(train_pt_fea[0]).shape)
+        # print(train_pt_fea)        
 
-        print(filenames)
+        # print(filenames)
 
         for i in range(len(filenames)):
             label_to_be_save = np.empty(3,object)
