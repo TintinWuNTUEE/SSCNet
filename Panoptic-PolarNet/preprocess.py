@@ -73,10 +73,11 @@ def main(args):
                 os.makedirs(filenames[i].replace('velodyne','preprocess')[:-10])
 
             np.save((filenames[i].replace('velodyne','preprocess')[:-4]),label_to_be_save)
-            # annotated_data = np.fromfile(self.im_idx[index].replace('velodyne','labels')[:-3]+'label', dtype=np.uint32).reshape((-1,1))
+            # use labels = np.load("file name", allow_pickle=True) to get data back, the labels is (3,), 
+            # and label[0]'s size = (256,256,32)->sem label, label[1]'s size = (1,256,256)->center label, label[2]'s size = (2,256,256)->offset label
 
 
-        return
+    return
 
         
 if __name__ == '__main__':
