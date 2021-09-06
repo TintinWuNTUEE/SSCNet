@@ -2,6 +2,7 @@ import argparse
 import torch
 import yaml
 import sys
+import os
 import numpy as np
 from dataloader.dataset import collate_fn_BEV,SemKITTI,SemKITTI_label_name,spherical_dataset,voxel_dataset
 from utils.configs import merge_configs
@@ -67,9 +68,12 @@ def main(args):
         for i in range(len(filenames)):
             label_to_be_save = np.empty(3,object)
             label_to_be_save[:] = [train_label_tensor[i], train_gt_center[i], train_gt_offset[i]]
-
-            np.save((filenames[i].replace('velodyne','preprocess')[:-3]+'label'),label_to_be_save)
+            if not os.path.exists(filenames[i].replace('velodyne','preprocess')[:-10]):
+                print(os.path.exists(filenames[i].replace('velodyne','preprocess')[:-10]))
+                os.makedirs(os.path.exists(filenames[i].replace('velodyne','preprocess')[:-10]))
+            np.save((filenames[i].replace('velodyne','preprocess')[:-3]),label_to_be_save)
             # annotated_data = np.fromfile(self.im_idx[index].replace('velodyne','labels')[:-3]+'label', dtype=np.uint32).reshape((-1,1))
+
 
         return
 
