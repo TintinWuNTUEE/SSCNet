@@ -64,7 +64,8 @@ class ptBEVnet(nn.Module):
             self.pt_fea_dim = self.pool_dim
         
     def forward(self, pt_fea, xy_ind, voxel_fea=None):
-        cur_dev = pt_fea[0].get_device()
+        cur_dev = torch.device("cpu")
+        #pt_fea[0].get_device()
         
         # concate everything
         cat_pt_ind = []
