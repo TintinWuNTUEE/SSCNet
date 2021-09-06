@@ -72,7 +72,7 @@ def main(args):
                 print(filenames[i].replace('velodyne','preprocess')[:-10])
                 os.makedirs(filenames[i].replace('velodyne','preprocess')[:-10])
 
-            np.save((filenames[i].replace('velodyne','preprocess')[:-3]),label_to_be_save)
+            np.save((filenames[i].replace('velodyne','preprocess')[:-4]),label_to_be_save)
             # annotated_data = np.fromfile(self.im_idx[index].replace('velodyne','labels')[:-3]+'label', dtype=np.uint32).reshape((-1,1))
 
 
