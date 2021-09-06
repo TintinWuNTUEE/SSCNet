@@ -47,7 +47,7 @@ def main(args):
     compression_model = args['dataset']['grid_size'][2]
     grid_size = args['dataset']['grid_size']
     visibility = args['model']['visibility']
-    pytorch_device = torch.device('cuda:0')
+    pytorch_device = torch.device('cuda')
     if args['model']['polar']:
         fea_dim = 9
         circular_padding = True
