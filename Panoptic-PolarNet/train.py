@@ -20,7 +20,8 @@ from utils.configs import merge_configs
 #ignore weird np warning
 import warnings
 warnings.filterwarnings("ignore")
-
+import faulthandler
+faulthandler.enable()
 def SemKITTI2train(label):
     if isinstance(label, list):
         return [SemKITTI2train_single(a) for a in label]
