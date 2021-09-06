@@ -188,7 +188,7 @@ class down(nn.Module):
             )                
 
     def forward(self, x):
-        x = self.mpconv(x)
+        x = self.mpconv(x.contiguous())
         return x
 
 

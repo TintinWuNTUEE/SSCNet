@@ -130,7 +130,7 @@ def main(args):
                         if visibility:
                             predict_labels,center,offset = my_model(val_pt_fea_ten, val_grid_ten, val_vox_fea_ten)
                         else:
-                            predict_labels,center,offset = my_model(val_pt_fea_ten.contiguous(), val_grid_ten.contiguous())
+                            predict_labels,center,offset = my_model(val_pt_fea_ten, val_grid_ten)
                         for count,i_val_grid in enumerate(val_grid):
                             # get foreground_mask
                             for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(pytorch_device)
