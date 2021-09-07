@@ -17,7 +17,7 @@ dataset:
     grid_size: [256,256,32]
 
 model:
-    model_save_path: ./Panoptic_SemKITTI.pt
+    model_save_path: ./weights/Panoptic_SemKITTI.pt
     pretrained_model: /pretrained_weight/Panoptic_SemKITTI_PolarNet.pt
     polar: False
     visibility: False

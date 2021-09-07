@@ -152,7 +152,7 @@ def main(args):
                 # save model if performance is improved
                 if best_val_PQ<class_PQ:
                     best_val_PQ=class_PQ
-                    torch.save(my_model.state_dict(), model_save_path)
+                    torch.save(my_model.state_dict(), model_save_path+" epoch:"+str(epoch))
                 print('Current val PQ is %.3f while the best val PQ is %.3f' %
                     (class_PQ*100,best_val_PQ*100))               
                 print('Current val miou is %.3f'%
