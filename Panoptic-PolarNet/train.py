@@ -17,6 +17,7 @@ from network.instance_post_processing import get_panoptic_segmentation
 from network.loss import panoptic_loss
 from utils.eval_pq import PanopticEval
 from utils.configs import merge_configs
+from utils.logger import get_logger
 #ignore weird np warning
 import warnings
 warnings.filterwarnings("ignore")
@@ -50,6 +51,7 @@ def main(args):
     visibility = args['model']['visibility']
     use_cuda = torch.cuda.is_available()
     pytorch_device = torch.device("cuda")
+    logger= get_logger(args['model']['train_log'],'logs_train.log')
     if args['model']['polar']:
         fea_dim = 9
         circular_padding = True
@@ -57,19 +59,25 @@ def main(args):
         fea_dim = 7
         circular_padding = False
 
+    logger.info('============ Training routine ============\n')
+
     #prepare miou fun
     unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
     unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
 
     #prepare model
+    logger.info('=> Loading network architecture...')
     my_BEV_model=BEV_Unet(n_class=len(unique_label), n_height = compression_model, input_batch_norm = True, dropout = 0.5, circular_padding = circular_padding, use_vis_fea=visibility)
     my_model = ptBEVnet(my_BEV_model, pt_model = 'pointnet', grid_size =  grid_size, fea_dim = fea_dim, max_pt_per_encode = 256,
                             out_pt_fea_dim = 512, kernal_size = 1, pt_selection = 'random', fea_compre = compression_model)
     if os.path.exists(model_save_path):
+        print(model_save_path)
         my_model = load_pretrained_model(my_model,torch.load(model_save_path))
     elif os.path.exists(pretrained_model):
         my_model = load_pretrained_model(my_model,torch.load(pretrained_model))
     my_model.to(pytorch_device)
+
+    logger.info('=> Loading optimizer...')
 
     optimizer = optim.Adam(my_model.parameters())
     loss_fn = panoptic_loss(center_loss_weight = args['model']['center_loss_weight'], offset_loss_weight = args['model']['offset_loss_weight'],\
@@ -147,12 +155,16 @@ def main(args):
                 class_PQ, class_SQ, class_RQ, class_all_PQ, class_all_SQ, class_all_RQ = evaluator.getPQ()
                 miou,ious = evaluator.getSemIoU()
                 print('Validation per class PQ, SQ, RQ and IoU: ')
+                logger.info('Validation per class PQ, SQ, RQ and IoU: ')
                 for class_name, class_pq, class_sq, class_rq, class_iou in zip(unique_label_str,class_all_PQ[1:],class_all_SQ[1:],class_all_RQ[1:],ious[1:]):
-                    print('%15s : %6.2f%%  %6.2f%%  %6.2f%%  %6.2f%%' % (class_name, class_pq*100, class_sq*100, class_rq*100, class_iou*100))                                  
+                    print('%15s : %6.2f%%  %6.2f%%  %6.2f%%  %6.2f%%' % (class_name, class_pq*100, class_sq*100, class_rq*100, class_iou*100)) 
+                    logger.info('%15s : %6.2f%%  %6.2f%%  %6.2f%%  %6.2f%%' % (class_name, class_pq*100, class_sq*100, class_rq*100, class_iou*100))                         
                 # save model if performance is improved
                 if best_val_PQ<class_PQ:
                     best_val_PQ=class_PQ
-                    torch.save(my_model.state_dict(), model_save_path+" epoch:"+str(epoch))
+                    torch.save(my_model.state_dict(), model_save_path)
+                    logger.info("epoch :"+str(epoch))
+                    logger.info('model saved to'+model_save_path)
                 print('Current val PQ is %.3f while the best val PQ is %.3f' %
                     (class_PQ*100,best_val_PQ*100))               
                 print('Current val miou is %.3f'%
@@ -225,15 +237,14 @@ def main(args):
             global_iter += 1
         pbar.close()
         epoch += 1
-
+    logger.info('=> Training routine completed...')
 if __name__ == '__main__':
     # Training settings
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('-d', '--data_dir', default='../semanticKITTI/dataset')
-    parser.add_argument('-p', '--model_save_path', default='./Panoptic_SemKITTI.pt')
+    parser.add_argument('-p', '--model_save_path', default='./weights/Panoptic_SemKITTI.pt')
     parser.add_argument('-c', '--configs', default='configs/SemanticKITTI_model/Panoptic-PolarNet.yaml')
     parser.add_argument('--pretrained_model', default='empty')
-
     args = parser.parse_args()
     with open(args.configs, 'r') as s:
         new_args = yaml.safe_load(s)
