@@ -19,6 +19,7 @@ dataset:
 model:
     model_save_path: ./weights/Panoptic_SemKITTI.pt
     pretrained_model: /pretrained_weight/Panoptic_SemKITTI_PolarNet.pt
+    train_log: ./weights
     polar: False
     visibility: False
     
