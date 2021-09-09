@@ -18,6 +18,7 @@ from network.loss import panoptic_loss
 from utils.eval_pq import PanopticEval
 from utils.configs import merge_configs
 from utils.logger import get_logger
+import utils.checkpoint as checkpoint
 #ignore weird np warning
 import warnings
 warnings.filterwarnings("ignore")
@@ -50,7 +51,7 @@ def main(args):
     grid_size = args['dataset']['grid_size']
     visibility = args['model']['visibility']
     use_cuda = torch.cuda.is_available()
-    pytorch_device = torch.device("cuda")
+    pytorch_device = torch.device("cuda" if use_cuda else "cpu")
     logger= get_logger(args['model']['train_log'],'logs_train.log')
     if args['model']['polar']:
         fea_dim = 9
@@ -70,19 +71,19 @@ def main(args):
     my_BEV_model=BEV_Unet(n_class=len(unique_label), n_height = compression_model, input_batch_norm = True, dropout = 0.5, circular_padding = circular_padding, use_vis_fea=visibility)
     my_model = ptBEVnet(my_BEV_model, pt_model = 'pointnet', grid_size =  grid_size, fea_dim = fea_dim, max_pt_per_encode = 256,
                             out_pt_fea_dim = 512, kernal_size = 1, pt_selection = 'random', fea_compre = compression_model)
-    if os.path.exists(model_save_path):
-        print(model_save_path)
-        my_model = load_pretrained_model(my_model,torch.load(model_save_path))
-    elif os.path.exists(pretrained_model):
-        my_model = load_pretrained_model(my_model,torch.load(pretrained_model))
-    my_model.to(pytorch_device)
+    optimizer = optim.Adam(my_model.parameters())
+    # if os.path.exists(model_save_path):
+    #     print(model_save_path)
+    #     my_model = load_pretrained_model(my_model,torch.load(model_save_path))
+    # elif os.path.exists(pretrained_model):
+    #     my_model = load_pretrained_model(my_model,torch.load(pretrained_model))
+   
 
     logger.info('=> Loading optimizer...')
-
-    optimizer = optim.Adam(my_model.parameters())
+    my_model, optimizer, epoch=  checkpoint.load(my_model,optimizer,model_save_path,logger)
     loss_fn = panoptic_loss(center_loss_weight = args['model']['center_loss_weight'], offset_loss_weight = args['model']['offset_loss_weight'],\
                             center_loss = args['model']['center_loss'], offset_loss=args['model']['offset_loss'])
-
+    my_model.to(pytorch_device)
     #prepare dataset
     train_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'train', return_ref = True, instance_pkl_path=args['dataset']['instance_pkl_path'])
     val_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'val', return_ref = True, instance_pkl_path=args['dataset']['instance_pkl_path'])
@@ -108,7 +109,6 @@ def main(args):
                                                     num_workers = 4)
 
     # training
-    epoch=0
     best_val_PQ=0
     start_training=False
     my_model.train()
@@ -162,7 +162,7 @@ def main(args):
                 # save model if performance is improved
                 if best_val_PQ<class_PQ:
                     best_val_PQ=class_PQ
-                    torch.save(my_model.state_dict(), model_save_path)
+                    checkpoint.save(model_save_path,my_model, optimizer,epoch)
                     logger.info("epoch :"+str(epoch))
                     logger.info('model saved to'+model_save_path)
                 print('Current val PQ is %.3f while the best val PQ is %.3f' %
