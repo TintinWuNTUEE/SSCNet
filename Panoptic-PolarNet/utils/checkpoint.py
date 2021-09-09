@@ -19,7 +19,7 @@ def load(model, optimizer, path, logger):
     else:
       model.load_state_dict(checkpoint.pop('model'))
     optimizer.load_state_dict(checkpoint.pop('optimizer'))
-    logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(file_path))
+    logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(path))
     return model, optimizer,  epoch
   else:
     logger.info('=> No checkpoint. Initializing model from scratch')
