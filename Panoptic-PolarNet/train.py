@@ -50,8 +50,7 @@ def main(args):
     compression_model = args['dataset']['grid_size'][2]
     grid_size = args['dataset']['grid_size']
     visibility = args['model']['visibility']
-    use_cuda = torch.cuda.is_available()
-    pytorch_device = torch.device("cuda" if use_cuda else "cpu")
+    pytorch_device = torch.device("cuda")
     logger= get_logger(args['model']['train_log'],'logs_train.log')
     if args['model']['polar']:
         fea_dim = 9
