@@ -57,7 +57,7 @@ def train(model, optimizer, scheduler, dataset, _cfg, start_epoch, logger, tbwri
   Returns: Nothing, but prints model accuracies during training.
   """
 
-  device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+  device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
 
   # Moving optimizer and model to used device
@@ -186,7 +186,7 @@ def train(model, optimizer, scheduler, dataset, _cfg, start_epoch, logger, tbwri
 
 def validate(model, dset, _cfg, epoch, logger, tbwriter, metrics):
 
-  device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+  device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
 
   nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
