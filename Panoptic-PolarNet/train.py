@@ -164,6 +164,11 @@ def main(args):
                     checkpoint.save(model_save_path,my_model, optimizer,epoch)
                     logger.info("epoch :"+str(epoch))
                     logger.info('model saved to'+model_save_path)
+                logger.info("epoch :"+str(epoch))
+                logger.info('Current val PQ is %.3f while the best val PQ is %.3f' %
+                    (class_PQ*100,best_val_PQ*100)) 
+                logger.info(('Current val miou is %.3f'%
+                    (miou*100)))
                 print('Current val PQ is %.3f while the best val PQ is %.3f' %
                     (class_PQ*100,best_val_PQ*100))               
                 print('Current val miou is %.3f'%
@@ -226,6 +231,7 @@ def main(args):
                 optimizer.step()
             except Exception as error: 
                 if exce_counter == 0:
+                    print("catched exception:")
                     print(error)
                 exce_counter += 1
             

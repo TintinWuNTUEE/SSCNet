@@ -13,12 +13,13 @@ def load(model, optimizer, path, logger):
   # If not resume, initialize model and return everything as it is
   if os.path.isfile(path):
     checkpoint = torch.load(path)
-    epoch = checkpoint.pop('startEpoch')
-    if isinstance(model, (DataParallel, DistributedDataParallel)):
-      model.module.load_state_dict(checkpoint.pop('model'))
-    else:
-      model.load_state_dict(checkpoint.pop('model'))
-    optimizer.load_state_dict(checkpoint.pop('optimizer'))
+    modelDict = model.state_dict()
+    pretrainedStateDict= checkpoint['model']
+    pretrained_model = {k: v for k, v in pretrainedStateDict.items() if k in pretrainedStateDict}
+    modelDict.update(pretrained_model) 
+    epoch = checkpoint['startEpoch']
+    model.load_state_dict(modelDict)
+    optimizer.load_state_dict(checkpoint['optimizer'])
     logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(path))
     return model, optimizer,  epoch
   else:
@@ -31,9 +32,8 @@ def save(path, model, optimizer, epoch):
   '''
   Save checkpoint file
   '''
-
-  torch.save({
-    'startEpoch': epoch+1,  # To start on next epoch when loading the dict...
+  state = {'startEpoch': epoch+1,
     'model': model.state_dict(),
-    'optimizer': optimizer.state_dict()
-  }, path)
+    'optimizer': optimizer.state_dict()}
+  torch.save(state, path)
+  print('model saved to %s' % path)
