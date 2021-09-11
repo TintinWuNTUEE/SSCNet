@@ -233,6 +233,7 @@ def main(args):
                 if exce_counter == 0:
                     print("catched exception:")
                     print(error)
+                    logger.info(error)
                 exce_counter += 1
             
             # zero the parameter gradients
