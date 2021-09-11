@@ -33,12 +33,6 @@ def SemKITTI2train(label):
 def SemKITTI2train_single(label):
     return label - 1 # uint8 trick
 
-def load_pretrained_model(model,pretrained_model):
-    model_dict = model.state_dict()
-    pretrained_model = {k: v for k, v in pretrained_model.items() if k in model_dict}
-    model_dict.update(pretrained_model) 
-    model.load_state_dict(model_dict)
-    return model
 
 def main(args):
     data_path = args['dataset']['path']
@@ -70,6 +64,7 @@ def main(args):
     my_BEV_model=BEV_Unet(n_class=len(unique_label), n_height = compression_model, input_batch_norm = True, dropout = 0.5, circular_padding = circular_padding, use_vis_fea=visibility)
     my_model = ptBEVnet(my_BEV_model, pt_model = 'pointnet', grid_size =  grid_size, fea_dim = fea_dim, max_pt_per_encode = 256,
                             out_pt_fea_dim = 512, kernal_size = 1, pt_selection = 'random', fea_compre = compression_model)
+    my_model = my_model.to(pytorch_device)
     optimizer = optim.Adam(my_model.parameters())
     # if os.path.exists(model_save_path):
     #     print(model_save_path)
@@ -79,10 +74,10 @@ def main(args):
    
 
     logger.info('=> Loading optimizer...')
-    my_model, optimizer, epoch=  checkpoint.load(my_model,optimizer,model_save_path,logger)
+    my_model, optimizer, epoch= checkpoint.load(my_model,optimizer,model_save_path,logger)
     loss_fn = panoptic_loss(center_loss_weight = args['model']['center_loss_weight'], offset_loss_weight = args['model']['offset_loss_weight'],\
                             center_loss = args['model']['center_loss'], offset_loss=args['model']['offset_loss'])
-    my_model.to(pytorch_device)
+    
     #prepare dataset
     train_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'train', return_ref = True, instance_pkl_path=args['dataset']['instance_pkl_path'])
     val_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'val', return_ref = True, instance_pkl_path=args['dataset']['instance_pkl_path'])
