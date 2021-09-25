@@ -1,5 +1,5 @@
 from torch.utils import data
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader, dataset
 from glob import glob
 import yaml
 import numpy as np
@@ -58,7 +58,7 @@ class SemanticKITTI(Dataset):
 
 
     def get_filepaths(self, modality):
-        sequences = list(sorted(glob(os.path.join(self.root_dir, 'dataset', 'sequence', '*')))[i] for i in self.split[self.phase])
+        sequences = list(sorted(glob(os.path.join(self.root_dir, 'dataset', 'sequences', '*')))[i] for i in self.split[self.phase])
 
         if self.phase != 'test':
             if modality == '3D_LABEL':
@@ -68,7 +68,7 @@ class SemanticKITTI(Dataset):
                     assert len(os.listdir(sequence)) > 0, 'Error, No files in sequence: {}'.format(sequence)
 
                     self.filepaths['3D_LABEL'] += sorted(glob(os.path.join(sequence, 'voxels', '*.label')))
-                    self.filepaths['3D_LABEL'] += sorted(glob(os.path.join(sequence, 'voxels', '*.invalid')))
+                    self.filepaths['3D_INVALID'] += sorted(glob(os.path.join(sequence, 'voxels', '*.invalid')))
 
 
             if modality == '3D_OCCLUDED':
@@ -130,7 +130,7 @@ class SemanticKITTI(Dataset):
         if self.data_augmentation['FLIPS'] and self.phase == 'train':
             do_flip =random.randint(0,3)
         ##########################################################
-        annotated_data = np.fromfile(self.filepaths['PANOPTIC'][index], dtype=np.uint32).reshape((-1,1))
+        annotated_data = np.fromfile(self.filepaths['PANOPTIC'][index], dtype=np.int32).reshape((-1,1))
         sem_data = annotated_data & 0XFFFF #delete high 16 digits binary
         sem_data = np.vectorize(self.learning_map.__getitem__)(sem_data)
         inst_data = annotated_data
@@ -139,16 +139,16 @@ class SemanticKITTI(Dataset):
         for modality in self.modalities:
             if (self.modalities[modality]) and (modality in self.filepaths):
                 data[modality] = self.get_data_modality(modality, index, do_flip)
-
+        del data['PANOPTIC']
         return data, index, point_label_tuple 
 
 
     def get_data_modality(self, modality, index, flip):
         if modality == '3D_OCCUPANCY':
             OCCUPANCY = SemanticKittiIO._read_occupancy_SemKITTI(self.filepaths[modality][index])
-            OCCUPANCY = np.moveaxis(OCCUPANCY.reshape((self.grid_dimensions[0],self.grid_dimensions[2],self.grid_dimensions[1]),
-                                                            [0,1,2],
-                                                            [0,2,1]))
+            OCCUPANCY = np.moveaxis(OCCUPANCY.reshape([self.grid_dimensions[0],
+                                               self.grid_dimensions[2],
+                                               self.grid_dimensions[1]]), [0, 1, 2], [0, 2, 1])
             OCCUPANCY = SemanticKittiIO.data_augmentation_3Dflips(flip, OCCUPANCY)
             return OCCUPANCY[None, :, :, :]
 
@@ -159,18 +159,18 @@ class SemanticKITTI(Dataset):
             LABEL = self.remap_lut[LABEL.astype(np.uint16)].astype(np.float32)
             # Setting all voxels which are marked invalid to unknow class
             LABEL[np.isclose(INVALID,1)] = 255
-            LABEL = np.moveaxis(LABEL.reshape((self.grid_dimensions[0],self.grid_dimensions[2],self.grid_dimensions[1]),
-                                                            [0,1,2],
-                                                            [0,2,1]))
+            LABEL = np.moveaxis(LABEL.reshape([self.grid_dimensions[0],
+                                               self.grid_dimensions[2],
+                                               self.grid_dimensions[1]]), [0, 1, 2], [0, 2, 1])
 
             LABEL = SemanticKittiIO.data_augmentation_3Dflips(flip, LABEL)
             return LABEL
 
         elif modality == '3D_OCCLUDED':
             OCCLUDED = SemanticKittiIO._read_occluded_SemKITTI(self.filepaths[modality][index])
-            OCCLUDED = np.moveaxis(OCCLUDED.reshape((self.grid_dimensions[0],self.grid_dimensions[2],self.grid_dimensions[1]),
-                                                            [0,1,2],
-                                                            [0,2,1]))
+            OCCLUDED = np.moveaxis(OCCLUDED.reshape([self.grid_dimensions[0],
+                                               self.grid_dimensions[2],
+                                               self.grid_dimensions[1]]), [0, 1, 2], [0, 2, 1])
             OCCLUDED = SemanticKittiIO.data_augmentation_3Dflips(flip, OCCLUDED)
             return OCCLUDED
 
@@ -206,3 +206,18 @@ class SemanticKITTI(Dataset):
 
 
         pass #todo
+
+    def __len__(self):
+        """
+        Return the length of the dataset
+        """
+        return self.nbr_files
+
+if __name__ == '__main__':
+    with open('LMSCNet_SS.yaml','r') as stream:
+        config = yaml.safe_load(stream)
+    dataset = SemanticKITTI(config['DATASET'],'train')
+    dataloader = DataLoader(dataset,batch_size=2,num_workers=4,shuffle=False)
+    for data in dataloader:
+        print(data)
+        break

@@ -8,8 +8,8 @@ DATASET:
     3D_OCCLUDED: true
     3D_OCCUPANCY: true
     PANOPTIC: true
-    PREPROCESS: true
-  ROOT_DIR: ../semanticKITTI
+    PREPROCESS: false
+  ROOT_DIR: ../../semanticKITTI
   TYPE: SemanticKITTI
 MODEL:
   TYPE: LMSCNet_SS
