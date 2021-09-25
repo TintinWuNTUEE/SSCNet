@@ -8,6 +8,7 @@ import sys
 import yaml
 
 from metrics import Metrics
+from io_tools import dict_to
 
 
 def parse_args():
@@ -51,9 +52,34 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, start_epoch, logg
     logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
 
     for t, (data, indices) in enumerate(dataset):
-      data = data
-      #should implement dataset.py first
+      data = dict_to(data, device, dtype)
+      scores = model1(data)
+      loss1 = model1.compute_loss(scores, data)
+      
+      optimizer.zero_grad()
 
+      loss1['total'].backward()
+
+      optimizer.step()
+
+      if _cfg['SCHEDULER']['FREQUENCY'] == 'iteration':
+        scheduler.step()
+
+      for loss_key in loss1:
+        tbwriter.add_scalar('train)_loss_batch/{}'.format(loss_key), loss1[loss_key].item(), len(dataset)*(epoch-1)+t)
+      # Updating batch losses to metric then get mean of epoch loss
+      metrics.losses_track.update_train_losses(loss1)
+
+      if (t+1) % _cfg['TRAIN']['SUMMARY_PERIOD'] == 0:
+        print_loss = '=> Epoch [{}/{}], Iteration [{}/{}], Learn Rate: {}, Train Losses: '\
+          .format(epoch, nbr_epochs, t+1, len(dataset), scheduler.get_lr()[0])
+        for key in loss1.keys():
+          print_loss += '{} = {:.6f}, '.format(key, loss1[key])
+          logger.info(print_loss[:-3])
+
+      metrics.add_batch(prediction=scores,target=model1.get_target(data))
+
+      
 
 
 

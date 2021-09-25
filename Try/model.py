@@ -173,13 +173,13 @@ class LMSCNet_SS(nn.Module):
     :param: prediction: the predicted tensor, must be [BS, C, H, W, D]
     '''
 
-    target = data['3D_LABEL']['1_1']
+    target = data['3D_LABEL']
     device, dtype = target.device, target.dtype
     class_weights = self.get_class_weights().to(device=target.device, dtype=target.dtype)
 
     criterion = nn.CrossEntropyLoss(weight=class_weights, ignore_index=255, reduction='mean').to(device=device)
 
-    loss_1_1 = criterion(scores['pred_semantic_1_1'], data['3D_LABEL']['1_1'].long())
+    loss_1_1 = criterion(scores['pred_semantic_1_1'], data['3D_LABEL'].long())
 
     loss = {'total': loss_1_1, 'semantic_1_1': loss_1_1}
 
