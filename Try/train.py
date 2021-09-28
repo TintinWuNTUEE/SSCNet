@@ -1,4 +1,4 @@
-from common.dataset import get_dataset
+from dataset import get_dataset
 import os
 import argparse
 import torch
