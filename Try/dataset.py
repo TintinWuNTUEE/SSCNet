@@ -58,6 +58,7 @@ class SemanticKITTI(Dataset):
 
 
     def get_filepaths(self, modality):
+        print(os.path.join(self.root_dir, 'dataset', 'sequences', '*'))
         sequences = list(sorted(glob(os.path.join(self.root_dir, 'dataset', 'sequences', '*')))[i] for i in self.split[self.phase])
 
         if self.phase != 'test':
@@ -219,6 +220,7 @@ if __name__ == '__main__':
         config = yaml.safe_load(stream)
     dataset = SemanticKITTI(config['DATASET'],'train')
     dataloader = DataLoader(dataset,batch_size=2,num_workers=4,shuffle=False)
-    for data in dataloader:
+    for t, (data, indices) in enumerate(dataset):
+        data = data['3D_LABEL']
         print(data)
         break
