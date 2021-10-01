@@ -63,6 +63,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       
       sem_prediction,center,offset = model2(scores['pred_semantic_1_1_feature'])
       loss2 = loss_fn(sem_prediction,center,offset,train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor)
+      #i think it wont work since here we got voxel but originally they prun points, they use pointnet so doesnt matter but we matter
       if p_args['model']['enable_SAP'] and epoch>=p_args['model']['SAP']['start_epoch']:
         loss.backward()
         for i,fea in enumerate(scores['pred_semantic_1_1_feature']):
@@ -142,6 +143,11 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       scheduler.step()
 
     _cfg.update_config(resume=True)
+    
+    
+def validation(model1, model2, dataset, _cfg, p_args, epoch, logger, tbwriter, metrics):
+  pass
+  
     
 
 def main():
