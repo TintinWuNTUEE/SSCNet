@@ -71,7 +71,7 @@ def main(args):
     #     my_model = load_pretrained_model(my_model,torch.load(model_save_path))
     # elif os.path.exists(pretrained_model):
     #     my_model = load_pretrained_model(my_model,torch.load(pretrained_model))
-   
+
 
     logger.info('=> Loading optimizer...')
     my_model, optimizer, epoch= checkpoint.load(my_model,optimizer,model_save_path,logger)
