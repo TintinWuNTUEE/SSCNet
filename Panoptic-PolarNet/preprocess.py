@@ -49,7 +49,19 @@ def main(args):
                                                     num_workers = 4)
 
     print(len(train_dataset_loader))
-
+    for _,(_,val_vox_label,val_gt_center,val_gt_offset,_,_,_,_,filenames) in enumerate(val_dataset_loader):
+        val_vox_label = SemKITTI2train(val_vox_label)
+        val_label_tensor=val_vox_label.type(torch.LongTensor).to(device)
+        val_gt_center_tensor = val_gt_center.to(device)
+        val_gt_offset_tensor = val_gt_offset.to(device)
+        for i in range(len(filenames)):
+            label_to_be_save= (val_label_tensor[i],val_gt_center_tensor[i], val_gt_offset_tensor[i])
+            folder_path = filenames[i].replace('velodyne','preprocess')[:-10]
+            if not os.path.exists(folder_path):
+                print(folder_path)
+                os.makedirs(folder_path)
+            
+            torch.save(label_to_be_save,(filenames[i].replace('velodyne','preprocess')[:-4]+'.pt'))
     for _,data in enumerate(train_dataset_loader):
         (_,train_label_tensor,train_gt_center,train_gt_offset,_,_,_,_, filenames) = data
 
@@ -87,19 +99,7 @@ def main(args):
             torch.save(label_to_be_save,(filenames[i].replace('velodyne','preprocess')[:-4]+'.pt'))
             # use labels = np.load("file name", allow_pickle=True) to get data back, the labels is (3,), 
             # and label[0]'s size = (256,256,32)->sem label, label[1]'s size = (1,256,256)->center label, label[2]'s size = (2,256,256)->offset label
-    for _,(_,val_vox_label,val_gt_center,val_gt_offset,_,_,_,_,_) in enumerate(val_dataset_loader):
-        val_vox_label = SemKITTI2train(val_vox_label)
-        val_label_tensor=val_vox_label.type(torch.LongTensor).to(device)
-        val_gt_center_tensor = val_gt_center.to(device)
-        val_gt_offset_tensor = val_gt_offset.to(device)
-        for i in range(len(filenames)):
-            label_to_be_save= (val_label_tensor[i],val_gt_center_tensor[i], val_gt_offset_tensor[i])
-            folder_path = filenames[i].replace('velodyne','preprocess')[:-10]
-            if not os.path.exists(folder_path):
-                print(folder_path)
-                os.makedirs(folder_path)
-
-            torch.save(label_to_be_save,(filenames[i].replace('velodyne','preprocess')[:-4]+'.pt'))
+    
     return
 
         
