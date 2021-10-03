@@ -1,3 +1,4 @@
+import torch
 from torch.utils import data
 from torch.utils.data import Dataset, DataLoader, dataset
 from glob import glob
@@ -19,7 +20,7 @@ class SemanticKITTI(Dataset):
         self.rgb_std = np.array([0.30599035, 0.3129534 , 0.31933814])   # images std:  [78.02753826 79.80311686 81.43122464]
         self.root_dir = dataset_setting['ROOT_DIR']
         self.modalities = dataset_setting['MODALITIES']
-        self.extensions = {'3D_OCCUPANCY': '.bin', '3D_LABEL': '.label', '3D_OCCLUDED': '.occluded', '3D_INVALID': '.invalid', 'PREPROCESS': '.npy'}
+        self.extensions = {'3D_OCCUPANCY': '.bin', '3D_LABEL': '.label', '3D_OCCLUDED': '.occluded', '3D_INVALID': '.invalid', 'PREPROCESS': '.pt'}
         self.data_augmentation = {'FLIPS': dataset_setting['AUGMENTATION']['FLIPS']}
         self.learning_map = self.dataset_config['learning_map']
         self.filepaths = {}
@@ -58,6 +59,7 @@ class SemanticKITTI(Dataset):
 
 
     def get_filepaths(self, modality):
+        print(os.path.join(self.root_dir, 'dataset', 'sequences', '*'))
         sequences = list(sorted(glob(os.path.join(self.root_dir, 'dataset', 'sequences', '*')))[i] for i in self.split[self.phase])
 
         if self.phase != 'test':
@@ -90,7 +92,7 @@ class SemanticKITTI(Dataset):
             for sequence in sequences:
                 assert len(os.listdir(sequence)) > 0, 'Error, No files in sequence: {}'.format(sequence)
 
-                self.filepaths['PREPROCESS'] += sorted(glob(os.path.join(sequence, 'preprocess', '*.npy')))
+                self.filepaths['PREPROCESS'] += sorted(glob(os.path.join(sequence, 'preprocess', '*.pt')))
 
         #????
         if modality == 'PANOPTIC':
@@ -176,7 +178,7 @@ class SemanticKITTI(Dataset):
             return OCCLUDED
 
         elif modality == 'PREPROCESS':
-            PREPROCESS = np.load(self.filepaths[modality][index], allow_pickle=True)
+            PREPROCESS = torch.load(self.filepaths[modality][index])
             sem_label, center_label, offset_label = PREPROCESS
             # Flipping around the XS axis...
             if np.isclose(flip, 1):
@@ -219,6 +221,7 @@ if __name__ == '__main__':
         config = yaml.safe_load(stream)
     dataset = SemanticKITTI(config['DATASET'],'train')
     dataloader = DataLoader(dataset,batch_size=2,num_workers=4,shuffle=False)
-    for data in dataloader:
+    for t, (data, indices) in enumerate(dataset):
+        data = data['3D_LABEL']
         print(data)
         break
