@@ -7,6 +7,16 @@ import numpy as np
 from dataloader.dataset import collate_fn_BEV,SemKITTI,SemKITTI_label_name,spherical_dataset,voxel_dataset
 from utils.configs import merge_configs
 
+device=('cuda')
+
+def SemKITTI2train(label):
+    if isinstance(label, list):
+        return [SemKITTI2train_single(a) for a in label]
+    else:
+        return SemKITTI2train_single(label)
+
+def SemKITTI2train_single(label):
+    return label - 1 # uint8 trick
 
 def main(args):
     data_path = args['dataset']['path']
@@ -40,8 +50,8 @@ def main(args):
 
     print(len(train_dataset_loader))
 
-    for i_iter,data in enumerate(train_dataset_loader):
-        (train_vox_fea,train_label_tensor,train_gt_center,train_gt_offset,train_grid,_,_,train_pt_fea, filenames) = data
+    for _,data in enumerate(train_dataset_loader):
+        (_,train_label_tensor,train_gt_center,train_gt_offset,_,_,_,_, filenames) = data
 
         # print("train_vox_fea : ", train_vox_fea.shape)
         # print(train_vox_fea)
@@ -63,21 +73,33 @@ def main(args):
         # print(np.array(train_pt_fea[0]).shape)
         # print(train_pt_fea)        
 
-        # print(filenames)
-
+        train_label_tensor = SemKITTI2train(train_label_tensor)
+        train_label_tensor = train_label_tensor.type(torch.LongTensor).to(device)
+        train_gt_center_tensor = train_gt_center.to(device)
+        train_gt_offset_tensor = train_gt_offset.to(device)
         for i in range(len(filenames)):
-            label_to_be_save = np.empty(3,object)
-            label_to_be_save[:] = [train_label_tensor[i], train_gt_center[i], train_gt_offset[i]]
+            label_to_be_save=(train_label_tensor[i],train_gt_center_tensor[i],train_gt_offset_tensor[i])
+            folder_path = filenames[i].replace('velodyne','preprocess')[:-10]
+            if not os.path.exists(folder_path):
+                print(folder_path)
+                os.makedirs(folder_path)
+            print(filenames[i].replace('velodyne','preprocess')[:-4]+'.pt')
+            torch.save(label_to_be_save,(filenames[i].replace('velodyne','preprocess')[:-4]+'.pt'))
+            # use labels = np.load("file name", allow_pickle=True) to get data back, the labels is (3,), 
+            # and label[0]'s size = (256,256,32)->sem label, label[1]'s size = (1,256,256)->center label, label[2]'s size = (2,256,256)->offset label
+    for _,(_,val_vox_label,val_gt_center,val_gt_offset,_,_,_,_,_) in enumerate(val_dataset_loader):
+        val_vox_label = SemKITTI2train(val_vox_label)
+        val_label_tensor=val_vox_label.type(torch.LongTensor).to(device)
+        val_gt_center_tensor = val_gt_center.to(device)
+        val_gt_offset_tensor = val_gt_offset.to(device)
+        for i in range(len(filenames)):
+            label_to_be_save= (val_label_tensor[i],val_gt_center_tensor[i], val_gt_offset_tensor[i])
             folder_path = filenames[i].replace('velodyne','preprocess')[:-10]
             if not os.path.exists(folder_path):
                 print(folder_path)
                 os.makedirs(folder_path)
 
-            np.save((filenames[i].replace('velodyne','preprocess')[:-4]),label_to_be_save)
-            # use labels = np.load("file name", allow_pickle=True) to get data back, the labels is (3,), 
-            # and label[0]'s size = (256,256,32)->sem label, label[1]'s size = (1,256,256)->center label, label[2]'s size = (2,256,256)->offset label
-
-
+            torch.save(label_to_be_save,(filenames[i].replace('velodyne','preprocess')[:-4]+'.pt'))
     return
 
         
