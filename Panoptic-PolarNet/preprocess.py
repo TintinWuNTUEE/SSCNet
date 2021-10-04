@@ -52,10 +52,9 @@ def main(args):
                                                     shuffle = False,
                                                     num_workers = 4)
 
-    print(len(train_dataset_loader))
     for _,(_,val_vox_label,val_gt_center,val_gt_offset,_,_,_,_,filenames) in enumerate(val_dataset_loader):
         val_vox_label = SemKITTI2train(val_vox_label)
-        val_label_tensor=val_vox_label.type(torch.LongTensor).to(device)
+        val_label_tensor=val_vox_label.to(device)
         val_gt_center_tensor = val_gt_center.to(device)
         val_gt_offset_tensor = val_gt_offset.to(device)
         for i in range(len(filenames)):
@@ -67,33 +66,10 @@ def main(args):
                 print(folder_path)
                 os.makedirs(folder_path)
             save_path = os.path.join(folder_path,filename)
-            print(save_path)
             torch.save(label_to_be_save,save_path)
-    for _,data in enumerate(train_dataset_loader):
-        (_,train_label_tensor,train_gt_center,train_gt_offset,_,_,_,_, filenames) = data
-
-        # print("train_vox_fea : ", train_vox_fea.shape)
-        # print(train_vox_fea)
-        
-        # print("train_label_tensor : ", train_label_tensor.shape)
-        # print(train_label_tensor)
-        
-        # print("train_gt_center : ", train_gt_center.shape)
-        # print(train_gt_center)
-
-        # print("train_gt_offset : ", train_gt_offset.shape)
-        # print(train_gt_offset)
-
-        # print("train_grid : ", len(train_grid[0]), len(train_grid[1]))
-        # print(np.array(train_grid[0]).shape)
-        # print(train_grid)
-
-        # print("train_pt_fea : ", len(train_pt_fea[0]), len(train_pt_fea[1]))
-        # print(np.array(train_pt_fea[0]).shape)
-        # print(train_pt_fea)        
-
+    for _,(_,train_label_tensor,train_gt_center,train_gt_offset,_,_,_,_, filenames)  in enumerate(train_dataset_loader):
         train_label_tensor = SemKITTI2train(train_label_tensor)
-        train_label_tensor = train_label_tensor.type(torch.LongTensor).to(device)
+        train_label_tensor = train_label_tensor.to(device)
         train_gt_center_tensor = train_gt_center.to(device)
         train_gt_offset_tensor = train_gt_offset.to(device)
         for i in range(len(filenames)):
@@ -105,7 +81,6 @@ def main(args):
                 print(folder_path)
                 os.makedirs(folder_path)
             save_path = os.path.join(folder_path,filename)
-            print(save_path)
             torch.save(label_to_be_save,save_path)
             # use labels = np.load("file name", allow_pickle=True) to get data back, the labels is (3,), 
             # and label[0]'s size = (256,256,32)->sem label, label[1]'s size = (1,256,256)->center label, label[2]'s size = (2,256,256)->offset label
