@@ -17,7 +17,11 @@ def SemKITTI2train(label):
 
 def SemKITTI2train_single(label):
     return label - 1 # uint8 trick
-
+def splitPath(path):
+    folderpath = os.path.split(path)[0]
+    basename = os.path.basename(path)
+    filename = os.path.splitext(basename)[0]
+    return folderpath, filename
 def main(args):
     data_path = args['dataset']['path']
     grid_size = args['dataset']['grid_size']
@@ -56,12 +60,14 @@ def main(args):
         val_gt_offset_tensor = val_gt_offset.to(device)
         for i in range(len(filenames)):
             label_to_be_save= (val_label_tensor[i].cpu().numpy(),val_gt_center_tensor[i].cpu().numpy(), val_gt_offset_tensor[i].cpu().numpy())
-            folder_path = filenames[i].replace('velodyne','preprocess')[:-10]
+            folder_path,filename = splitPath(filenames[i])
+            filename+='.pt'
             if not os.path.exists(folder_path):
                 print(folder_path)
                 os.makedirs(folder_path)
-            
-            torch.save(label_to_be_save,(filenames[i].replace('velodyne','preprocess')[:-4]+'.pt'))
+            save_path = os.path.join(folder_path.replace('velodyne','preprocess'),filename)
+            print(save_path)
+            torch.save(label_to_be_save,save_path)
     for _,data in enumerate(train_dataset_loader):
         (_,train_label_tensor,train_gt_center,train_gt_offset,_,_,_,_, filenames) = data
 
@@ -91,12 +97,14 @@ def main(args):
         train_gt_offset_tensor = train_gt_offset.to(device)
         for i in range(len(filenames)):
             label_to_be_save=(train_label_tensor[i].cpu().numpy(),train_gt_center_tensor[i].cpu().numpy(),train_gt_offset_tensor[i].cpu().numpy())
-            folder_path = filenames[i].replace('velodyne','preprocess')[:-10]
+            folder_path,filename = splitPath(filenames[i])
+            filename+='.pt'
             if not os.path.exists(folder_path):
                 print(folder_path)
                 os.makedirs(folder_path)
-            print(filenames[i].replace('velodyne','preprocess')[:-4]+'.pt')
-            torch.save(label_to_be_save,(filenames[i].replace('velodyne','preprocess')[:-4]+'.pt'))
+            save_path = os.path.join(folder_path.replace('velodyne','preprocess'),filename)
+            print(save_path)
+            torch.save(label_to_be_save,save_path)
             # use labels = np.load("file name", allow_pickle=True) to get data back, the labels is (3,), 
             # and label[0]'s size = (256,256,32)->sem label, label[1]'s size = (1,256,256)->center label, label[2]'s size = (2,256,256)->offset label
     
