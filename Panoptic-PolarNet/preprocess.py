@@ -55,7 +55,7 @@ def main(args):
         val_gt_center_tensor = val_gt_center.to(device)
         val_gt_offset_tensor = val_gt_offset.to(device)
         for i in range(len(filenames)):
-            label_to_be_save= (val_label_tensor[i],val_gt_center_tensor[i], val_gt_offset_tensor[i])
+            label_to_be_save= (val_label_tensor[i].cpu().numpy(),val_gt_center_tensor[i].cpu().numpy(), val_gt_offset_tensor[i].cpu().numpy())
             folder_path = filenames[i].replace('velodyne','preprocess')[:-10]
             if not os.path.exists(folder_path):
                 print(folder_path)
@@ -90,7 +90,7 @@ def main(args):
         train_gt_center_tensor = train_gt_center.to(device)
         train_gt_offset_tensor = train_gt_offset.to(device)
         for i in range(len(filenames)):
-            label_to_be_save=(train_label_tensor[i],train_gt_center_tensor[i],train_gt_offset_tensor[i])
+            label_to_be_save=(train_label_tensor[i].cpu().numpy(),train_gt_center_tensor[i].cpu().numpy(),train_gt_offset_tensor[i].cpu().numpy())
             folder_path = filenames[i].replace('velodyne','preprocess')[:-10]
             if not os.path.exists(folder_path):
                 print(folder_path)
