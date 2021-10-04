@@ -61,11 +61,12 @@ def main(args):
         for i in range(len(filenames)):
             label_to_be_save= (val_label_tensor[i].cpu().numpy(),val_gt_center_tensor[i].cpu().numpy(), val_gt_offset_tensor[i].cpu().numpy())
             folder_path,filename = splitPath(filenames[i])
+            folder_path=folder_path.replace('velodyne','preprocess')
             filename+='.pt'
             if not os.path.exists(folder_path):
                 print(folder_path)
                 os.makedirs(folder_path)
-            save_path = os.path.join(folder_path.replace('velodyne','preprocess'),filename)
+            save_path = os.path.join(folder_path,filename)
             print(save_path)
             torch.save(label_to_be_save,save_path)
     for _,data in enumerate(train_dataset_loader):
@@ -98,11 +99,12 @@ def main(args):
         for i in range(len(filenames)):
             label_to_be_save=(train_label_tensor[i].cpu().numpy(),train_gt_center_tensor[i].cpu().numpy(),train_gt_offset_tensor[i].cpu().numpy())
             folder_path,filename = splitPath(filenames[i])
+            folder_path=folder_path.replace('velodyne','preprocess')
             filename+='.pt'
             if not os.path.exists(folder_path):
                 print(folder_path)
                 os.makedirs(folder_path)
-            save_path = os.path.join(folder_path.replace('velodyne','preprocess'),filename)
+            save_path = os.path.join(folder_path,filename)
             print(save_path)
             torch.save(label_to_be_save,save_path)
             # use labels = np.load("file name", allow_pickle=True) to get data back, the labels is (3,), 
