@@ -26,7 +26,7 @@ def main(args):
     data_path = args['dataset']['path']
     grid_size = args['dataset']['grid_size']
     batch_size = args['model']['train_batch_size']
-
+    val_batch_size = args['model']['val_batch_size']
 
     #prepare dataset
     train_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'train', return_ref = True, instance_pkl_path=args['dataset']['instance_pkl_path'])
@@ -47,16 +47,19 @@ def main(args):
                                                     shuffle = False,
                                                     num_workers = 4)
     val_dataset_loader = torch.utils.data.DataLoader(dataset = val_dataset,
-                                                    batch_size = batch_size,
+                                                    batch_size = val_batch_size,
                                                     collate_fn = collate_fn_BEV,
                                                     shuffle = False,
                                                     num_workers = 4)
 
-    for _,(_,val_vox_label,val_gt_center,val_gt_offset,_,_,_,_,filenames) in enumerate(val_dataset_loader):
+    for _,(_,val_vox_label,val_gt_center,val_gt_offset,val_grid,_,_,_,filenames) in enumerate(val_dataset_loader):
         val_vox_label = SemKITTI2train(val_vox_label)
         val_label_tensor=val_vox_label.to(device)
         val_gt_center_tensor = val_gt_center.to(device)
         val_gt_offset_tensor = val_gt_offset.to(device)
+        
+        for_mask1 = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
+        for_mask1[(val_label_tensor>=0 )& (val_label_tensor<8)] = True  
         for i in range(len(filenames)):
             label_to_be_save= (val_label_tensor[i].cpu().numpy(),val_gt_center_tensor[i].cpu().numpy(), val_gt_offset_tensor[i].cpu().numpy())
             folder_path,filename = splitPath(filenames[i])

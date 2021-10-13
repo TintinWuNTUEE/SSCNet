@@ -9,8 +9,10 @@ import yaml
 from loss import panoptic_loss
 from metrics import Metrics
 from io_tools import dict_to
-
-
+from instance_post_processing import get_panoptic_segmentation
+from eval_pq import PanopticEval
+import numpy as np
+import checkpoint
 def parse_args():
   parser = argparse.ArgumentParser(description='LMSCNet + Panoptic_PolarNet training')
 
@@ -29,8 +31,8 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
   model1 = model1.to(device)
   model2 = model2.to(device)
-  model1.train()
-  model2.train()
+  checkpoint.load_LMSC(model1,optimizer,scheduler,_cfg._dict['STATUS']['RESUME'],_cfg._dict['STATUS']['LAST'],logger)
+  checkpoint.load_panoptic(model2,optimizer,p_args['model']['model_save_path'],logger)
   loss_fn = panoptic_loss(center_loss_weight = p_args['model']['center_loss_weight'], offset_loss_weight = p_args['model']['offset_loss_weight'],\
                             center_loss = p_args['model']['center_loss'], offset_loss=p_args['model']['offset_loss'])
   for state in optimizer.state.values():
@@ -48,8 +50,9 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
   metrics.reset_evaluator()
   metrics.losses_track.set_validation_losses(model1.get_validation_loss_keys())
   metrics.losses_track.set_train_losses(model1.get_train_loss_keys())
-
   for epoch in range(start_epoch, nbr_epochs+1):
+    model1.train()
+    model2.train()
     logger.info('=> =========== Epoch [{}/{}] ==========='.format(epoch, nbr_epochs))
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg['OUTPUT']['OUTPUT_PATH']))
 
@@ -126,13 +129,13 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
     if _cfg._dict['SCHEDULER']['FREQUENCY'] == 'epoch':
       scheduler.step()
-
-    _cfg.update_config(resume=True)
     
-def validation(model1, model2, dataset, _cfg,p_args,epoch, logger, tbwriter,metrics):
+    _cfg.update_config(resume=True)
+    logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
+def validation(model1, model2, loss_fn,dataset, _cfg,p_args,epoch, logger, tbwriter,metrics,best_loss):
   device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
-
+  nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
   grid_size = p_args['dataset']['grid_size']  
   dataset = dataset['val']
   logger.info('=> Passing the network on the validation set...')
@@ -146,16 +149,22 @@ def validation(model1, model2, dataset, _cfg,p_args,epoch, logger, tbwriter,metr
       val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
       
       for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
-      for_mask[val_label_tensor!=0] = True
+      for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
       
       data = dict_to(data, device, dtype)
 
       scores = model1(data)
+      predict_labels,center,offset = model2(scores['pred_semantic_1_1_feature'])
+      loss1 = model1.compute_loss(scores, data)
+      sem_prediction,center,offset = model2(scores['pred_semantic_1_1_feature'])
+      # loss2
+      loss2 = loss_fn(sem_prediction,center,offset,val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor)
+        # backward + optimize
+      loss = loss1['total']+loss2
 
-      loss = model1.compute_loss(scores, data)
 
-      for l_key in loss:
-        tbwriter.add_scalar('validation_loss_batch/{}'.format(l_key), loss[l_key].item(), len(dset) * (epoch-1) + t)
+      for l_key in loss1:
+        tbwriter.add_scalar('validation_loss_batch/{}'.format(l_key), loss1[l_key].item(), len(dataset) * (epoch-1) + t)
       # Updating batch losses to then get mean for epoch loss
       metrics.losses_track.update_validaiton_losses(loss)
 
@@ -211,6 +220,9 @@ def validation(model1, model2, dataset, _cfg,p_args,epoch, logger, tbwriter,metr
       _cfg._dict['OUTPUT']['BEST_METRIC'] = mIoU_1_1.item()
       checkpoint_info['best-metric'] = 'BEST_METRIC'
       metrics.update_best_metric_record(mIoU_1_1, IoU_1_1, epoch_loss.item(), epoch)
+    if loss.item()<best_loss:
+      checkpoint.save_LMSC()
+      checkpoint.save_panoptic()
 
 def main():
   args = parse_args()
