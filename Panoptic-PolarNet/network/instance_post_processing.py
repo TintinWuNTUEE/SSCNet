@@ -78,10 +78,11 @@ def group_pixels(ctr, offsets, polar=False):
     ctr = ctr.unsqueeze(1)
     ctr_loc = ctr_loc.unsqueeze(0)
 
-    # distance: [K, H*W]
+    # distance: [K, H*W,2]
     distance = ctr - ctr_loc
     if polar:
         distance[:,:,0] = torch.add(torch.fmod(torch.add(distance[:,:,0],width/2),width),-width/2)
+    # distance: [K, H*W,1]
     distance = torch.norm(distance, dim=-1)
 
     # finds center with minimum distance at each location, offset by 1, to reserve id=0 for stuff
