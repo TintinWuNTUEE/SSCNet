@@ -13,10 +13,9 @@ def get_md5(filename):
 
 
 def dict_to(_dict, device, dtype):
-  '''
-
-  '''
   for key, value in _dict.items():
+    if key == 'PREPROCESS':
+      continue
     if type(_dict[key]) is dict:
       _dict[key] = dict_to(_dict[key], device, dtype)
     else:

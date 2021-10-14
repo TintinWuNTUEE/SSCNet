@@ -4,8 +4,14 @@ import torch
 import numpy as np
 from dropblock import DropBlock2D
 
-
-
+def get_model(_cfg,dataset):
+    grid_dims = [256, 32, 256]
+    feature_shape = [8,32,256,256]
+    class_frequencies = dataset.class_frequencies
+    nbr_classes = 20
+    model1 = LMSCNet_SS(nbr_classes, grid_dims, class_frequencies)
+    model2 = BEV_Unet(20,feature_shape[1],feature_shape[0], input_batch_norm = True, dropout = 0.5, circular_padding = False, use_vis_fea=False)
+    return model1, model2
 class SegmentationHead(nn.Module):
   '''
   3D Segmentation heads to retrieve semantic segmentation at each scale.
@@ -179,7 +185,7 @@ class LMSCNet_SS(nn.Module):
 
     criterion = nn.CrossEntropyLoss(weight=class_weights, ignore_index=255, reduction='mean').to(device=device)
 
-    loss_1_1 = criterion(scores['pred_semantic_1_1'], data['3D_LABEL'].long())
+    loss_1_1 = criterion(scores['pred_semantic_1_1'].permute(0, 1, 3, 2, 4), data['3D_LABEL'].long())
 
     loss = {'total': loss_1_1, 'semantic_1_1': loss_1_1}
 
@@ -198,7 +204,7 @@ class LMSCNet_SS(nn.Module):
     '''
     Return the target to use for evaluation of the model
     '''
-    return {'1_1': data['3D_LABEL']['1_1']}
+    return {'1_1': data['3D_LABEL']}
     # return data['3D_LABEL']['1_1'] #.permute(0, 2, 1, 3)
 
   def get_scales(self):

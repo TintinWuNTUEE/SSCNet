@@ -48,7 +48,7 @@ def load_panoptic(model, optimizer, path, logger):
   else:
     logger.info('=> No checkpoint. Initializing model from scratch')
     epoch = 1
-    return model, optimizer,  epoch
+    return model,optimizer,epoch
 
 
 def save_panoptic(path, model, optimizer, epoch):
