@@ -3,7 +3,7 @@
 
 import numpy as np
 import torch
-from .lovasz_losses import lovasz_softmax
+from lovasz_losses import lovasz_softmax
 
 def _neg_loss(pred, gt):
     ''' Modified focal loss. Exactly the same as CornerNet.

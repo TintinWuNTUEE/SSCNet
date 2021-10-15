@@ -7,8 +7,25 @@ import numpy as np
 import os
 import random
 import io_data as SemanticKittiIO
+def get_dataset(_cfg):
+    if _cfg._dict['DATASET']['TYPE'] == 'SemanticKITTI':
+        ds_train = SemanticKITTI(_cfg._dict['DATASET'],'train')
+        ds_val = SemanticKITTI(_cfg._dict['DATASET'],'val')
+        ds_test = SemanticKITTI(_cfg._dict['DATASET'],'test')
 
+    _cfg._dict['DATASET']['SPLIT'] = {'TRAIN': len(ds_train), 'VAL': len(ds_val), 'TEST': len(ds_test)}
 
+    dataset = {}
+
+    train_batch_size = _cfg._dict['TRAIN']['BATCH_SIZE']
+    val_batch_size = _cfg._dict['VAL']['BATCH_SIZE']
+    num_workers = _cfg._dict['DATALOADER']['NUM_WORKERS']
+
+    dataset['train'] = DataLoader(ds_train, batch_size=train_batch_size, num_workers=num_workers, shuffle=True)
+    dataset['val']   = DataLoader(ds_val,   batch_size=val_batch_size, num_workers=num_workers, shuffle=False)
+    dataset['test']  = DataLoader(ds_test,   batch_size=val_batch_size, num_workers=num_workers, shuffle=False)
+
+    return dataset
 class SemanticKITTI(Dataset):
     def __init__(self, dataset_setting, phase):
         with open("semantic-kitti.yaml",'r') as stream:

@@ -1,3 +1,7 @@
 semanticKITTI/*
 __pycache__/
 *.pt
+**/__pyache__
+**/weights
+**/efile
+**/ofile
