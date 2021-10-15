@@ -109,14 +109,14 @@ def get_instance_segmentation(sem_seg, ctr_hmp, offsets, thing_list, threshold=0
         A Tensor of shape [1, H, W] (to be gathered by distributed data parallel).
         A Tensor of shape [1, K, 2] where K is the number of center points. The order of second dim is (y, x).
     """
-    # if thing_seg is None:
-    #     # gets foreground segmentation
-    #     thing_seg = torch.zeros_like(sem_seg)
-    #     for thing_class in thing_list:
-    #         thing_seg[sem_seg == thing_class] = 1
-    # if thing_seg.dim() == 4:
-    #     # [1, H, W, Z] --> [1, H, W]
-    #     thing_seg = torch.max(thing_seg,dim=3)
+    if thing_seg is None:
+        # gets foreground segmentation
+        thing_seg = torch.zeros_like(sem_seg)
+        for thing_class in thing_list:
+            thing_seg[sem_seg == thing_class] = 1
+    if thing_seg.dim() == 4:
+        # [1, H, W, Z] --> [1, H, W]
+        thing_seg = torch.max(thing_seg,dim=3)
 
     ctr = find_instance_center(ctr_hmp, threshold=threshold, nms_kernel=nms_kernel, top_k=top_k, polar=polar)
     if ctr.size(0) == 0:
