@@ -6,7 +6,7 @@ import yaml
 import numpy as np
 import os
 import random
-import io_data as SemanticKittiIO
+import common.io_data as SemanticKittiIO
 def get_dataset(_cfg):
     if _cfg._dict['DATASET']['TYPE'] == 'SemanticKITTI':
         ds_train = SemanticKITTI(_cfg._dict['DATASET'],'train')
@@ -28,7 +28,7 @@ def get_dataset(_cfg):
     return dataset
 class SemanticKITTI(Dataset):
     def __init__(self, dataset_setting, phase):
-        with open("semantic-kitti.yaml",'r') as stream:
+        with open("configs/semantic-kitti.yaml",'r') as stream:
             self.dataset_config = yaml.safe_load(stream)
         self.nbr_classes = self.dataset_config['nbr_classes']
         self.grid_dimensions = self.dataset_config['grid_dims']
