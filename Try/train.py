@@ -6,24 +6,24 @@ import torch.nn as nn
 from torch.utils.tensorboard import SummaryWriter
 import sys
 import yaml
-from loss import panoptic_loss
-from metrics import Metrics
-from io_tools import dict_to
-from instance_post_processing import get_panoptic_segmentation
-from eval_pq import PanopticEval
+from losses.loss import panoptic_loss
+from common.metrics import Metrics
+from common.io_tools import dict_to
+from common.instance_post_processing import get_panoptic_segmentation
+from common.eval_pq import PanopticEval
 import numpy as np
-import checkpoint
-from dataset import SemanticKITTI,get_dataset
-from config import CFG, merge_configs
-from model import get_model
-from logger import get_logger
+import common.checkpoint as checkpoint
+from common.dataset import SemanticKITTI,get_dataset
+from common.config import CFG, merge_configs
+from models.model import get_model
+from common.logger import get_logger
 def parse_args(modelname):
   parser = argparse.ArgumentParser(description='Training')
   if modelname == 'LMSCNet':
     parser.add_argument(
       '--cfg',
       dest='config_file',
-      default='LMSCNet_SS.yaml',
+      default='configs/LMSCNet_SS.yaml',
       metavar='FILE',
       help='path to config file',
       type=str,
@@ -40,7 +40,7 @@ def parse_args(modelname):
   elif modelname == 'Panoptic Polarnet':
     parser.add_argument('-d', '--data_dir', help='path to dataset root folder', default='../semanticKITTI/dataset')
     parser.add_argument('-p', '--model_save_path', default='./weights/Panoptic_SemKITTI.pt')
-    parser.add_argument('-c', '--configs', help='path to config file', default='Panoptic-PolarNet.yaml')
+    parser.add_argument('-c', '--configs', help='path to config file', default='configs/Panoptic-PolarNet.yaml')
     parser.add_argument('--pretrained_model', default='empty')
     args = parser.parse_args()
     with open(args.configs, 'r') as s:

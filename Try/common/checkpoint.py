@@ -3,7 +3,7 @@ from torch.nn.parallel import DataParallel, DistributedDataParallel
 import torch
 import os
 from glob import glob
-from io_tools import _remove_recursively, _create_directory
+from common.io_tools import _remove_recursively, _create_directory
 def load_LMSC(model, optimizer, scheduler, resume, path, logger):
   '''
   Load checkpoint file
