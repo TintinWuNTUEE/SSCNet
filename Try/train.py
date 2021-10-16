@@ -162,7 +162,16 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
   grid_size = p_args['dataset']['grid_size']  
   dset = dataset['val']
   logger.info('=> Passing the network on the validation set...')
-
+  #evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
+  evaluator = PanopticEval(20+1, None, [0], min_points=50)
+  
+  #prepare miou fun  
+  SemKITTI_label_name = dict()
+  for i in sorted(list(dataset.dataset.dataset_config['learning_map'].keys()))[::-1]:
+      SemKITTI_label_name[dataset.dataset.dataset_config['learning_map'][i]] = dataset.dataset.dataset_config['labels'][i]
+  unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
+  unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
+  
   model1.eval()
   model2.eval()
 
@@ -171,8 +180,9 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
     for t, (data, indices) in enumerate(dset):
       val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
       val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = val_label_tensor.type(torch.LongTensor).to(device),val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
-      for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
-      for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
+      # mask will be done in eval.py when foreground is none
+      # for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
+      # for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
       
       data= dict_to(data, device, dtype)
 
@@ -185,7 +195,21 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       sem_prediction,center,offset = model2(input_feature)
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor)
-        # backward + optimize
+      panoptic_labels, center_points = get_panoptic_segmentation(sem_prediction, center, offset, dataset.thing_list,\
+                                                                threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
+                                                                top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
+      evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, val_label_tensor)
+      miou, ious = evaluator.getSemIoU()
+      
+      print('Validation per class IoU: ')
+      logger.info('Validation per class IoU: ')
+      for class_name, class_iou in zip(unique_label_str, ious[1:]):
+        print('%15s : %6.2f%%'%(class_name, class_iou*100))
+        logger.info('%15s : %6.2f%%'%(class_name, class_iou*100))
+      print('Current val miou is %.3f'%(miou*100))
+      logger.info(('Current val miou is %.3f'%(miou*100)))
+      
+      # backward + optimize
       loss = loss1['total']+loss2
 
 
