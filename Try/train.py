@@ -80,7 +80,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
-
+    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,tbwriter,metrics,best_loss)
     for t, (data, indices) in enumerate(dset):
       data = dict_to(data, device, dtype)
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
@@ -90,6 +90,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       # forward
       input = scores['pred_semantic_1_1'].view(-1,640,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
+      print('fitting into model2')
       sem_prediction,center,offset = model2(input_feature)
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor)
@@ -154,7 +155,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     
     _cfg.update_config(resume=True)
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
-    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,tbwriter,metrics,best_loss)
+    
 def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, tbwriter,metrics,best_loss):
   device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
@@ -167,8 +168,8 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
   
   #prepare miou fun  
   SemKITTI_label_name = dict()
-  for i in sorted(list(dataset.dataset.dataset_config['learning_map'].keys()))[::-1]:
-      SemKITTI_label_name[dataset.dataset.dataset_config['learning_map'][i]] = dataset.dataset.dataset_config['labels'][i]
+  for i in sorted(list(dset.dataset.dataset_config['learning_map'].keys()))[::-1]:
+      SemKITTI_label_name[dset.dataset.dataset_config['learning_map'][i]] = dset.dataset.dataset_config['labels'][i]
   unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
   unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
   
@@ -195,7 +196,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       sem_prediction,center,offset = model2(input_feature)
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor)
-      panoptic_labels, center_points = get_panoptic_segmentation(sem_prediction, center, offset, dataset.thing_list,\
+      panoptic_labels, center_points = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, val_label_tensor)
