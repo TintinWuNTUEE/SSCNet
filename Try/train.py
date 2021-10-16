@@ -104,7 +104,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
         scheduler.step()
 
       for loss_key in loss1:
-        tbwriter.add_scalar('train)_loss_batch/{}'.format(loss_key), loss1[loss_key].item(), len(dset)*(epoch-1)+t)
+        tbwriter.add_scalar('train_loss_batch/{}'.format(loss_key), loss1[loss_key].item(), len(dset)*(epoch-1)+t)
       # Updating batch losses to metric then get mean of epoch loss
       metrics.losses_track.update_train_losses(loss1)
 
