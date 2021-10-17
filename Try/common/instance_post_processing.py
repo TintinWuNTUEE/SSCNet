@@ -114,10 +114,9 @@ def get_instance_segmentation(sem_seg, ctr_hmp, offsets, thing_list, threshold=0
         thing_seg = torch.zeros_like(sem_seg)
         for thing_class in thing_list:
             thing_seg[sem_seg == thing_class] = 1
-    if thing_seg.dim() == 4:
-        # [1, H, W, Z] --> [1, H, W]
-        thing_seg = torch.max(thing_seg,dim=3)
-
+    # if thing_seg.dim() == 4:
+    #     # [1, H, W, Z] --> [1, H, W]
+    #     thing_seg = torch.max(thing_seg,dim=3)
     ctr = find_instance_center(ctr_hmp, threshold=threshold, nms_kernel=nms_kernel, top_k=top_k, polar=polar)
     if ctr.size(0) == 0:
         return torch.zeros_like(thing_seg[:,:,:,0]), ctr.unsqueeze(0)
@@ -149,7 +148,7 @@ def merge_semantic_and_instance(sem_seg, sem, ins_seg, label_divisor, thing_list
     
     # try to avoid the for loop
     semantic_thing_seg = sem_seg<=max(thing_list)
-
+    thing_seg = thing_seg.type(torch.bool)
     ins_seg = torch.unsqueeze(ins_seg,3).expand_as(sem_seg)
     thing_mask = (ins_seg > 0) & semantic_thing_seg & thing_seg
     if not torch.nonzero(thing_mask).size(0) == 0:
@@ -215,7 +214,11 @@ def get_panoptic_segmentation(sem, ctr_hmp, offsets, thing_list, label_divisor=2
     else:
         thing_seg = None
 
-    
+    if thing_seg is None:
+        # gets foreground segmentation
+        thing_seg = torch.zeros_like(semantic)
+        for thing_class in thing_list:
+            thing_seg[semantic == thing_class] = 1
     instance, center = get_instance_segmentation(semantic, ctr_hmp, offsets, thing_list,
                                                  threshold=threshold, nms_kernel=nms_kernel, top_k=top_k,
                                                  thing_seg=thing_seg, polar=polar)

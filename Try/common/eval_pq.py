@@ -39,9 +39,10 @@ class PanopticEval:
   ################################# IoU STUFF ##################################
   def addBatchSemIoU(self, x_sem, y_sem):
     # idxs are labels and predictions
-    idxs = np.stack([x_sem, y_sem], axis=0)
-
+    idxs = np.stack([x_sem.cpu().squeeze(), y_sem.cpu().squeeze()], axis=0)
+    idxs = np.where(idxs==255,0,idxs)
     # make confusion matrix (cols = gt, rows = pred)
+    print(idxs.shape)
     np.add.at(self.px_iou_conf_matrix, tuple(idxs), 1)
 
   def getSemIoUStats(self):
@@ -171,14 +172,14 @@ class PanopticEval:
   #############################  Panoptic STUFF ################################
   ##############################################################################
 
-  def addBatch(self, x_sem, x_inst, y_sem, y_inst):  # x=preds, y=targets
+  def addBatch(self, x_sem, x_inst, y_sem):  # x=preds, y=targets
     ''' IMPORTANT: Inputs must be batched. Either [N,H,W], or [N, P]
     '''
     # add to IoU calculation (for checking purposes)
     self.addBatchSemIoU(x_sem, y_sem)
 
     # now do the panoptic stuff
-    self.addBatchPanoptic(x_sem, x_inst, y_sem, y_inst)
+    # self.addBatchPanoptic(x_sem, x_inst, y_sem, y_inst)
 
 
 if __name__ == "__main__":
