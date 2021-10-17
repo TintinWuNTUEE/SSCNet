@@ -200,15 +200,6 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, val_label_tensor)
-      miou, ious = evaluator.getSemIoU()
-      
-      print('Validation per class IoU: ')
-      logger.info('Validation per class IoU: ')
-      for class_name, class_iou in zip(unique_label_str, ious[1:]):
-        print('%15s : %6.2f%%'%(class_name, class_iou*100))
-        logger.info('%15s : %6.2f%%'%(class_name, class_iou*100))
-      print('Current val miou is %.3f'%(miou*100))
-      logger.info(('Current val miou is %.3f'%(miou*100)))
       
       # backward + optimize
       loss = loss1['total']+loss2
@@ -246,6 +237,17 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
                           metrics.get_occupancy_Precision(scale).item(),
                           metrics.get_occupancy_Recall(scale).item(),
                           metrics.get_occupancy_F1(scale).item()))
+    
+    miou, ious = evaluator.getSemIoU()
+      
+    print('Validation per class IoU: ')
+    logger.info('Validation per class IoU: ')
+    for class_name, class_iou in zip(unique_label_str, ious[1:]):
+      print('%15s : %6.2f%%'%(class_name, class_iou*100))
+      logger.info('%15s : %6.2f%%'%(class_name, class_iou*100))
+    print('Current val miou is %.3f'%(miou*100))
+    logger.info(('Current val miou is %.3f'%(miou*100)))
+
 
     logger.info('=> Epoch {} - Validation set class-wise IoU:'.format(epoch))
     for i in range(1, metrics.nbr_classes):
