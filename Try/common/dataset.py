@@ -150,16 +150,16 @@ class SemanticKITTI(Dataset):
             do_flip =random.randint(0,3)
         ##########################################################
         #???
-        annotated_data = np.fromfile(self.filepaths['PANOPTIC'][index], dtype=np.int32).reshape((-1,1))
-        sem_data = annotated_data & 0XFFFF #delete high 16 digits binary
-        sem_data = np.vectorize(self.learning_map.__getitem__)(sem_data)
-        inst_data = annotated_data
-        point_label_tuple = (sem_data.astype(np.uint8), inst_data)
+        # annotated_data = np.fromfile(self.filepaths['PANOPTIC'][index], dtype=np.int32).reshape((-1,1))
+        # sem_data = annotated_data & 0XFFFF #delete high 16 digits binary
+        # sem_data = np.vectorize(self.learning_map.__getitem__)(sem_data)
+        # inst_data = annotated_data
+        # point_label_tuple = (sem_data.astype(np.uint8), inst_data)
         ##########################################################
         for modality in self.modalities:
             if (self.modalities[modality]) and (modality in self.filepaths):
                 data[modality] = self.get_data_modality(modality, index, do_flip)
-        del data['PANOPTIC']
+        # del data['PANOPTIC']
         return data, index
 
 
