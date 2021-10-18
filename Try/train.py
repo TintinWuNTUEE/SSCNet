@@ -80,8 +80,8 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
-    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,tbwriter,metrics,best_loss)
     for t, (data, indices) in enumerate(dset):
+      logger.info(t)
       data = dict_to(data, device, dtype)
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = train_label_tensor.type(torch.LongTensor).to(device),train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
@@ -114,6 +114,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
       metrics.add_batch(prediction=scores,target=model1.get_target(data))
       
+    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,tbwriter,metrics,best_loss)
       
       
     for l_key in metrics.losses_track.train_losses:
