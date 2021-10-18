@@ -5,8 +5,8 @@ DATASET:
     FLIPS: false
   MODALITIES:
     3D_LABEL: true
-    3D_OCCLUDED: true
-    3D_OCCUPANCY: false
+    3D_OCCLUDED: false
+    3D_OCCUPANCY: true
     PANOPTIC: false
     PREPROCESS: true
   ROOT_DIR: ../semanticKITTI
