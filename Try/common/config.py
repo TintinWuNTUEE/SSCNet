@@ -70,14 +70,19 @@ class CFG:
     self._dict['OUTPUT']['OUTPUT_PATH'] = OUT_PATH
     return
 
-  def update_config(self, resume=False):
+  def update_config(self, resume=False, checkpoint_path=None):
     '''
     Save config file
     '''
+    
     if resume:
       self.set_resume()
+    if checkpoint_path != None:
+      self._dict['STATUS']['LAST'] = checkpoint_path
+    
     yaml.dump(self._dict, open(self._dict['STATUS']['CONFIG'], 'w'))
     return
+  
 
   def init_stats(self):
     '''

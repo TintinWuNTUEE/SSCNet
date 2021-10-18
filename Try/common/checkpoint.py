@@ -38,29 +38,15 @@ def load_panoptic(model, optimizer, path, logger):
   '''
 
   # If not resume, initialize model and return everything as it is
+  path = path.replace("LMSCNet","Panoptic")
   if os.path.exists(path):
     checkpoint = torch.load(path)
     model = load_panoptic_model(model,checkpoint['model'])
-    epoch = checkpoint['startEpoch']
-    optimizer.load_state_dict(checkpoint['optimizer'])
     logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(path))
-    return model, optimizer,  epoch
+    return model
   else:
     logger.info('=> No checkpoint. Initializing model from scratch')
-    epoch = 1
-    return model,optimizer,epoch
-
-
-def save_panoptic(path, model, optimizer, epoch):
-  '''
-  Save checkpoint file
-  '''
-  state = {
-    'startEpoch': epoch+1,
-    'model': model.state_dict(),
-    'optimizer': optimizer.state_dict()}
-  torch.save(state, path)
-  print('model saved to %s' % path)
+    return model
 
 def load_panoptic_model(model,pretrained_model):
     model_dict = model.state_dict()
@@ -68,6 +54,7 @@ def load_panoptic_model(model,pretrained_model):
     model_dict.update(pretrained_model) 
     model.load_state_dict(model_dict)
     return model
+  
 def load_LMSC_model(model, filepath, logger):
   '''
   Load checkpoint file
@@ -85,6 +72,8 @@ def load_LMSC_model(model, filepath, logger):
   return model
 
 
+
+
 def save_LMSC(path, model, optimizer, scheduler, epoch, config):
   '''
   Save checkpoint file
@@ -94,7 +83,7 @@ def save_LMSC(path, model, optimizer, scheduler, epoch, config):
   _remove_recursively(path)
   _create_directory(path)
 
-  weights_fpath = os.path.join(path, 'weights_epoch_{}.pth'.format(str(epoch).zfill(3)))
+  weights_fpath = os.path.join(path, 'LMSCNet_epoch_{}.pth'.format(str(epoch).zfill(3)))
 
   torch.save({
     'startEpoch': epoch+1,  # To start on next epoch when loading the dict...
@@ -105,3 +94,15 @@ def save_LMSC(path, model, optimizer, scheduler, epoch, config):
   }, weights_fpath)
 
   return weights_fpath
+
+def save_panoptic(path, model, optimizer, epoch):
+  '''
+  Save checkpoint file
+  '''
+  weights_fpath = os.path.join(path, 'Panoptic_epoch_{}.pth'.format(str(epoch).zfill(3)))
+
+  state = {
+    'model': model.state_dict()
+    }
+  torch.save(state, weights_fpath)
+  print('model saved to %s' % weights_fpath)
