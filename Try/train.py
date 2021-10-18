@@ -104,8 +104,8 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       if _cfg._dict['SCHEDULER']['FREQUENCY'] == 'iteration':
         scheduler.step()
 
-      for loss_key in loss1:
-        tbwriter.add_scalar('train_loss_batch/{}'.format(loss_key), loss1[loss_key].item(), len(dset)*(epoch-1)+t)
+      # for loss_key in loss1:
+      #   tbwriter.add_scalar('train_loss_batch/{}'.format(loss_key), loss1[loss_key].item(), len(dset)*(epoch-1)+t)
       # Updating batch losses to metric then get mean of epoch loss
       metrics.losses_track.update_train_losses(loss1)
 
@@ -117,17 +117,17 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,tbwriter,metrics,best_loss)
       
       
-    for l_key in metrics.losses_track.train_losses:
-          tbwriter.add_scalar('train_loss_epoch/{}'.format(l_key),
-                          metrics.losses_track.train_losses[l_key].item()/metrics.losses_track.train_iteration_counts,
-                          epoch - 1)
-    tbwriter.add_scalar('lr/lr', scheduler.get_lr()[0], epoch - 1)
+    # for l_key in metrics.losses_track.train_losses:
+    #       tbwriter.add_scalar('train_loss_epoch/{}'.format(l_key),
+    #                       metrics.losses_track.train_losses[l_key].item()/metrics.losses_track.train_iteration_counts,
+    #                       epoch - 1)
+    # tbwriter.add_scalar('lr/lr', scheduler.get_lr()[0], epoch - 1)
 
     epoch_loss = metrics.losses_track.train_losses['total']/metrics.losses_track.train_iteration_counts
 
-    for scale in metrics.evaluator.keys():
-      tbwriter.add_scalar('train_performance/{}/mIoU'.format(scale), metrics.get_semantics_mIoU(scale).item(), epoch-1)
-      tbwriter.add_scalar('train_performance/{}/IoU'.format(scale), metrics.get_occupancy_IoU(scale).item(), epoch-1)
+    # for scale in metrics.evaluator.keys():
+    #   tbwriter.add_scalar('train_performance/{}/mIoU'.format(scale), metrics.get_semantics_mIoU(scale).item(), epoch-1)
+    #   tbwriter.add_scalar('train_performance/{}/IoU'.format(scale), metrics.get_occupancy_IoU(scale).item(), epoch-1)
     logger.info('=> [Epoch {} - Total Train Loss = {}]'.format(epoch, epoch_loss))
     for scale in metrics.evaluator.keys():
       loss_scale = metrics.losses_track.train_losses['semantic_{}'.format(scale)].item()/metrics.losses_track.train_iteration_counts
@@ -206,8 +206,8 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       loss = loss1['total']+loss2
 
 
-      for l_key in loss1:
-        tbwriter.add_scalar('validation_loss_batch/{}'.format(l_key), loss1[l_key].item(), len(dset) * (epoch-1) + t)
+      # for l_key in loss1:
+      #   tbwriter.add_scalar('validation_loss_batch/{}'.format(l_key), loss1[l_key].item(), len(dset) * (epoch-1) + t)
       # Updating batch losses to then get mean for epoch loss
       metrics.losses_track.update_validaiton_losses(loss1)
 
@@ -216,16 +216,16 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
 
       metrics.add_batch(prediction=scores, target=model1.get_target(data))
 
-    for l_key in metrics.losses_track.validation_losses:
-      tbwriter.add_scalar('validation_loss_epoch/{}'.format(l_key),
-                          metrics.losses_track.validation_losses[l_key].item()/metrics.losses_track.validation_iteration_counts,
-                          epoch - 1)
+    # for l_key in metrics.losses_track.validation_losses:
+    #   tbwriter.add_scalar('validation_loss_epoch/{}'.format(l_key),
+    #                       metrics.losses_track.validation_losses[l_key].item()/metrics.losses_track.validation_iteration_counts,
+    #                       epoch - 1)
 
     epoch_loss = metrics.losses_track.validation_losses['total']/metrics.losses_track.validation_iteration_counts
 
-    for scale in metrics.evaluator.keys():
-      tbwriter.add_scalar('validation_performance/{}/mIoU'.format(scale), metrics.get_semantics_mIoU(scale).item(), epoch-1)
-      tbwriter.add_scalar('validation_performance/{}/IoU'.format(scale), metrics.get_occupancy_IoU(scale).item(), epoch-1)
+    # for scale in metrics.evaluator.keys():
+    #   tbwriter.add_scalar('validation_performance/{}/mIoU'.format(scale), metrics.get_semantics_mIoU(scale).item(), epoch-1)
+    #   tbwriter.add_scalar('validation_performance/{}/IoU'.format(scale), metrics.get_occupancy_IoU(scale).item(), epoch-1)
 
     logger.info('=> [Epoch {} - Total Validation Loss = {}]'.format(epoch, epoch_loss))
     for scale in metrics.evaluator.keys():
