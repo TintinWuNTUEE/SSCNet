@@ -247,7 +247,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
 
     logger.info('=> [Epoch {} - Total Validation Loss = {}]'.format(epoch, epoch_loss))
     for scale in metrics.evaluator.keys():
-      loss_scale = metrics.losses_track.validation_losses['semantic_{}'.format(scale)].item()/metrics.losses_track.train_iteration_counts
+      loss_scale = metrics.losses_track.validation_losses['semantic_{}'.format(scale)].item()/metrics.losses_track.validation_iteration_counts
       logger.info('=> [Epoch {} - Scale {}: Loss = {:.6f} - mIoU = {:.6f} - IoU = {:.6f} '
                   '- P = {:.6f} - R = {:.6f} - F1 = {:.6f}]'
                   .format(epoch, scale, loss_scale,
