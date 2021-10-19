@@ -72,7 +72,6 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
   metrics.reset_evaluator()
   metrics.losses_track.set_validation_losses(model1.get_validation_loss_keys())
   metrics.losses_track.set_train_losses(model1.get_train_loss_keys())
-  best_loss, checkpoint_info = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,1, logger,tbwriter,metrics,best_loss)
 
   for epoch in range(start_epoch, nbr_epochs+1):
     
