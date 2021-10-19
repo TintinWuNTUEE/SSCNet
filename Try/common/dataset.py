@@ -112,12 +112,12 @@ class SemanticKITTI(Dataset):
                 self.filepaths['PREPROCESS'] += sorted(glob(os.path.join(sequence, 'preprocess', '*.pt')))[::5]
 
         #????
-        if modality == 'PANOPTIC':
-            self.filepaths['PANOPTIC'] = []
-            for sequence in sequences:
-                assert len(os.listdir(sequence)) > 0, 'Error, No files in sequence: {}'.format(sequence)
+        # if modality == 'PANOPTIC':
+        #     self.filepaths['PANOPTIC'] = []
+        #     for sequence in sequences:
+        #         assert len(os.listdir(sequence)) > 0, 'Error, No files in sequence: {}'.format(sequence)
 
-                self.filepaths['PANOPTIC'] += sorted(glob(os.path.join(sequence, 'labels', '*.label')))
+        #         self.filepaths['PANOPTIC'] += sorted(glob(os.path.join(sequence, 'labels', '*.label')))
 
         return
           

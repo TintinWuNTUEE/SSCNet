@@ -17,6 +17,12 @@ from common.dataset import SemanticKITTI,get_dataset
 from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
+def get_mem_allocated(device):
+    if device.type == 'cuda':
+        print(torch.cuda.get_device_name(0))
+        print('Memory Usage:')
+        print('Allocated:', round(torch.cuda.memory_allocated(0)/1024**3,1), 'GB')
+        print('Cached:   ', round(torch.cuda.memory_reserved(0)/1024**3,1), 'GB')
 def parse_args(modelname):
   parser = argparse.ArgumentParser(description='Training')
   if modelname == 'LMSCNet':
@@ -101,7 +107,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       optimizer.zero_grad()
       loss.backward()
       optimizer.step()
-
+      get_mem_allocated(device)
       if _cfg._dict['SCHEDULER']['FREQUENCY'] == 'iteration':
         scheduler.step()
 
