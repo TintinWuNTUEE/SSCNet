@@ -58,6 +58,8 @@ def parse_args(modelname):
 def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epoch, logger, tbwriter):
   device = torch.device('cuda')
   dtype = torch.float32
+  #using gradient accumulator
+  accumulater_iter = 4
 
   model1 = model1.to(device)
   model2 = model2.to(device)
@@ -101,12 +103,14 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       sem_prediction,center,offset = model2(input_feature)
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor)
-        # backward + optimize
-      loss = loss1['total']+loss2
-      
-      optimizer.zero_grad()
+      # backward + optimize
+      # gradient accumulator
+      loss = (loss1['total']+loss2)/accumulater_iter
       loss.backward()
-      optimizer.step()
+      if ((t+1)%accumulater_iter==0) or ((t+1)==len(dset)):
+        optimizer.step()
+        optimizer.zero_grad()
+        
       get_mem_allocated(device)
       if _cfg._dict['SCHEDULER']['FREQUENCY'] == 'iteration':
         scheduler.step()
