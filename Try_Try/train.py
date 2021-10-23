@@ -17,12 +17,6 @@ from common.dataset import SemanticKITTI,get_dataset
 from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
-def get_mem_allocated(device):
-    if device.type == 'cuda':
-        print(torch.cuda.get_device_name(0))
-        print('Memory Usage:')
-        print('Allocated:', round(torch.cuda.memory_allocated(0)/1024**3,1), 'GB')
-        print('Cached:   ', round(torch.cuda.memory_reserved(0)/1024**3,1), 'GB')
 def parse_args(modelname):
   parser = argparse.ArgumentParser(description='Training')
   if modelname == 'LMSCNet':
@@ -58,8 +52,6 @@ def parse_args(modelname):
 def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epoch, logger, tbwriter):
   device = torch.device('cuda')
   dtype = torch.float32
-  #using gradient accumulator
-  accumulater_iter = 4
 
   model1 = model1.to(device)
   model2 = model2.to(device)
@@ -103,15 +95,13 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       sem_prediction,center,offset = model2(input_feature)
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor)
-      # backward + optimize
-      # gradient accumulator
-      loss = (loss1['total']+loss2)/accumulater_iter
+        # backward + optimize
+      loss = loss1['total']
+      
+      optimizer.zero_grad()
       loss.backward()
-      if ((t+1)%accumulater_iter==0) or ((t+1)==len(dset)):
-        optimizer.step()
-        optimizer.zero_grad()
-        
-      get_mem_allocated(device)
+      optimizer.step()
+
       if _cfg._dict['SCHEDULER']['FREQUENCY'] == 'iteration':
         scheduler.step()
 
@@ -337,7 +327,7 @@ def main():
   
   #build optimizer
   logger.info('=> Loading optimizer...')
-  params = list(model1.get_parameters())+list(model2.parameters())
+  params = list(model1.get_parameters())
   optimizer = torch.optim.Adam(params,lr=_cfg._dict['OPTIMIZER']['BASE_LR'],betas=(0.9, 0.999))
   
   #build scheduler

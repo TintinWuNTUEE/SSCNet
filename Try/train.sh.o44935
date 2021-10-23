@@ -1,0 +1,6062 @@
+../semanticKITTI/dataset/sequences/*
+../semanticKITTI/dataset/sequences/*
+../semanticKITTI/dataset/sequences/*
+../semanticKITTI/dataset/sequences/*
+../semanticKITTI/dataset/sequences/*
+../semanticKITTI/dataset/sequences/*
+../semanticKITTI/dataset/sequences/*
+../semanticKITTI/dataset/sequences/*
+../semanticKITTI/dataset/sequences/*
+Using MSE for heatmap regression, weight: 100
+Using L1 for offset regression, weight: 10
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [50/1917], Learn Rate: 0.00098, Train Losses:4.897545337677002 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [100/1917], Learn Rate: 0.00098, Train Losses:3.850020408630371 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [150/1917], Learn Rate: 0.00098, Train Losses:3.718344211578369 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [200/1917], Learn Rate: 0.00098, Train Losses:3.6625733375549316 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [250/1917], Learn Rate: 0.00098, Train Losses:3.708616256713867 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [300/1917], Learn Rate: 0.00098, Train Losses:4.187043190002441 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [350/1917], Learn Rate: 0.00098, Train Losses:4.189525127410889 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [400/1917], Learn Rate: 0.00098, Train Losses:4.121967792510986 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [450/1917], Learn Rate: 0.00098, Train Losses:3.981701374053955 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [500/1917], Learn Rate: 0.00098, Train Losses:3.8018898963928223 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [550/1917], Learn Rate: 0.00098, Train Losses:5.4768290519714355 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [600/1917], Learn Rate: 0.00098, Train Losses:5.017640113830566 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [650/1917], Learn Rate: 0.00098, Train Losses:4.853567600250244 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [700/1917], Learn Rate: 0.00098, Train Losses:3.1091041564941406 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [750/1917], Learn Rate: 0.00098, Train Losses:3.2883846759796143 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [800/1917], Learn Rate: 0.00098, Train Losses:3.347579002380371 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [850/1917], Learn Rate: 0.00098, Train Losses:3.54819917678833 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [900/1917], Learn Rate: 0.00098, Train Losses:4.047959804534912 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [950/1917], Learn Rate: 0.00098, Train Losses:3.951096773147583 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1000/1917], Learn Rate: 0.00098, Train Losses:4.067647457122803 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1050/1917], Learn Rate: 0.00098, Train Losses:3.6908178329467773 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1100/1917], Learn Rate: 0.00098, Train Losses:4.563998699188232 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1150/1917], Learn Rate: 0.00098, Train Losses:6.036916732788086 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1200/1917], Learn Rate: 0.00098, Train Losses:3.033215045928955 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1250/1917], Learn Rate: 0.00098, Train Losses:3.3276114463806152 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1300/1917], Learn Rate: 0.00098, Train Losses:4.046414375305176 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1350/1917], Learn Rate: 0.00098, Train Losses:4.903657913208008 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1400/1917], Learn Rate: 0.00098, Train Losses:3.3739726543426514 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1450/1917], Learn Rate: 0.00098, Train Losses:3.7478392124176025 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1500/1917], Learn Rate: 0.00098, Train Losses:4.273595809936523 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1550/1917], Learn Rate: 0.00098, Train Losses:4.521038055419922 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1600/1917], Learn Rate: 0.00098, Train Losses:3.7694947719573975 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1650/1917], Learn Rate: 0.00098, Train Losses:4.33056116104126 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1700/1917], Learn Rate: 0.00098, Train Losses:3.3875088691711426 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1750/1917], Learn Rate: 0.00098, Train Losses:3.640308380126953 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1800/1917], Learn Rate: 0.00098, Train Losses:3.906383514404297 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1850/1917], Learn Rate: 0.00098, Train Losses:4.373595237731934 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [5/80], Iteration [1900/1917], Learn Rate: 0.00098, Train Losses:3.1601364612579346 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+[PANOPTIC EVAL] IGNORE:  [0]
+[PANOPTIC EVAL] INCLUDE:  [ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20]
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [20/815], Val Losses:3.936488389968872 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [40/815], Val Losses:3.3079190254211426 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [60/815], Val Losses:2.7465007305145264 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [80/815], Val Losses:3.2430224418640137 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [100/815], Val Losses:4.040521144866943 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [120/815], Val Losses:3.5794641971588135 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [140/815], Val Losses:3.5917627811431885 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [160/815], Val Losses:3.9196853637695312 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [180/815], Val Losses:3.9167301654815674 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [200/815], Val Losses:4.710100173950195 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [220/815], Val Losses:3.4943227767944336 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [240/815], Val Losses:4.42818546295166 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [260/815], Val Losses:4.639199256896973 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [280/815], Val Losses:3.976454973220825 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [300/815], Val Losses:4.020759582519531 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [320/815], Val Losses:2.875220775604248 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [340/815], Val Losses:3.098722219467163 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [360/815], Val Losses:3.9412903785705566 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [380/815], Val Losses:5.138105392456055 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [400/815], Val Losses:4.208996295928955 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [420/815], Val Losses:3.504779100418091 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [440/815], Val Losses:3.6234474182128906 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [460/815], Val Losses:3.5609099864959717 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [480/815], Val Losses:4.621639251708984 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [500/815], Val Losses:5.886318683624268 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [520/815], Val Losses:4.535245895385742 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [540/815], Val Losses:4.444334983825684 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [560/815], Val Losses:4.5323166847229 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [580/815], Val Losses:4.292867660522461 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [600/815], Val Losses:4.27522611618042 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [620/815], Val Losses:4.048600196838379 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [640/815], Val Losses:3.0142030715942383 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [660/815], Val Losses:3.2492356300354004 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [680/815], Val Losses:3.3889288902282715 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [700/815], Val Losses:3.0416345596313477 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [720/815], Val Losses:4.111687660217285 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [740/815], Val Losses:2.9196207523345947 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [760/815], Val Losses:3.286055088043213 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [780/815], Val Losses:3.8150429725646973 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [5/80], Iteration [800/815], Val Losses:7.121796131134033 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+Validation per class IoU: 
+            car :   0.15%
+        bicycle :   0.00%
+     motorcycle :   0.00%
+          truck :   0.00%
+            bus :   0.00%
+         person :   0.12%
+      bicyclist :   0.00%
+   motorcyclist :   0.00%
+           road :   2.76%
+        parking :   0.00%
+       sidewalk :   0.12%
+   other-ground :   0.00%
+       building :   0.05%
+          fence :   0.00%
+     vegetation :   2.25%
+          trunk :   0.00%
+        terrain :   0.13%
+           pole :   0.00%
+   traffic-sign :   0.00%
+Current val miou is 0.279
+model saved to ./SSC_out/chkpt/05/Panoptic_epoch_005.pth
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [50/1917], Learn Rate: 0.0009603999999999999, Train Losses:2.715911626815796 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [100/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.096305847167969 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [150/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.5479512214660645 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [200/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.025064945220947 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [250/1917], Learn Rate: 0.0009603999999999999, Train Losses:5.571571350097656 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [300/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.894702434539795 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [350/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.776211738586426 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [400/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.8090415000915527 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [450/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.12237286567688 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [500/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.158663272857666 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [550/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.697202205657959 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [600/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.5970335006713867 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [650/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.1876823902130127 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [700/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.146868705749512 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [750/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.2540488243103027 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [800/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.975905418395996 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [850/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.720165252685547 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [900/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.642854928970337 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [950/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.384212493896484 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1000/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.1967034339904785 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1050/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.40778923034668 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1100/1917], Learn Rate: 0.0009603999999999999, Train Losses:2.9296605587005615 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1150/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.724843978881836 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1200/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.423259735107422 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1250/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.8859310150146484 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1300/1917], Learn Rate: 0.0009603999999999999, Train Losses:2.5750033855438232 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1350/1917], Learn Rate: 0.0009603999999999999, Train Losses:2.91497802734375 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1400/1917], Learn Rate: 0.0009603999999999999, Train Losses:5.280211448669434 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1450/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.053101062774658 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1500/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.3036835193634033 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1550/1917], Learn Rate: 0.0009603999999999999, Train Losses:2.6936209201812744 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1600/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.139749765396118 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1650/1917], Learn Rate: 0.0009603999999999999, Train Losses:5.404507637023926 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1700/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.389927625656128 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1750/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.106134414672852 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1800/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.616088390350342 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1850/1917], Learn Rate: 0.0009603999999999999, Train Losses:3.5625011920928955 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [6/80], Iteration [1900/1917], Learn Rate: 0.0009603999999999999, Train Losses:4.429130554199219 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+[PANOPTIC EVAL] IGNORE:  [0]
+[PANOPTIC EVAL] INCLUDE:  [ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20]
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [20/815], Val Losses:3.9207730293273926 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [40/815], Val Losses:3.1475448608398438 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [60/815], Val Losses:2.480113983154297 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [80/815], Val Losses:3.149620294570923 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [100/815], Val Losses:4.036453723907471 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [120/815], Val Losses:3.3426146507263184 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [140/815], Val Losses:3.526794910430908 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [160/815], Val Losses:3.8248956203460693 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [180/815], Val Losses:3.8049352169036865 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [200/815], Val Losses:4.650092124938965 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [220/815], Val Losses:3.4720828533172607 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [240/815], Val Losses:4.044145107269287 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [260/815], Val Losses:4.639841556549072 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [280/815], Val Losses:3.8645520210266113 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [300/815], Val Losses:3.958162307739258 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [320/815], Val Losses:2.7336416244506836 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [340/815], Val Losses:2.984010696411133 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [360/815], Val Losses:3.960918664932251 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [380/815], Val Losses:4.742240905761719 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [400/815], Val Losses:4.155007839202881 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [420/815], Val Losses:3.2944142818450928 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [440/815], Val Losses:3.604464292526245 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [460/815], Val Losses:3.2746224403381348 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [480/815], Val Losses:4.644550800323486 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [500/815], Val Losses:5.790426731109619 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [520/815], Val Losses:4.310404300689697 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [540/815], Val Losses:4.060948848724365 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [560/815], Val Losses:4.327995300292969 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [580/815], Val Losses:4.126797199249268 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [600/815], Val Losses:3.9936652183532715 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [620/815], Val Losses:3.8998265266418457 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [640/815], Val Losses:2.851414680480957 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [660/815], Val Losses:3.0791385173797607 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [680/815], Val Losses:3.30853271484375 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [700/815], Val Losses:2.85097074508667 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [720/815], Val Losses:3.896155834197998 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [740/815], Val Losses:2.7510228157043457 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [760/815], Val Losses:3.0828449726104736 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [780/815], Val Losses:3.449615240097046 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+=> Epoch [6/80], Iteration [800/815], Val Losses:7.211941242218018 
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+(2, 256, 256, 32)
+Validation per class IoU: 
+            car :   0.16%
+        bicycle :   0.00%
+     motorcycle :   0.00%
+          truck :   0.00%
+            bus :   0.00%
+         person :   0.08%
+      bicyclist :   0.00%
+   motorcyclist :   0.00%
+           road :   2.68%
+        parking :   0.00%
+       sidewalk :   0.10%
+   other-ground :   0.00%
+       building :   0.11%
+          fence :   0.32%
+     vegetation :   2.28%
+          trunk :   0.00%
+        terrain :   0.12%
+           pole :   0.00%
+   traffic-sign :   0.00%
+Current val miou is 0.293
+model saved to ./SSC_out/chkpt/06/Panoptic_epoch_006.pth
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [7/80], Iteration [50/1917], Learn Rate: 0.000941192, Train Losses:2.6718637943267822 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [7/80], Iteration [100/1917], Learn Rate: 0.000941192, Train Losses:3.2795581817626953 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [7/80], Iteration [150/1917], Learn Rate: 0.000941192, Train Losses:3.393256187438965 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [7/80], Iteration [200/1917], Learn Rate: 0.000941192, Train Losses:3.6817848682403564 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [7/80], Iteration [250/1917], Learn Rate: 0.000941192, Train Losses:3.309725046157837 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [7/80], Iteration [300/1917], Learn Rate: 0.000941192, Train Losses:3.6027958393096924 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+=> Epoch [7/80], Iteration [350/1917], Learn Rate: 0.000941192, Train Losses:4.72782039642334 
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
+fitting into model2
