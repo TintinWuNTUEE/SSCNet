@@ -35,11 +35,7 @@ SCHEDULER:
   TYPE: power_iteration
 STATUS:
   CONFIG: configs/LMSCNet_SS.yaml
-<<<<<<< HEAD
   LAST: ./SSC_out/chkpt/08
-=======
-  LAST: ./SSC_out/chkpt/01
->>>>>>> f1b439e3166c30242b5a53d13050fe2c359484be
   RESUME: true
 TRAIN:
   BATCH_SIZE: 2
