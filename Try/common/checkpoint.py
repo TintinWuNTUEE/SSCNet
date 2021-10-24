@@ -18,7 +18,7 @@ def load_LMSC(model, optimizer, scheduler, resume, path, logger):
 
   # If resume, check that path exists and load everything to return
   else:
-    file_path = glob(os.path.join(path, '*.pth'))[0]
+    file_path = sorted(glob(os.path.join(path, '*.pth')))[0]
     assert os.path.isfile(file_path), '=> No checkpoint found at {}'.format(path)
     checkpoint = torch.load(file_path)
     epoch = checkpoint.pop('startEpoch')
@@ -38,11 +38,11 @@ def load_panoptic(model, optimizer, path, logger):
   '''
 
   # If not resume, initialize model and return everything as it is
-  path = path.replace("LMSCNet","Panoptic")
   if os.path.exists(path):
-    checkpoint = torch.load(path)
+    file_path = sorted(glob(os.path.join(path, '*.pth')))[1]
+    checkpoint = torch.load(file_path)
     model = load_panoptic_model(model,checkpoint['model'])
-    logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(path))
+    logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(file_path))
     return model
   else:
     logger.info('=> No checkpoint. Initializing model from scratch')

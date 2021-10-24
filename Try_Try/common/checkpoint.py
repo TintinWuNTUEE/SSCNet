@@ -38,9 +38,9 @@ def load_panoptic(model, optimizer, path, logger):
   '''
 
   # If not resume, initialize model and return everything as it is
-  path = path.replace("LMSCNet","Panoptic")
+  # path = path.replace("LMSCNet","Panoptic")
   if os.path.exists(path):
-    file_path = sorted(glob(os.path.join(path, '*.pth')))[0]
+    file_path = sorted(glob(os.path.join(path, '*.pth')))[1]
     checkpoint = torch.load(file_path)
     model = load_panoptic_model(model,checkpoint['model'])
     logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(file_path))
