@@ -90,7 +90,8 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
     for t, (data, indices) in enumerate(dset):
-      logger.info(t)
+      if t % 100 == 0:
+        logger.info(t)
       data = dict_to(data, device, dtype)
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = train_label_tensor.type(torch.LongTensor).to(device),train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)

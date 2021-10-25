@@ -20,7 +20,7 @@ def load_LMSC(model, optimizer, scheduler, resume, path, logger):
   else:
     file_path = sorted(glob(os.path.join(path, '*.pth')))[0]
     assert os.path.isfile(file_path), '=> No checkpoint found at {}'.format(path)
-    checkpoint = torch.load(file_path)
+    checkpoint = torch.load(file_path, map_location='cpu')
     epoch = checkpoint.pop('startEpoch')
     if isinstance(model, (DataParallel, DistributedDataParallel)):
       model.module.load_state_dict(checkpoint.pop('model'))
@@ -40,7 +40,7 @@ def load_panoptic(model, optimizer, path, logger):
   # If not resume, initialize model and return everything as it is
   if os.path.exists(path):
     file_path = sorted(glob(os.path.join(path, '*.pth')))[1]
-    checkpoint = torch.load(file_path)
+    checkpoint = torch.load(file_path, map_location='cpu')
     model = load_panoptic_model(model,checkpoint['model'])
     logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(file_path))
     return model
