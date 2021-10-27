@@ -40,6 +40,7 @@ def main(args):
     val_batch_size = args['model']['val_batch_size']
     check_iter = args['model']['check_iter']
     model_save_path = args['model']['model_save_path']
+    bev_save_path = args['model']['bev_save_path']
     pretrained_model = args['model']['pretrained_model']
     compression_model = args['dataset']['grid_size'][2]
     grid_size = args['dataset']['grid_size']
@@ -157,6 +158,7 @@ def main(args):
                 if best_val_PQ<class_PQ:
                     best_val_PQ=class_PQ
                     checkpoint.save(model_save_path,my_model, optimizer,epoch)
+                    checkpoint.save(bev_save_path,my_model.BEV_model,optimizer,epoch)
                     logger.info("epoch :"+str(epoch))
                     logger.info('model saved to'+model_save_path)
                 logger.info("epoch :"+str(epoch))
@@ -239,6 +241,8 @@ def main(args):
         pbar.close()
         epoch += 1
     logger.info('=> Training routine completed...')
+    
+    
 if __name__ == '__main__':
     # Training settings
     parser = argparse.ArgumentParser(description='')

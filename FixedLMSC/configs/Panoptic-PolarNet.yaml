@@ -19,12 +19,11 @@ dataset:
 model:
     model_save_path: ./weights/Panoptic_SemKITTI.pt
     pretrained_model: /pretrained_weight/Panoptic_SemKITTI_PolarNet.pt
-    bev_save_path: ./weights/BEV_SemKITTI.pt
     train_log: ./weights
     polar: False
     visibility: False
     
-    train_batch_size: 8
+    train_batch_size: 2
     val_batch_size: 1
     test_batch_size: 1
     check_iter: 4000
