@@ -4798,3 +4798,6 @@
 2021-09-11 13:56:54,076 -- => Loading optimizer...
 2021-09-11 13:56:54,076 -- => No checkpoint. Initializing model from scratch
 >>>>>>> c82025451d243c4a0a8b23213f1f04452c3c7522
+2021-10-28 06:58:22,192 -- ============ Training routine ============
+
+2021-10-28 06:58:22,204 -- => Loading network architecture...
