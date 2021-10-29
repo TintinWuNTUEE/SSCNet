@@ -7,7 +7,6 @@ from torch.utils.tensorboard import SummaryWriter
 import sys
 import yaml
 from losses.loss import panoptic_loss
-from common.metrics import Metrics
 from common.io_tools import dict_to
 from common.instance_post_processing import get_panoptic_segmentation
 from common.eval_pq import PanopticEval
@@ -70,15 +69,8 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
   dset = dataset['train']
 
   nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
-  nbr_iterations = len(dset)
   loss_fn = panoptic_loss(center_loss_weight = p_args['model']['center_loss_weight'], offset_loss_weight = p_args['model']['offset_loss_weight'],\
                             center_loss = p_args['model']['center_loss'], offset_loss=p_args['model']['offset_loss'])
-  # Defining metrics class and initializing them..
-  metrics = Metrics(dset.dataset.nbr_classes, nbr_iterations, model1.get_scales())
-  metrics.reset_evaluator()
-  metrics.losses_track.set_validation_losses(model1.get_validation_loss_keys())
-  metrics.losses_track.set_train_losses(model1.get_train_loss_keys())
-
   for epoch in range(start_epoch, nbr_epochs+1):
     
     model1.eval()
@@ -106,11 +98,11 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       get_mem_allocated(device)
       if t % 1000 == 0:
         logger.info ("LOSS:{}".format(loss.item()))
-    best_loss, checkpoint_path = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,tbwriter,metrics,best_loss)
+    best_loss, checkpoint_path = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,tbwriter,best_loss)
     _cfg.update_config(resume=True,checkpoint_path=checkpoint_path)
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
     
-def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, tbwriter,metrics,best_loss):
+def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, tbwriter,best_loss):
   device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
   nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
@@ -162,44 +154,13 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       # for l_key in loss1:
       #   tbwriter.add_scalar('validation_loss_batch/{}'.format(l_key), loss1[l_key].item(), len(dset) * (epoch-1) + t)
       # Updating batch losses to then get mean for epoch loss
-      metrics.losses_track.update_validaiton_losses(loss1)
 
       if (t + 1) % _cfg._dict['VAL']['SUMMARY_PERIOD'] == 0:
         print('=> Epoch [{}/{}], Iteration [{}/{}], Val Losses:{} '.format(epoch, nbr_epochs, t+1, len(dset),loss))
-
-      metrics.add_batch(prediction=scores, target=model1.get_target(data))
-
-    # for l_key in metrics.losses_track.validation_losses:
-    #   tbwriter.add_scalar('validation_loss_epoch/{}'.format(l_key),
-    #                       metrics.losses_track.validation_losses[l_key].item()/metrics.losses_track.validation_iteration_counts,
-    #                       epoch - 1)
-
-    epoch_loss = metrics.losses_track.validation_losses['total']/metrics.losses_track.validation_iteration_counts
-
-    # for scale in metrics.evaluator.keys():
-    #   tbwriter.add_scalar('validation_performance/{}/mIoU'.format(scale), metrics.get_semantics_mIoU(scale).item(), epoch-1)
-    #   tbwriter.add_scalar('validation_performance/{}/IoU'.format(scale), metrics.get_occupancy_IoU(scale).item(), epoch-1)
-
-    logger.info('=> [Epoch {} - Total Validation Loss = {}]'.format(epoch, epoch_loss))
-    for scale in metrics.evaluator.keys():
-      loss_scale = metrics.losses_track.validation_losses['semantic_{}'.format(scale)].item()/metrics.losses_track.validation_iteration_counts
-      logger.info('=> [Epoch {} - Scale {}: Loss = {:.6f} - mIoU = {:.6f} - IoU = {:.6f} '
-                  '- P = {:.6f} - R = {:.6f} - F1 = {:.6f}]'
-                  .format(epoch, scale, loss_scale,
-                          metrics.get_semantics_mIoU(scale).item(),
-                          metrics.get_occupancy_IoU(scale).item(),
-                          metrics.get_occupancy_Precision(scale).item(),
-                          metrics.get_occupancy_Recall(scale).item(),
-                          metrics.get_occupancy_F1(scale).item()))
     
     miou, ious = evaluator.getSemIoU()
     
     #logger validation score
-    logger.info('=> Epoch {} - Validation set class-wise IoU(LMSCNet):'.format(epoch))
-    for i in range(1, metrics.nbr_classes):
-      class_name  = dset.dataset.dataset_config['labels'][dset.dataset.dataset_config['learning_map_inv'][i]]
-      class_score = metrics.evaluator['1_1'].getIoU()[1][i]
-      logger.info('    => {}: {:.6f}'.format(class_name, class_score))
       
     print('Validation per class IoU: ')
     logger.info('Validation per class IoU(Panoptic polarnet): ')
@@ -208,32 +169,10 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       logger.info('%15s : %6.2f%%'%(class_name, class_iou*100))
     print('Current val miou is %.3f'%(miou*100))
     logger.info(('Current val miou is %.3f'%(miou*100)))
-
-
-
-    # checkpoint_info = {}
-
-    # if epoch_loss < _cfg._dict['OUTPUT']['BEST_LOSS']:
-    #   logger.info('=> Best loss on validation set encountered: ({} < {})'.
-    #               format(epoch_loss, _cfg._dict['OUTPUT']['BEST_LOSS']))
-    #   _cfg._dict['OUTPUT']['BEST_LOSS'] = epoch_loss.item()
-    #   checkpoint_info['best-loss'] = 'BEST_LOSS'
-
-    # mIoU_1_1 = metrics.get_semantics_mIoU('1_1')
-    # IoU_1_1  = metrics.get_occupancy_IoU('1_1')
-    # if mIoU_1_1 > _cfg._dict['OUTPUT']['BEST_METRIC']:
-    #   logger.info('=> Best metric on validation set encountered: ({} > {})'.
-    #               format(mIoU_1_1, _cfg._dict['OUTPUT']['BEST_METRIC']))
-    #   _cfg._dict['OUTPUT']['BEST_METRIC'] = mIoU_1_1.item()
-    #   checkpoint_info['best-metric'] = 'BEST_METRIC'
-    #   metrics.update_best_metric_record(mIoU_1_1, IoU_1_1, epoch_loss.item(), epoch)
-    
-    # checkpoint_info['last'] = 'LAST'
     checkpoint_path = None
     if loss.item()<best_loss:
       best_loss=loss.item()
       checkpoint_path = os.path.join(_cfg._dict['OUTPUT']['OUTPUT_PATH'], 'chkpt', str(epoch).zfill(2))
-      checkpoint.save_LMSC(checkpoint_path, model1, optimizer, scheduler, epoch, _cfg._dict)
       checkpoint.save_panoptic(checkpoint_path,model2,optimizer,epoch)
   
   return best_loss, checkpoint_path
@@ -250,8 +189,6 @@ def main():
   _cfg.from_config_yaml(train_f)
   if dataset_f is not None:
     _cfg._dict['DATASET']['ROOT_DIR'] = dataset_f
-
-  tbwriter = SummaryWriter(log_dir=os.path.join(_cfg._dict['OUTPUT']['OUTPUT_PATH'], 'metrics'))
   logger = get_logger(_cfg._dict['OUTPUT']['OUTPUT_PATH'], 'logs_train.log')
   logger.info('============ Training routine: "%s" ============\n' % train_f)
   #get dataset(dataset.py)

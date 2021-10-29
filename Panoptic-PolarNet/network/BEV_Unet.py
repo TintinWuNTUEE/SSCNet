@@ -8,16 +8,21 @@ import torch.nn.functional as F
 from dropblock import DropBlock2D
 
 
+import torch.nn as nn
+import torch.nn.functional as F
+import torch
+import numpy as np
+from dropblock import DropBlock2D
 class BEV_Unet(nn.Module):
 
-    def __init__(self,n_class,n_height,dilation = 1,group_conv=False,input_batch_norm = False,dropout = 0.,circular_padding = False, dropblock = True, use_vis_fea=False):
+    def __init__(self,n_class,n_height,n_feature=8,dilation = 1,group_conv=False,input_batch_norm = False,dropout = 0.,circular_padding = False, dropblock = True, use_vis_fea=False):
         super(BEV_Unet, self).__init__()
         self.n_class = n_class
         self.n_height = n_height
         if use_vis_fea:
-            self.network = UNet(n_class*n_height,2*n_height,dilation,group_conv,input_batch_norm,dropout,circular_padding,dropblock)
+            self.network = UNet(n_class*n_height,2*n_height,n_feature,dilation,group_conv,input_batch_norm,dropout,circular_padding,dropblock)
         else:
-            self.network = UNet(n_class*n_height,n_height,dilation,group_conv,input_batch_norm,dropout,circular_padding,dropblock)
+            self.network = UNet(n_class*n_height,n_height,n_feature,dilation,group_conv,input_batch_norm,dropout,circular_padding,dropblock)
 
     def forward(self, x):
         x,center,offset = self.network(x)
@@ -30,10 +35,10 @@ class BEV_Unet(nn.Module):
         return x,center,offset
     
 class UNet(nn.Module):
-    def __init__(self, n_class,n_height,dilation,group_conv,input_batch_norm, dropout,circular_padding,dropblock):
+    def __init__(self, n_class,n_height,n_feature,dilation,group_conv,input_batch_norm, dropout,circular_padding,dropblock):
         super(UNet, self).__init__()
         # encoder
-        self.inc = inconv(n_height, 64, dilation, input_batch_norm, circular_padding)
+        self.inc = inconv(n_height*n_feature, 64, dilation, input_batch_norm, circular_padding)
         self.down1 = down(64, 128, dilation, group_conv, circular_padding)
         self.down2 = down(128, 256, dilation, group_conv, circular_padding)
         self.down3 = down(256, 512, dilation, group_conv, circular_padding)
@@ -233,6 +238,8 @@ class up(nn.Module):
         if self.use_dropblock:
             x = self.dropblock(x)
         return x
+
+
 
 
 class outconv(nn.Module):
