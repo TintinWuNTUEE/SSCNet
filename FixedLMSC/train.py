@@ -54,7 +54,7 @@ def parse_args(modelname):
   
   return args
 
-def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epoch, logger, tbwriter):
+def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epoch, logger):
   device = torch.device('cuda')
   dtype = torch.float32
 
@@ -73,7 +73,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
                             center_loss = p_args['model']['center_loss'], offset_loss=p_args['model']['offset_loss'])
   for epoch in range(start_epoch, nbr_epochs+1):
     
-    model1.eval()
+    model1.train()
     model2.train()
     logger.info('=> =========== Epoch [{}/{}] ==========='.format(epoch, nbr_epochs))
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
@@ -82,27 +82,30 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     for t, (data, indices) in enumerate(dset):
       
       data = dict_to(data, device, dtype)
+      scores = model1(data)
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = train_label_tensor.type(torch.LongTensor).to(device),train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
-      scores = model1(data)
+      
+      del data
+      
       # forward
-      input = scores['pred_semantic_1_1'].view(-1,640,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      print('fitting into model2')
       sem_prediction,center,offset = model2(input_feature)
+      
+      del input_feature
+      
       # loss2
       loss = loss_fn(sem_prediction,center,offset,train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor)
       # backward + optimize
       # gradient accumulator
       loss.backward()
-      get_mem_allocated(device)
       if t % 1000 == 0:
         logger.info ("LOSS:{}".format(loss.item()))
-    best_loss, checkpoint_path = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,tbwriter,best_loss)
+    best_loss, checkpoint_path = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
     _cfg.update_config(resume=True,checkpoint_path=checkpoint_path)
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
-    
-def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, tbwriter,best_loss):
+    get_mem_allocated(device)
+def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, best_loss):
   device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
   nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
@@ -172,8 +175,8 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
     checkpoint_path = None
     if loss.item()<best_loss:
       best_loss=loss.item()
-      checkpoint_path = os.path.join(_cfg._dict['OUTPUT']['OUTPUT_PATH'], 'chkpt', str(epoch).zfill(2))
-      checkpoint.save_panoptic(checkpoint_path,model2,optimizer,epoch)
+      checkpoint_path =p_args['model']['model_save_path']
+      checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,epoch)
   
   return best_loss, checkpoint_path
 
@@ -200,7 +203,7 @@ def main():
   
   #build optimizer
   logger.info('=> Loading optimizer...')
-  params = list(model1.get_parameters())+list(model2.parameters())
+  params = model2.parameters()
   optimizer = torch.optim.Adam(params,lr=_cfg._dict['OPTIMIZER']['BASE_LR'],betas=(0.9, 0.999))
   
   #build scheduler
@@ -209,9 +212,9 @@ def main():
   scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
   
   model1,optimizer,scheduler,epoch = checkpoint.load_LMSC(model1,optimizer,scheduler,_cfg._dict['STATUS']['RESUME'],_cfg._dict['STATUS']['LAST'],logger)
-  model2 = checkpoint.load_panoptic(model2,optimizer,_cfg._dict['STATUS']['LAST'],logger)
+  model2 = checkpoint.load_panoptic(model2,optimizer,p_args['model']['model_save_path'],logger)
   
-  train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, epoch, logger, tbwriter)
+  train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, epoch, logger)
   logger.info('=> ============ Network trained - all epochs passed... ============')
   exit()
 if __name__ == '__main__':

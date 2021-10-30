@@ -23,11 +23,11 @@ def load_LMSC(model, optimizer, scheduler, resume, path, logger):
     checkpoint = torch.load(file_path, map_location='cpu')
     epoch = checkpoint.pop('startEpoch')
     if isinstance(model, (DataParallel, DistributedDataParallel)):
-      model.module.load_state_dict(checkpoint.pop('model'))
+          model.module.load_state_dict(checkpoint.pop('model'))
     else:
       model.load_state_dict(checkpoint.pop('model'))
-    optimizer.load_state_dict(checkpoint.pop('optimizer'))
-    scheduler.load_state_dict(checkpoint.pop('scheduler'))
+    # optimizer.load_state_dict(checkpoint.pop('optimizer'))
+    # scheduler.load_state_dict(checkpoint.pop('scheduler'))
     logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(file_path))
     return model, optimizer, scheduler, epoch
 
@@ -39,6 +39,7 @@ def load_panoptic(model, optimizer, path, logger):
 
   # If not resume, initialize model and return everything as it is
   if os.path.exists(path):
+    print(path)
     file_path = sorted(glob(os.path.join(path, '*.pth')))[1]
     checkpoint = torch.load(file_path, map_location='cpu')
     model = load_panoptic_model(model,checkpoint['model'])
@@ -95,14 +96,16 @@ def save_LMSC(path, model, optimizer, scheduler, epoch, config):
 
   return weights_fpath
 
-def save_panoptic(path, model, optimizer, epoch):
+def save_panoptic(path, model, optimizer, scheduler, epoch):
   '''
   Save checkpoint file
   '''
   weights_fpath = os.path.join(path, 'Panoptic_epoch_{}.pth'.format(str(epoch).zfill(3)))
 
   state = {
-    'model': model.state_dict()
+    'model': model.state_dict(),
+    'optimizer': optimizer.state_dict(),
+    'scheduler': scheduler.state_dict(),
     }
   torch.save(state, weights_fpath)
   print('model saved to %s' % weights_fpath)

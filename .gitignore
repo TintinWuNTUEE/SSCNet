@@ -1,5 +1,5 @@
 semanticKITTI/*
-__pycache__/
+*__pycache__/
 *.pt
 **/__pyache__
 **/weights
@@ -7,4 +7,3 @@ __pycache__/
 **/ofile
 *.log
 */SSC_out/*
-./Try_Try
