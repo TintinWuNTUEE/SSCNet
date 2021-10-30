@@ -79,19 +79,19 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
-    for t, (data, indices) in enumerate(dset):
+    for t, (data, _) in enumerate(dset):
       
       data = dict_to(data, device, dtype)
       scores = model1(data)
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = train_label_tensor.type(torch.LongTensor).to(device),train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
-      
       del data
       
       # forward
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      sem_prediction,center,offset = model2(input_feature)
+      del scores
       
+      sem_prediction,center,offset = model2(input_feature)
       del input_feature
       
       # loss2
@@ -127,32 +127,33 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
 
   with torch.no_grad():
 
-    for t, (data, indices) in enumerate(dset):
-      val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
-      val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = val_label_tensor.type(torch.LongTensor).to(device),val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
+    for t, (data,_) in enumerate(dset):
+      
       # mask will be done in eval.py when foreground is none
       # for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
       # for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
-      
       data= dict_to(data, device, dtype)
-
       scores = model1(data)
+    
+      val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
+      val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = val_label_tensor.type(torch.LongTensor).to(device),val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
       loss1 = model1.compute_loss(scores, data)
+      del data
       
-      input = scores['pred_semantic_1_1'].view(-1,640,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      
       sem_prediction,center,offset = model2(input_feature)
+      del input_feature
+      
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor)
-      panoptic_labels, center_points = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
+      panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, val_label_tensor)
       
       # backward + optimize
       loss = loss1['total']+loss2
-
+      loss = loss.item()
 
       # for l_key in loss1:
       #   tbwriter.add_scalar('validation_loss_batch/{}'.format(l_key), loss1[l_key].item(), len(dset) * (epoch-1) + t)
@@ -173,8 +174,8 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
     print('Current val miou is %.3f'%(miou*100))
     logger.info(('Current val miou is %.3f'%(miou*100)))
     checkpoint_path = None
-    if loss.item()<best_loss:
-      best_loss=loss.item()
+    if loss<best_loss:
+      best_loss=loss
       checkpoint_path =p_args['model']['model_save_path']
       checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,epoch)
   
@@ -211,8 +212,8 @@ def main():
   lambda1 = lambda epoch: (0.98) ** (epoch)
   scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
   
-  model1,optimizer,scheduler,epoch = checkpoint.load_LMSC(model1,optimizer,scheduler,_cfg._dict['STATUS']['RESUME'],_cfg._dict['STATUS']['LAST'],logger)
-  model2 = checkpoint.load_panoptic(model2,optimizer,p_args['model']['model_save_path'],logger)
+  model1= checkpoint.load_LMSC(model1,optimizer,scheduler,_cfg._dict['STATUS']['RESUME'],_cfg._dict['STATUS']['LAST'],logger)
+  model2,optimizer,scheduler,epoch = checkpoint.load_panoptic(model2,scheduler,optimizer,p_args['model']['model_save_path'],logger)
   
   train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, epoch, logger)
   logger.info('=> ============ Network trained - all epochs passed... ============')

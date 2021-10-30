@@ -23,7 +23,12 @@ class BEV_Unet(nn.Module):
         x = x.permute(0,4,1,2,3)
 
         return x,center,offset
-    
+    def weights_initializer(self, m):
+        if isinstance(m, nn.Conv2d):
+            nn.init.kaiming_uniform_(m.weight)
+            nn.init.zeros_(m.bias)
+    def weights_init(self):
+        self.apply(self.weights_initializer)
 class UNet(nn.Module):
     def __init__(self, n_class,n_height,n_feature,dilation,group_conv,input_batch_norm, dropout,circular_padding,dropblock):
         super(UNet, self).__init__()
@@ -79,6 +84,7 @@ class UNet(nn.Module):
         i_x_offset = self.i_outc_offset(self.dropout(i_x_offset))
 
         return s_x, i_x_center, i_x_offset
+    
 
 class double_conv(nn.Module):
     '''(conv => BN => ReLU) * 2'''
