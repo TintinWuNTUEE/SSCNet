@@ -1,6 +1,7 @@
 semanticKITTI/*
 *__pycache__/
 *.pt
+*.pth
 **/__pyache__
 **/weights
 **/efile
