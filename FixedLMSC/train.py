@@ -43,7 +43,7 @@ def parse_args(modelname):
     args = parser.parse_args()
   elif modelname == 'Panoptic Polarnet':
     parser.add_argument('-d', '--data_dir', help='path to dataset root folder', default='../semanticKITTI/dataset')
-    parser.add_argument('-p', '--model_save_path', default='./weights/Panoptic_SemKITTI.pt')
+    parser.add_argument('-p', '--model_save_path', default='./weights')
     parser.add_argument('-c', '--configs', help='path to config file', default='configs/Panoptic-PolarNet.yaml')
     parser.add_argument('--pretrained_model', default='empty')
     args = parser.parse_args()
@@ -59,8 +59,10 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
   model1 = model1.to(device)
   model2 = model2.to(device)
+  
   checkpoint_path=p_args['model']['model_save_path']
   checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,start_epoch)
+  
   best_loss = 99999999999
   for state in optimizer.state.values():
     for k, v in state.items():
