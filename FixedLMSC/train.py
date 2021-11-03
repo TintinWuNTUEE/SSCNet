@@ -12,7 +12,7 @@ from common.instance_post_processing import get_panoptic_segmentation
 from common.eval_pq import PanopticEval
 import numpy as np
 import common.checkpoint as checkpoint
-from common.dataset import SemanticKITTI,get_dataset
+from common.dataset import get_dataset
 from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
