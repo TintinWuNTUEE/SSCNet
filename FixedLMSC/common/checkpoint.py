@@ -105,6 +105,8 @@ def save_panoptic(path, model, optimizer, scheduler, epoch):
   '''
   Save checkpoint file
   '''
+  _remove_recursively(path)
+  _create_directory(path)
   weights_fpath = os.path.join(path, 'Panoptic_epoch_{}.pth'.format(str(epoch).zfill(3)))
 
   torch.save({
