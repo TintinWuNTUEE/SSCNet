@@ -54,7 +54,7 @@ def load_panoptic(model,scheduler,optimizer, path, logger):
 
   if os.path.exists(path):
     print(path)
-    file_path = sorted(glob(os.path.join(path, '*.pth')))[1]
+    file_path = sorted(glob(os.path.join(path, '*.pth')))[0]
     checkpoint = torch.load(file_path, map_location='cpu')
     model = load_panoptic_model(model,checkpoint['model'])
     epoch = checkpoint.pop('startEpoch')
