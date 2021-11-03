@@ -17,13 +17,13 @@ dataset:
     grid_size: [256,256,32]
 
 model:
-    model_save_path: ./weights/Panoptic_SemKITTI.pt
+    model_save_path: ./weights
     pretrained_model: /pretrained_weight/Panoptic_SemKITTI_PolarNet.pt
     train_log: ./weights
     polar: False
     visibility: False
     
-    train_batch_size: 2
+    train_batch_size: 6
     val_batch_size: 1
     test_batch_size: 1
     check_iter: 4000
