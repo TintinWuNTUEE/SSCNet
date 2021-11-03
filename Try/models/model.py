@@ -35,7 +35,6 @@ if __name__ == '__main__':
 
     output['pred_semantic_1_1'] = output['pred_semantic_1_1'].view(-1,640,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
     output['pred_semantic_1_1_feature'] = output['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-
     second_model = BEV_Unet(20,output_shape[2],output_shape[1], input_batch_norm = True, dropout = 0.5, circular_padding = False, use_vis_fea=False).to('cuda').train()
     z, center, offset = second_model(output['pred_semantic_1_1_feature'])
 
