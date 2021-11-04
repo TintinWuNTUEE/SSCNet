@@ -135,14 +135,14 @@ learning_map:
   80: 18    # "pole"
   81: 19    # "traffic-sign"
   99: 0     # "other-object" to "unlabeled" ----------------------------mapped
-  252: 1    # "moving-car" to "car" ------------------------------------mapped
-  253: 7    # "moving-bicyclist" to "bicyclist" ------------------------mapped
-  254: 6    # "moving-person" to "person" ------------------------------mapped
-  255: 8    # "moving-motorcyclist" to "motorcyclist" ------------------mapped
-  256: 5    # "moving-on-rails" mapped to "other-vehicle" --------------mapped
-  257: 5    # "moving-bus" mapped to "other-vehicle" -------------------mapped
-  258: 4    # "moving-truck" to "truck" --------------------------------mapped
-  259: 5    # "moving-other"-vehicle to "other-vehicle" ----------------mapped
+  252: 0    # "moving-car" to "car" ------------------------------------mapped
+  253: 0    # "moving-bicyclist" to "bicyclist" ------------------------mapped
+  254: 0    # "moving-person" to "person" ------------------------------mapped
+  255: 0    # "moving-motorcyclist" to "motorcyclist" ------------------mapped
+  256: 0    # "moving-on-rails" mapped to "other-vehicle" --------------mapped
+  257: 0    # "moving-bus" mapped to "other-vehicle" -------------------mapped
+  258: 0    # "moving-truck" to "truck" --------------------------------mapped
+  259: 0    # "moving-other"-vehicle to "other-vehicle" ----------------mapped
 learning_map_inv: # inverse of previous map
   0: 0      # "unlabeled", and others ignored
   1: 10     # "car"
