@@ -35,7 +35,7 @@ SCHEDULER:
   TYPE: power_iteration
 STATUS:
   CONFIG: configs/LMSCNet_SS.yaml
-  LAST: ./SSC_out/chkpt
+  LAST: ./weights
   RESUME: true
 TRAIN:
   BATCH_SIZE: 4
