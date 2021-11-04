@@ -3,7 +3,6 @@ import os
 import argparse
 import torch
 import torch.nn as nn
-from torch.utils.tensorboard import SummaryWriter
 import sys
 import yaml
 from losses.loss import panoptic_loss
@@ -44,7 +43,7 @@ def parse_args(modelname):
     args = parser.parse_args()
   elif modelname == 'Panoptic Polarnet':
     parser.add_argument('-d', '--data_dir', help='path to dataset root folder', default='../semanticKITTI/dataset')
-    parser.add_argument('-p', '--model_save_path', default='./weights/Panoptic_SemKITTI.pt')
+    parser.add_argument('-p', '--model_save_path', default='./weights')
     parser.add_argument('-c', '--configs', help='path to config file', default='configs/Panoptic-PolarNet.yaml')
     parser.add_argument('--pretrained_model', default='empty')
     args = parser.parse_args()
@@ -60,6 +59,10 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
   model1 = model1.to(device)
   model2 = model2.to(device)
+  
+  checkpoint_path=p_args['model']['model_save_path']
+  checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,start_epoch)
+  
   best_loss = 99999999999
   for state in optimizer.state.values():
     for k, v in state.items():
@@ -124,7 +127,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
   
   model1.eval()
   model2.eval()
-
+  
   with torch.no_grad():
 
     for t, (data,_) in enumerate(dset):
@@ -173,10 +176,9 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       logger.info('%15s : %6.2f%%'%(class_name, class_iou*100))
     print('Current val miou is %.3f'%(miou*100))
     logger.info(('Current val miou is %.3f'%(miou*100)))
-    checkpoint_path = None
     if loss<best_loss:
       best_loss=loss
-      checkpoint_path =p_args['model']['model_save_path']
+      checkpoint_path=p_args['model']['model_save_path']
       checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,epoch)
   
   return best_loss, checkpoint_path
