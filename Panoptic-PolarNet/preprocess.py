@@ -37,8 +37,8 @@ def main(args):
         train_dataset=spherical_dataset(train_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0, use_aug = True)
         val_dataset=spherical_dataset(val_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0)
     else:
-        train_dataset=voxel_dataset(train_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,use_aug = True)
-        val_dataset=voxel_dataset(val_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0)
+        train_dataset=voxel_dataset(train_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,use_aug = True,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
+        val_dataset=voxel_dataset(val_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
     print("train size = "+str(len(train_dataset)))
     print("val size = "+str(len(val_dataset)))
     train_dataset_loader = torch.utils.data.DataLoader(dataset = train_dataset,
@@ -58,8 +58,6 @@ def main(args):
         val_gt_center_tensor = val_gt_center.to(device)
         val_gt_offset_tensor = val_gt_offset.to(device)
         
-        for_mask1 = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
-        for_mask1[(val_label_tensor>=0 )& (val_label_tensor<8)] = True  
         for i in range(len(filenames)):
             label_to_be_save= (val_label_tensor[i].cpu().numpy(),val_gt_center_tensor[i].cpu().numpy(), val_gt_offset_tensor[i].cpu().numpy())
             folder_path,filename = splitPath(filenames[i])
