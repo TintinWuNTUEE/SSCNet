@@ -55,7 +55,7 @@ print(indice.shape) #2,256,256
 
 file_path = '../semanticKITTI/dataset/sequences'
 sequence = '04'
-file_type = 'preprocess_new'
+file_type = 'preprocess'
 
 preprocess = sorted(glob(os.path.join(file_path, sequence, file_type, "*.pt")))[::5]
 label = sorted(glob(os.path.join(file_path, sequence, "voxels", "*.label")))
@@ -68,19 +68,19 @@ num = 0
 # print(len(label))
 raw_data = np.fromfile(point[num], dtype=np.float32).reshape((-1, 4))
 point_mask = (raw_data[:,0]<=25.6)*(raw_data[:,0]>=-25.6)*(raw_data[:,1]<=51.2)*(raw_data[:,1]>=0)*(raw_data[:,2]>=0)*(raw_data[:,2]<=6.4)
-print(point_mask.shape) 
-print(raw_data.shape)
-print(raw_data[:,0].max(),raw_data[:,0].min())
-print(raw_data[:,1].max(),raw_data[:,1].min())
-print(raw_data[:,2].max(),raw_data[:,2].min())
-print(raw_data[:,3].max(),raw_data[:,3].min())
+# print(point_mask.shape) 
+# print(raw_data.shape)
+# print(raw_data[:,0].max(),raw_data[:,0].min())
+# print(raw_data[:,1].max(),raw_data[:,1].min())
+# print(raw_data[:,2].max(),raw_data[:,2].min())
+# print(raw_data[:,3].max(),raw_data[:,3].min())
 raw_data = raw_data[point_mask]
-print("=====")
-print(raw_data.shape)
-print(raw_data[:,0].max(),raw_data[:,0].min())
-print(raw_data[:,1].max(),raw_data[:,1].min())
-print(raw_data[:,2].max(),raw_data[:,2].min())
-print(raw_data[:,3].max(),raw_data[:,3].min())
+# print("=====")
+# print(raw_data.shape)
+# print(raw_data[:,0].max(),raw_data[:,0].min())
+# print(raw_data[:,1].max(),raw_data[:,1].min())
+# print(raw_data[:,2].max(),raw_data[:,2].min())
+# print(raw_data[:,3].max(),raw_data[:,3].min())
 plot3 = plt.figure(3)
 plt.scatter(raw_data[:,0],raw_data[:,1])
 
@@ -229,7 +229,7 @@ print(annotated_data[(sem_data==1)][90])
 print(annotated_data[(sem_data==1)][90] & 0xFFFF)
 
 
-
+print(full_data.shape)
 partial_label = (np.concatenate((full_data[:,:,:,np.newaxis],indice),axis=3)[mask2]).reshape(-1,3)
 print(partial_label.shape)
 complete_label = (np.concatenate((voxel_label[:,:,:,np.newaxis],indice),axis=3)[mask]).reshape(-1,3)
