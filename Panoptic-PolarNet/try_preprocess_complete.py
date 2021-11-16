@@ -54,7 +54,7 @@ print(indice.shape) #2,256,256
 # print(indice[0,2,:])
 
 file_path = '../semanticKITTI/dataset/sequences'
-sequence = '04'
+sequence = '00'
 file_type = 'preprocess'
 
 preprocess = sorted(glob(os.path.join(file_path, sequence, file_type, "*.pt")))[::5]
@@ -104,12 +104,12 @@ voxel_label = voxel_label.reshape(256,256,32)#[:,::-1,:]
 
 x = np.arange(20,dtype=int)
 full_data = data[0]
-print(0xffff0000)
-print(0xffff)
+# print(0xffff0000)
+# print(0xffff)
 print(data[0].shape)
 inst_label = (data[0]&0xffff0000)>>16
-print(inst_label.shape)
-print(inst_label[:,:,0]==inst_label[:,:,3])
+# print(inst_label.shape)
+# print(inst_label[:,:,0]==inst_label[:,:,3])
 data[0] = data[0]&0xffff
 
 # print("============")
@@ -117,6 +117,7 @@ data[0] = data[0]&0xffff
 # print(type(data[0]))
 # print(data[0].shape)
 data[0] = np.array(data[0]) + 1
+print(data[0])
 # print(x)
 # print((voxel_label!=0).sum())
 for i in x:
@@ -238,8 +239,9 @@ print(complete_label.shape)
 knn = KNeighborsClassifier()
 knn.fit(partial_label[:,1:],partial_label[:,0])
 predict = knn.predict(complete_label[:,1:])
+print(predict.shape)
 print((predict!=complete_label[:,0]).sum())
-plot4 = plt.figure(5)
+t4 = plt.figure(5)
 plt.imshow(bev,cmap=plt.cm.gray,origin='lower')
 for i in range(0,predict.shape[0],20):
     plt.text( complete_label[i,2],complete_label[i,1], str(predict[i]),color="red",fontsize=8)
