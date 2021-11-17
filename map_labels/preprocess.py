@@ -4,10 +4,9 @@ import yaml
 import sys
 import os
 import numpy as np
-from dataloader.dataset import collate_fn_BEV,SemKITTI,SemKITTI_label_name,spherical_dataset,voxel_dataset
+from dataloader.dataset import collate_fn_BEV,SemKITTI,voxel_dataset
 from configs import merge_configs
 from sklearn.neighbors import KNeighborsClassifier
-from torch_cluster import knn 
 import matplotlib.pyplot as plt
 device=('cuda')
 dataset_config = yaml.safe_load(open(os.path.join('./semantic-kitti.yaml'), 'r'))
@@ -44,13 +43,15 @@ def get_remap_lut():
     remap_lut[0] = 0  # only 'empty' stays 'empty'.
 
     return remap_lut
-
+###############################################################################
 def fix_label_tensor(data):
+    '''fixing uint 8 trick'''
     out = data.cpu().numpy()
     out = out&0xffff
     out = np.array(out)+1
     return out
 def mask(voxel_label,label_tensor):
+    '''applying mask'''
     mask1 = torch.zeros_like(voxel_label,dtype=bool)
     mask2 = torch.zeros_like(voxel_label,dtype=bool)
     thing_list = [i for i in dataset_config['thing_class'].keys() if dataset_config['thing_class'][i]==True]
@@ -60,13 +61,14 @@ def mask(voxel_label,label_tensor):
         mask2[data==label] = True
     voxel_label[~mask1] = 0
     return voxel_label,mask1,mask2
-
+###############################################################################
 def SemKITTI2train(label):
     if isinstance(label, list):
         return [SemKITTI2train_single(a) for a in label]
     else:
         return SemKITTI2train_single(label)
 def SemKITTI2train_single(label):
+    print(label-1)
     return label - 1 # uint8 trick
 def splitPath(path):
     folderpath = os.path.split(path)[0]
@@ -123,7 +125,7 @@ def main(args):
             
             voxel_label,mask1 = voxel_label.cpu().numpy(),mask1.cpu().numpy()
             voxel_label[mask1]=predict
-            
+            voxel_label = SemKITTI2train(voxel_label)
             ########################## plotting################################
             # bev = (voxel_label>0).sum(axis=2)
             # t4 = plt.figure(5)
@@ -166,6 +168,7 @@ def main(args):
             
             voxel_label,mask1 = voxel_label.cpu().numpy(),mask1.cpu().numpy()
             voxel_label[mask1]=predict
+            voxel_label = SemKITTI2train(voxel_label)
             ########################## plotting################################
             # bev = (voxel_label>0).sum(axis=2)
             # t4 = plt.figure(5)
