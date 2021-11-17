@@ -9,6 +9,40 @@ from utils.configs import merge_configs
 
 device=('cuda')
 
+def unpack(compressed):
+    ''' given a bit encoded voxel grid, make a normal voxel grid out of it.  '''
+    uncompressed = np.zeros(compressed.shape[0] * 8, dtype=np.uint8)
+    uncompressed[::8] = compressed[:] >> 7 & 1
+    uncompressed[1::8] = compressed[:] >> 6 & 1
+    uncompressed[2::8] = compressed[:] >> 5 & 1
+    uncompressed[3::8] = compressed[:] >> 4 & 1
+    uncompressed[4::8] = compressed[:] >> 3 & 1
+    uncompressed[5::8] = compressed[:] >> 2 & 1
+    uncompressed[6::8] = compressed[:] >> 1 & 1
+    uncompressed[7::8] = compressed[:] & 1
+
+    return uncompressed
+
+def get_remap_lut():
+    '''
+    remap_lut to remap classes of semantic kitti for training...
+    :return:
+    '''
+    dataset_config = yaml.safe_load(open(os.path.join('./semantic-kitti.yaml'), 'r'))
+    # make lookup table for mapping
+    maxkey = max(dataset_config['learning_map'].keys())
+
+    # +100 hack making lut bigger just in case there are unknown labels
+    remap_lut = np.zeros((maxkey + 100), dtype=np.int32)
+    remap_lut[list(dataset_config['learning_map'].keys())] = list(dataset_config['learning_map'].values())
+
+    # in completion we have to distinguish empty and invalid voxels.
+    # Important: For voxels 0 corresponds to "empty" and not "unlabeled".
+    remap_lut[remap_lut == 0] = 255  # map 0 to 'invalid'
+    remap_lut[0] = 0  # only 'empty' stays 'empty'.
+
+    return remap_lut
+
 def SemKITTI2train(label):
     if isinstance(label, list):
         return [SemKITTI2train_single(a) for a in label]
@@ -33,12 +67,8 @@ def main(args):
     val_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'val', return_ref = True, instance_pkl_path=args['dataset']['instance_pkl_path'])
     print("train_pt size = "+str(len(train_pt_dataset)))
     print("val_pt size = "+str(len(val_pt_dataset)))
-    if args['model']['polar']:
-        train_dataset=spherical_dataset(train_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0, use_aug = True)
-        val_dataset=spherical_dataset(val_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0)
-    else:
-        train_dataset=voxel_dataset(train_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,use_aug = True,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
-        val_dataset=voxel_dataset(val_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
+    train_dataset=voxel_dataset(train_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,use_aug = True,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
+    val_dataset=voxel_dataset(val_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
     print("train size = "+str(len(train_dataset)))
     print("val size = "+str(len(val_dataset)))
     train_dataset_loader = torch.utils.data.DataLoader(dataset = train_dataset,
@@ -52,7 +82,7 @@ def main(args):
                                                     shuffle = False,
                                                     num_workers = 4)
 
-    for _,(_,val_vox_label,val_gt_center,val_gt_offset,val_grid,_,_,_,filenames) in enumerate(val_dataset_loader):
+    for _,(val_vox_fea,val_vox_label,val_gt_center,val_gt_offset,val_grid,val_pt_labels,val_pt_ints,val_pt_fea,filenames) in enumerate(val_dataset_loader):
         val_vox_label = SemKITTI2train(val_vox_label)
         val_label_tensor=val_vox_label.to(device)
         val_gt_center_tensor = val_gt_center.to(device)

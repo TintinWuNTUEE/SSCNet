@@ -5,6 +5,7 @@ import numpy as np
 from torch._C import dtype
 import yaml
 import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
 
 dataset_config = yaml.safe_load(open(os.path.join('./semantic-kitti.yaml'), 'r'))
 
@@ -43,43 +44,48 @@ def get_remap_lut():
     return remap_lut
 
 
-indice = np.moveaxis(np.array(np.meshgrid(np.arange(0,256,1),np.arange(0,256,1))),1,2)
-indice = np.array(np.meshgrid(np.arange(0,256,1),np.arange(0,256,1)))
-# print(indice.shape)
-# print(indice[:,0,0])
-# print(indice[:,0,1])
-# print(indice[:,1,0])
-# print(indice[:,0,2])
+indice = np.moveaxis(np.array(np.meshgrid(np.arange(0,256,1),np.arange(0,256,1))),(0,1,2),(2,1,0))
+indice = np.repeat(indice[:,:,np.newaxis,:], 32, axis=2)
+# indice = np.array(np.meshgrid(np.arange(0,256,1),np.arange(0,256,1)))
+print(indice.shape) #2,256,256
+# print(indice[0,0,:])
+# print(indice[0,1,:])
+# print(indice[1,0,:])
+# print(indice[0,2,:])
 
 file_path = '../semanticKITTI/dataset/sequences'
-sequence = '04'
+sequence = '00'
 file_type = 'preprocess'
 
 preprocess = sorted(glob(os.path.join(file_path, sequence, file_type, "*.pt")))[::5]
 label = sorted(glob(os.path.join(file_path, sequence, "voxels", "*.label")))
 point = sorted(glob(os.path.join(file_path, sequence, "velodyne","*.bin")))[::5]
+point_label = sorted(glob(os.path.join(file_path, sequence, "labels","*.label")))[::5]
+
+num = 0
+
 # print(len(preprocess))
 # print(len(label))
-raw_data = np.fromfile(point[3], dtype=np.float32).reshape((-1, 4))
+raw_data = np.fromfile(point[num], dtype=np.float32).reshape((-1, 4))
 point_mask = (raw_data[:,0]<=25.6)*(raw_data[:,0]>=-25.6)*(raw_data[:,1]<=51.2)*(raw_data[:,1]>=0)*(raw_data[:,2]>=0)*(raw_data[:,2]<=6.4)
-print(point_mask.shape) 
-print(raw_data.shape)
-print(raw_data[:,0].max(),raw_data[:,0].min())
-print(raw_data[:,1].max(),raw_data[:,1].min())
-print(raw_data[:,2].max(),raw_data[:,2].min())
-print(raw_data[:,3].max(),raw_data[:,3].min())
+# print(point_mask.shape) 
+# print(raw_data.shape)
+# print(raw_data[:,0].max(),raw_data[:,0].min())
+# print(raw_data[:,1].max(),raw_data[:,1].min())
+# print(raw_data[:,2].max(),raw_data[:,2].min())
+# print(raw_data[:,3].max(),raw_data[:,3].min())
 raw_data = raw_data[point_mask]
-print("=====")
-print(raw_data.shape)
-print(raw_data[:,0].max(),raw_data[:,0].min())
-print(raw_data[:,1].max(),raw_data[:,1].min())
-print(raw_data[:,2].max(),raw_data[:,2].min())
-print(raw_data[:,3].max(),raw_data[:,3].min())
+# print("=====")
+# print(raw_data.shape)
+# print(raw_data[:,0].max(),raw_data[:,0].min())
+# print(raw_data[:,1].max(),raw_data[:,1].min())
+# print(raw_data[:,2].max(),raw_data[:,2].min())
+# print(raw_data[:,3].max(),raw_data[:,3].min())
 plot3 = plt.figure(3)
 plt.scatter(raw_data[:,0],raw_data[:,1])
 
-data = list(torch.load(preprocess[3]))
-voxel_label = np.fromfile(label[3], dtype=np.uint16).reshape(256,256,32)
+data = list(torch.load(preprocess[num]))
+voxel_label = np.fromfile(label[num], dtype=np.uint16).reshape(256,256,32)
 # print(preprocess[0],label[0])
 # print(voxel_label[193,212,:])
 # print((voxel_label==252).sum())
@@ -97,11 +103,21 @@ voxel_label = voxel_label.reshape(256,256,32)#[:,::-1,:]
 # print(voxel_label.shape)
 
 x = np.arange(20,dtype=int)
+full_data = data[0]
+# print(0xffff0000)
+# print(0xffff)
+print(data[0].shape)
+inst_label = (data[0]&0xffff0000)>>16
+# print(inst_label.shape)
+# print(inst_label[:,:,0]==inst_label[:,:,3])
+data[0] = data[0]&0xffff
+
 # print("============")
 # print(data[0])
 # print(type(data[0]))
 # print(data[0].shape)
 data[0] = np.array(data[0]) + 1
+print(data[0])
 # print(x)
 # print((voxel_label!=0).sum())
 for i in x:
@@ -128,6 +144,10 @@ data[0][~mask2] = 0
 # print(voxel_label.shape)
 bev = (voxel_label>0).sum(axis=2)
 bev2 = (data[0]>0).sum(axis=2)
+mask3 = np.linalg.norm(data[2],axis=0)
+print(mask3.shape)
+mask3 = mask3>0
+bev2[mask3] = bev2[mask3]
 # voxel_label = voxel_label>0
 # print(voxel_label.shape)
 plot1 = plt.figure(0)
@@ -146,6 +166,7 @@ for row, col in zip(bev2_nonzero[0],bev2_nonzero[1]):
         # print(data[0][row, col,:])
         if data[0][row, col, i] != 0:
             plt.text(col, row, str(data[0][row, col, i]),color="green",fontsize=12)
+            plt.text(col, row, str(inst_label[row, col, i]),color="red",fontsize=12)
             break
 
 # print(dataset_config['color_map'])
@@ -196,5 +217,34 @@ a = ax.quiver(data[2][1,:,:],data[2][0,:,:],angles='xy',scale_units='xy',scale=1
 # print(data[2][0][142][173])
 # print(data[2][1][142][173])
 
-plt.show()
+annotated_data = np.fromfile(point_label[num], dtype=np.uint32).reshape((-1,1))
+sem_data = annotated_data & 0xFFFF #delete high 16 digits binary
+sem_data = np.vectorize(dataset_config['learning_map'].__getitem__)(sem_data)
+inst_data = annotated_data
 
+print(sem_data.shape)
+print(inst_data.shape)
+print(sem_data[(sem_data==1)][90])
+print(inst_data[(sem_data==1)][90])
+print(annotated_data[(sem_data==1)][90])
+print(annotated_data[(sem_data==1)][90] & 0xFFFF)
+
+
+print(full_data.shape)
+partial_label = (np.concatenate((full_data[:,:,:,np.newaxis],indice),axis=3)[mask2]).reshape(-1,3)
+print(partial_label.shape)
+complete_label = (np.concatenate((voxel_label[:,:,:,np.newaxis],indice),axis=3)[mask]).reshape(-1,3)
+print(complete_label.shape)
+
+knn = KNeighborsClassifier()
+knn.fit(partial_label[:,1:],partial_label[:,0])
+predict = knn.predict(complete_label[:,1:])
+print(predict.shape)
+print((predict!=complete_label[:,0]).sum())
+t4 = plt.figure(5)
+plt.imshow(bev,cmap=plt.cm.gray,origin='lower')
+for i in range(0,predict.shape[0],20):
+    plt.text( complete_label[i,2],complete_label[i,1], str(predict[i]),color="red",fontsize=8)
+
+print("done")
+plt.show()

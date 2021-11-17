@@ -226,8 +226,21 @@ class voxel_dataset(data.Dataset):
             processed_inst = nb_process_inst(np.copy(processed_inst),inst_voxel_pair)
         else:
             processed_inst = None
+        # print(processed_inst.shape)
+        # print(processed_inst[processed_inst!=0][7])
+        # mask1 = processed_inst!=0
+        # mask2 = processed_label!=0
+        # print(mask1.shape)
+        # print(mask2.shape)
+        # print(mask1!=mask2)
+        
 
         center,center_points,offset = self.panoptic_proc(insts[mask],xyz[mask[:,0]],processed_inst,voxel_position[:2,:,:,0],unique_label_dict,min_bound,intervals)
+        
+        processed_inst = processed_inst[:,:,np.newaxis].astype(np.int32).repeat(32,axis=2)
+        processed_inst = processed_inst << 16
+        processed_label = processed_label.astype(np.int32)
+        processed_label += processed_inst
         
         data_tuple = (voxel_position,processed_label,center,offset)
 
@@ -373,6 +386,7 @@ class spherical_dataset(data.Dataset):
             processed_inst = nb_process_inst(np.copy(processed_inst),inst_voxel_pair)
         else:
             processed_inst = None
+            
 
         center,center_points,offset = self.panoptic_proc(insts[mask],xyz[:np.size(labels)][mask[:,0]],processed_inst,voxel_position[:2,:,:,0],unique_label_dict,min_bound,intervals)
 
