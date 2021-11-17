@@ -68,7 +68,6 @@ def SemKITTI2train(label):
     else:
         return SemKITTI2train_single(label)
 def SemKITTI2train_single(label):
-    print(label-1)
     return label - 1 # uint8 trick
 def splitPath(path):
     folderpath = os.path.split(path)[0]
