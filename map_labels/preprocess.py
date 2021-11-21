@@ -7,7 +7,6 @@ import numpy as np
 from dataloader.dataset import collate_fn_BEV,SemKITTI,voxel_dataset
 from configs import merge_configs
 from sklearn.neighbors import KNeighborsClassifier
-import matplotlib.pyplot as plt
 device=('cuda')
 dataset_config = yaml.safe_load(open(os.path.join('./semantic-kitti.yaml'), 'r'))
 ############################## grid size setting ##############################
@@ -142,16 +141,6 @@ def main(args):
                 voxel_label,mask1 = voxel_label.cpu().numpy(),mask1.cpu().numpy()
                 voxel_label[mask1]=predict
             # voxel_label = SemKITTI2train(voxel_label)
-            ########################## plotting################################
-            # bev = (voxel_label>0).sum(axis=2)
-            # t4 = plt.figure(5)
-            # plt.imshow(bev,cmap=plt.cm.gray,origin='lower')
-            # for i in range(0,predict.shape[0],20):
-            #     plt.text( complete_label[i,2],complete_label[i,1], str(predict[i]),color="red",fontsize=8)
-
-            # print("done")
-            # plt.show()
-            ########################## plotting################################
             ########################## update center offset ################################
             center, offset = PanopticLabelGenerator(voxel_label,min_bound,intervals,mask1)
             ########################## update center offset ################################
