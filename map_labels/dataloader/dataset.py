@@ -237,8 +237,11 @@ class voxel_dataset(data.Dataset):
 
         center,center_points,offset = self.panoptic_proc(insts[mask],xyz[mask[:,0]],processed_inst,voxel_position[:2,:,:,0],unique_label_dict,min_bound,intervals)
         
-        processed_inst = processed_inst[:,:,np.newaxis].astype(np.int32).repeat(32,axis=2)
-        processed_inst = processed_inst << 16
+        if inst_label.size > 1: 
+            processed_inst = processed_inst[:,:,np.newaxis].astype(np.int32).repeat(32,axis=2)
+            processed_inst = processed_inst << 16
+        else:
+            processed_inst = 0
         processed_label = processed_label.astype(np.int32)
         processed_label += processed_inst
         

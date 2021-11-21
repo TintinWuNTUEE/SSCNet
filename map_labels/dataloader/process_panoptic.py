@@ -28,7 +28,7 @@ class PanopticLabelGenerator(object):
             inst : instance panoptic label (N)
             xyz : point location (N x 3)
             voxel_inst : voxel panoptic label on the BEV (H x W)
-            voxel_position : voxel location on the BEV (3 x H x W)
+            voxel_position : voxel location on the BEV (2 x H x W)
             label_dict : unqiue instance label dict
             min_bound : space minimal bound
             intervals : voxelization intervals
