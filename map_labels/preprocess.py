@@ -110,7 +110,7 @@ def main(args):
                                                     shuffle = False,
                                                     num_workers = 4)
     indice = np.moveaxis(np.array(np.meshgrid(np.arange(0,256,1),np.arange(0,256,1))),(0,1,2),(2,1,0))
-    indice = torch.from_numpy(np.repeat(indice[:,:,np.newaxis,:], 32, axis=2)).to(device)
+    indice = torch.from_numpy(np.repeat(indice[:,:,np.newaxis,:], 32, axis=2)).int().to(device)
     remap_lut = get_remap_lut()
     knn = KNeighborsClassifier(n_jobs=4)
     PanopticLabelGenerator = PanopticLabelGenerator_VoxelVersion((256,256,32))
