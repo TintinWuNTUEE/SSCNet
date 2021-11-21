@@ -112,13 +112,14 @@ def main(args):
     indice = np.moveaxis(np.array(np.meshgrid(np.arange(0,256,1),np.arange(0,256,1))),(0,1,2),(2,1,0))
     indice = torch.from_numpy(np.repeat(indice[:,:,np.newaxis,:], 32, axis=2)).int().to(device)
     remap_lut = get_remap_lut()
-    knn = KNeighborsClassifier(n_jobs=4)
+    knn_5 = KNeighborsClassifier(n_jobs=4,weights='distance')
+    knn_1 = KNeighborsClassifier(n_neighbors=1,n_jobs=4,weights='distance')
     PanopticLabelGenerator = PanopticLabelGenerator_VoxelVersion((256,256,32))
     for _,(_,val_vox_label,val_gt_center,val_gt_offset,val_grid,_,_,_,filenames) in enumerate(val_dataset_loader):
         val_vox_label = SemKITTI2train(val_vox_label)
         val_label_tensor=val_vox_label.to(device)
-        val_gt_center_tensor = val_gt_center.to(device)
-        val_gt_offset_tensor = val_gt_offset.to(device)
+        # val_gt_center_tensor = val_gt_center.to(device)
+        # val_gt_offset_tensor = val_gt_offset.to(device)
         
         for i in range(len(filenames)):
             voxel_label_path = filenames[i].replace('velodyne','voxels').replace('.bin', '.label')
@@ -135,9 +136,13 @@ def main(args):
             else:
                 partial_label = (torch.cat((val_label[:,:,:,np.newaxis],indice),axis=3)[mask2]).reshape(-1,3)
                 complete_label = (torch.cat((voxel_label[:,:,:,np.newaxis],indice),axis=3)[mask1]).reshape(-1,3)
-                knn.fit(partial_label.cpu().numpy()[:,1:], partial_label.cpu().numpy()[:,0])
-                predict = knn.predict(complete_label.cpu().numpy()[:,1:])
-                
+                if complete_label.shape[0] >= 5:
+                    knn_5.fit(partial_label.cpu().numpy()[:,1:], partial_label.cpu().numpy()[:,0])
+                    predict = knn_5.predict(complete_label.cpu().numpy()[:,1:])
+                else:
+                    knn_1.fit(partial_label.cpu().numpy()[:,1:], partial_label.cpu().numpy()[:,0])
+                    predict = knn_1.predict(complete_label.cpu().numpy()[:,1:])
+
                 voxel_label,mask1 = voxel_label.cpu().numpy(),mask1.cpu().numpy()
                 voxel_label[mask1]=predict
             # voxel_label = SemKITTI2train(voxel_label)
