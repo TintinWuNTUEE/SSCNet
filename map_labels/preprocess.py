@@ -136,7 +136,7 @@ def main(args):
             else:
                 partial_label = (torch.cat((val_label[:,:,:,np.newaxis],indice),axis=3)[mask2]).reshape(-1,3)
                 complete_label = (torch.cat((voxel_label[:,:,:,np.newaxis],indice),axis=3)[mask1]).reshape(-1,3)
-                if complete_label.shape[0] >= 5:
+                if partial_label.shape[0] >= 5:
                     knn_5.fit(partial_label.cpu().numpy()[:,1:], partial_label.cpu().numpy()[:,0])
                     predict = knn_5.predict(complete_label.cpu().numpy()[:,1:])
                 else:
@@ -150,7 +150,7 @@ def main(args):
             center, offset = PanopticLabelGenerator(voxel_label,min_bound,intervals,mask1)
             ########################## update center offset ################################
             ########################## preprocess only have center and offset ################################
-            label_to_be_save= (center,offset)
+            label_to_be_save= (voxel_label,center,offset)
             folder_path,filename = splitPath(filenames[i])
             folder_path=folder_path.replace('velodyne','preprocess')
             filename+='.pt'
