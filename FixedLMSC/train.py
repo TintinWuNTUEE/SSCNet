@@ -81,7 +81,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
     for t, (data, _) in enumerate(dset):
-      voxel_label = data['3D_LABEL'].type(torch.LongTensor).permute(0,1,3,2)
+      voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data = dict_to(data, device, dtype)
       scores = model1(data)
       _,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
