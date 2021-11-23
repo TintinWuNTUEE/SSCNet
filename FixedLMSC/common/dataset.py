@@ -240,6 +240,6 @@ if __name__ == '__main__':
     dataset = SemanticKITTI(config['DATASET'],'train')
     dataloader = DataLoader(dataset,batch_size=2,num_workers=4,shuffle=False)
     for t, (data, indices) in enumerate(dataset):
-        data = data['3D_LABEL']
+        data = data['PREPROCESS']
         print(data)
         break

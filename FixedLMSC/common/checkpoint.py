@@ -8,7 +8,7 @@ def load_LMSC(model, optimizer, scheduler, resume, path, logger):
   '''
   Load checkpoint file
   '''
-  file_path = sorted(glob(os.path.join(path, '*.pth')))[1]
+  file_path = sorted(glob(os.path.join(path, '*.pth')))[0]
   print(file_path)
   assert os.path.isfile(file_path), '=> No checkpoint found at {}'.format(path)
   checkpoint = torch.load(file_path, map_location='cpu')

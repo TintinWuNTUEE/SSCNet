@@ -60,8 +60,6 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
   model1 = model1.to(device)
   model2 = model2.to(device)
   
-  checkpoint_path=p_args['model']['model_save_path']
-  checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,start_epoch)
   
   best_loss = 99999999999
   for state in optimizer.state.values():
@@ -83,10 +81,9 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
     for t, (data, _) in enumerate(dset):
-      
+      voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data = dict_to(data, device, dtype)
       scores = model1(data)
-      voxel_label = data['3D_LABEL']
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = train_label_tensor.type(torch.LongTensor).to(device),train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
       del data
@@ -97,7 +94,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       
       sem_prediction,center,offset = model2(input_feature)
       del input_feature
-      
+      print(voxel_label.shape)
       # loss2
       loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
       # backward + optimize
@@ -138,7 +135,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       # for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
       data= dict_to(data, device, dtype)
       scores = model1(data)
-      voxel_label = data['3D_LABEL']
+      voxel_label = data['3D_LABEL'].permute(0, 1, 3, 2)
       val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
       val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = val_label_tensor.type(torch.LongTensor).to(device),val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
       loss1 = model1.compute_loss(scores, data)
