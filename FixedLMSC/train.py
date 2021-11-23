@@ -84,8 +84,8 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data = dict_to(data, device, dtype)
       scores = model1(data)
-      train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
-      train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = train_label_tensor.type(torch.LongTensor).to(device),train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
+      _,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
+      train_gt_center_tensor,train_gt_offset_tensor =train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
       del data
       
       # forward
@@ -136,10 +136,10 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data= dict_to(data, device, dtype)
       scores = model1(data)
-      val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
+      _,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
       val_gt_center_tensor,val_gt_offset_tensor =val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
       loss1 = model1.compute_loss(scores, data)
-      del data
+      del data 
       
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction,center,offset = model2(input_feature)
