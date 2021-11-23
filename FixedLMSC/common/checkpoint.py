@@ -18,7 +18,7 @@ def load_LMSC(model, optimizer, scheduler, resume, path, logger):
 
   # If resume, check that path exists and load everything to return
   else:
-    file_path = sorted(glob(os.path.join(path, '*.pth')))[0]
+    file_path = sorted(glob(os.path.join(path, '*.pth')))[1]
     assert os.path.isfile(file_path), '=> No checkpoint found at {}'.format(path)
     checkpoint = torch.load(file_path, map_location='cpu')
     # epoch = checkpoint.pop('startEpoch')
