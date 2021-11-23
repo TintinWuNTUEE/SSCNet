@@ -133,11 +133,11 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       # mask will be done in eval.py when foreground is none
       # for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
       # for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
+      voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data= dict_to(data, device, dtype)
       scores = model1(data)
-      voxel_label = data['3D_LABEL'].permute(0, 1, 3, 2)
       val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
-      val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = val_label_tensor.type(torch.LongTensor).to(device),val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
+      val_gt_center_tensor,val_gt_offset_tensor =val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
       loss1 = model1.compute_loss(scores, data)
       del data
       
