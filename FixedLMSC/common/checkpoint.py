@@ -8,43 +8,11 @@ def load_LMSC(model, optimizer, scheduler, resume, path, logger):
   '''
   Load checkpoint file
   '''
-
-  # If not resume, initialize model and return everything as it is
-  if not resume:
-    logger.info('=> No checkpoint. Initializing model from scratch')
-    model.weights_init()
-    epoch = 1
-    return model, optimizer, scheduler, epoch
-
-  # If resume, check that path exists and load everything to return
-  else:
-    file_path = sorted(glob(os.path.join(path, '*.pth')))[1]
-    assert os.path.isfile(file_path), '=> No checkpoint found at {}'.format(path)
-    checkpoint = torch.load(file_path, map_location='cpu')
-    # epoch = checkpoint.pop('startEpoch')
-    if isinstance(model, (DataParallel, DistributedDataParallel)):
-          model.module.load_state_dict(checkpoint.pop('model'))
-    else:
-      model.load_state_dict(checkpoint.pop('model'))
-    # optimizer.load_state_dict(checkpoint.pop('optimizer'))
-    # scheduler.load_state_dict(checkpoint.pop('scheduler'))
-    logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(file_path))
-    return model
-
-def load_LMSC_model(model, filepath, logger):
-  '''
-  Load checkpoint file
-  '''
-
-  # check that path exists and load everything to return
-  assert os.path.isfile(filepath), '=> No file found at {}'
-  checkpoint = torch.load(filepath)
-
-  if isinstance(model, (DataParallel, DistributedDataParallel)):
-    model.module.load_state_dict(checkpoint.pop('model'))
-  else:
-    model.load_state_dict(checkpoint.pop('model'))
-  logger.info('=> Model loaded at {}'.format(filepath))
+  file_path = sorted(glob(os.path.join(path, '*.pth')))[1]
+  print(file_path)
+  assert os.path.isfile(file_path), '=> No checkpoint found at {}'.format(path)
+  checkpoint = torch.load(file_path, map_location='cpu')
+  model.load_state_dict(checkpoint['model'])
   return model
 
 def load_panoptic(model,scheduler,optimizer, path, logger):
@@ -86,7 +54,7 @@ def save_LMSC(path, model, optimizer, scheduler, epoch, config):
   '''
 
   # Remove recursively if epoch_last folder exists and create new one
-  _remove_recursively(path)
+  # _remove_recursively(path)
   _create_directory(path)
 
   weights_fpath = os.path.join(path, 'LMSCNet_epoch_{}.pth'.format(str(epoch).zfill(3)))
@@ -105,7 +73,7 @@ def save_panoptic(path, model, optimizer, scheduler, epoch):
   '''
   Save checkpoint file
   '''
-  _remove_recursively(path)
+  # _remove_recursively(path)
   _create_directory(path)
   weights_fpath = os.path.join(path, 'Panoptic_epoch_{}.pth'.format(str(epoch).zfill(3)))
 
