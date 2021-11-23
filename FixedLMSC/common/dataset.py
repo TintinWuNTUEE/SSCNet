@@ -11,7 +11,7 @@ def get_dataset(_cfg):
     if _cfg._dict['DATASET']['TYPE'] == 'SemanticKITTI':
         ds_train = SemanticKITTI(_cfg._dict['DATASET'],'train')
         ds_val = SemanticKITTI(_cfg._dict['DATASET'],'val')
-        ds_test = SemanticKITTI(_cfg._dict['DATASET'],'test')
+        # ds_test = SemanticKITTI(_cfg._dict['DATASET'],'test')
 
     _cfg._dict['DATASET']['SPLIT'] = {'TRAIN': len(ds_train), 'VAL': len(ds_val), 'TEST': len(ds_test)}
 
@@ -23,7 +23,7 @@ def get_dataset(_cfg):
 
     dataset['train'] = DataLoader(ds_train, batch_size=train_batch_size, num_workers=num_workers, shuffle=True)
     dataset['val']   = DataLoader(ds_val,   batch_size=val_batch_size, num_workers=num_workers, shuffle=False)
-    dataset['test']  = DataLoader(ds_test,   batch_size=val_batch_size, num_workers=num_workers, shuffle=False)
+    # dataset['test']  = DataLoader(ds_test,   batch_size=val_batch_size, num_workers=num_workers, shuffle=False)
 
     return dataset
 class SemanticKITTI(Dataset):
