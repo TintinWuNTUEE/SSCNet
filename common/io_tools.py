@@ -25,7 +25,7 @@ def dict_to(_dict, device, dtype):
   return _dict
 
 
-def _remove_recursively(folder_path):
+def _remove_recursively(folder_path,type):
   '''
   Remove directory recursively
   '''
