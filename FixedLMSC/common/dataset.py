@@ -13,7 +13,7 @@ def get_dataset(_cfg):
         ds_val = SemanticKITTI(_cfg._dict['DATASET'],'val')
         # ds_test = SemanticKITTI(_cfg._dict['DATASET'],'test')
 
-    _cfg._dict['DATASET']['SPLIT'] = {'TRAIN': len(ds_train), 'VAL': len(ds_val), 'TEST': len(ds_test)}
+    _cfg._dict['DATASET']['SPLIT'] = {'TRAIN': len(ds_train), 'VAL': len(ds_val)}
 
     dataset = {}
 
