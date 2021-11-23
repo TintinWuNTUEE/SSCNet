@@ -91,19 +91,19 @@ def main(args):
     
     ###################### I change the semantic-kitti.yaml to make val dataloader contain sequence 0-10
     
-    # train_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'train', return_ref = True, instance_pkl_path=args['dataset']['instance_pkl_path'])
+    train_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'train', return_ref = True, instance_pkl_path=args['dataset']['instance_pkl_path'])
     val_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'val', return_ref = True, instance_pkl_path=args['dataset']['instance_pkl_path'])
-    # print("train_pt size = "+str(len(train_pt_dataset)))
+    print("train_pt size = "+str(len(train_pt_dataset)))
     print("val_pt size = "+str(len(val_pt_dataset)))
-    # train_dataset=voxel_dataset(train_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,use_aug = True,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
+    train_dataset=voxel_dataset(train_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,use_aug = True,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
     val_dataset=voxel_dataset(val_pt_dataset, args['dataset'], grid_size = grid_size, ignore_label = 0,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
-    # print("train size = "+str(len(train_dataset)))
+    print("train size = "+str(len(train_dataset)))
     print("val size = "+str(len(val_dataset)))
-    # train_dataset_loader = torch.utils.data.DataLoader(dataset = train_dataset,
-    #                                                 batch_size = batch_size,
-    #                                                 collate_fn = collate_fn_BEV,
-    #                                                 shuffle = False,
-    #                                                 num_workers = 4)
+    train_dataset_loader = torch.utils.data.DataLoader(dataset = train_dataset,
+                                                    batch_size = batch_size,
+                                                    collate_fn = collate_fn_BEV,
+                                                    shuffle = False,
+                                                    num_workers = 4)
     val_dataset_loader = torch.utils.data.DataLoader(dataset = val_dataset,
                                                     batch_size = val_batch_size,
                                                     collate_fn = collate_fn_BEV,
@@ -145,11 +145,12 @@ def main(args):
 
                 voxel_label,mask1 = voxel_label.cpu().numpy(),mask1.cpu().numpy()
                 voxel_label[mask1]=predict
-            # voxel_label = SemKITTI2train(voxel_label)
+            
             ########################## update center offset ################################
             center, offset = PanopticLabelGenerator(voxel_label,min_bound,intervals,mask1)
             ########################## update center offset ################################
             ########################## preprocess only have center and offset ################################
+            # voxel_label = SemKITTI2train(voxel_label)
             label_to_be_save= (voxel_label,center,offset)
             folder_path,filename = splitPath(filenames[i])
             folder_path=folder_path.replace('velodyne','preprocess')

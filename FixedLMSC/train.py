@@ -86,6 +86,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       
       data = dict_to(data, device, dtype)
       scores = model1(data)
+      voxel_label = data['3D_LABEL']
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
       train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor = train_label_tensor.type(torch.LongTensor).to(device),train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
       del data
@@ -98,7 +99,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       del input_feature
       
       # loss2
-      loss = loss_fn(sem_prediction,center,offset,train_label_tensor,train_gt_center_tensor,train_gt_offset_tensor)
+      loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
       # backward + optimize
       # gradient accumulator
       loss.backward()
@@ -137,7 +138,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       # for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
       data= dict_to(data, device, dtype)
       scores = model1(data)
-    
+      voxel_label = data['3D_LABEL']
       val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
       val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor = val_label_tensor.type(torch.LongTensor).to(device),val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
       loss1 = model1.compute_loss(scores, data)
@@ -148,7 +149,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       del input_feature
       
       # loss2
-      loss2 = loss_fn(sem_prediction,center,offset,val_label_tensor,val_gt_center_tensor,val_gt_offset_tensor)
+      loss2 = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
