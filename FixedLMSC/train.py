@@ -150,7 +150,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
-      evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, val_label_tensor)
+      evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
       
       # backward + optimize
       loss = loss1['total']+loss2
