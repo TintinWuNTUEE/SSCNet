@@ -11,7 +11,6 @@ DATASET:
     PREPROCESS: true
   ROOT_DIR: ../semanticKITTI
   SPLIT:
-    TEST: 3901
     TRAIN: 3834
     VAL: 815
   TYPE: SemanticKITTI
@@ -35,10 +34,10 @@ SCHEDULER:
   TYPE: power_iteration
 STATUS:
   CONFIG: configs/LMSCNet_SS.yaml
-  LAST: ./pretrained
+  LAST: ./weights
   RESUME: true
 TRAIN:
-  BATCH_SIZE: 2
+  BATCH_SIZE: 4
   CHECKPOINT_PERIOD: 15
   EPOCHS: 80
   SUMMARY_PERIOD: 50
