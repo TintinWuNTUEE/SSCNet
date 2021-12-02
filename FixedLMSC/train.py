@@ -15,6 +15,7 @@ from common.dataset import get_dataset
 from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
+import wandb
 def get_mem_allocated(device):
     if device.type == 'cuda':
         print(torch.cuda.get_device_name(0))
@@ -100,6 +101,9 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       optimizer.step()
       if t % 1000 == 0:
         logger.info ("LOSS:{}".format(loss.item()))
+      wandb.log({"loss": loss})
+      # Optional
+      wandb.watch(model2)
     best_loss, checkpoint_path = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
     _cfg.update_config(resume=True,checkpoint_path=checkpoint_path)
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
@@ -186,10 +190,16 @@ def main():
   train_f = LMSC_args.config_file
   dataset_f = LMSC_args.dataset_root
   
+  wandb.init(project="SSCNET", entity="tintinwu")
   
   # Read train configuration file
   _cfg = CFG()
   _cfg.from_config_yaml(train_f)
+  wandb.config = {
+  "learning_rate": _cfg._dict['OPTIMIZER']['BASE_LR'],
+  "epochs": 80,
+  "batch_size": 4
+}
   if dataset_f is not None:
     _cfg._dict['DATASET']['ROOT_DIR'] = dataset_f
   logger = get_logger(_cfg._dict['OUTPUT']['OUTPUT_PATH'], 'logs_train.log')
