@@ -104,8 +104,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       wandb.log({"loss": loss})
       # Optional
       wandb.watch(model2)
-    best_loss, checkpoint_path = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
-    _cfg.update_config(resume=True,checkpoint_path=checkpoint_path)
+    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
     get_mem_allocated(device)
 
