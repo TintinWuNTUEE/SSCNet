@@ -174,7 +174,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       logger.info('%15s : %6.2f%%'%(class_name, class_iou*100))
     print('Current val miou is %.3f'%(miou*100))
     logger.info(('Current val miou is %.3f'%(miou*100)))
-    
+    wandb.log({"miou": miou})
     checkpoint_path = None
     if loss<best_loss:
       best_loss=loss
