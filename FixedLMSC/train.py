@@ -15,6 +15,7 @@ from common.dataset import get_dataset
 from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
+import wandb
 def get_mem_allocated(device):
     if device.type == 'cuda':
         print(torch.cuda.get_device_name(0))
@@ -74,7 +75,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
                             center_loss = p_args['model']['center_loss'], offset_loss=p_args['model']['offset_loss'])
   for epoch in range(start_epoch, nbr_epochs+1):
     
-    model1.eval()
+    model1.train()
     model2.train()
     logger.info('=> =========== Epoch [{}/{}] ==========='.format(epoch, nbr_epochs))
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
@@ -82,7 +83,6 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
     for t, (data, _) in enumerate(dset):
       voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
-      print(voxel_label.shape)
       data = dict_to(data, device, dtype)
       scores = model1(data)
       _,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
@@ -90,18 +90,22 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       
       # forward
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      print(input_feature.shape)
+      
       sem_prediction,center,offset = model2(input_feature)
-      # print(scores['pred_semantic_1_1_feature'].shape)
       # loss2
       loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
       # backward + optimize
       # gradient accumulator
+      optimizer.zero_grad()
       loss.backward()
       optimizer.step()
       if t % 1000 == 0:
         logger.info ("LOSS:{}".format(loss.item()))
-    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
+      wandb.log({"loss": loss})
+      # Optional
+      wandb.watch(model2)
+    best_loss, checkpoint_path = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
+    _cfg.update_config(resume=True,checkpoint_path=checkpoint_path)
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
     get_mem_allocated(device)
 
@@ -187,10 +191,16 @@ def main():
   train_f = LMSC_args.config_file
   dataset_f = LMSC_args.dataset_root
   
+  wandb.init(project="SSCNET", entity="tintinwu")
   
   # Read train configuration file
   _cfg = CFG()
   _cfg.from_config_yaml(train_f)
+  wandb.config = {
+  "learning_rate": _cfg._dict['OPTIMIZER']['BASE_LR'],
+  "epochs": 80,
+  "batch_size": 4
+}
   if dataset_f is not None:
     _cfg._dict['DATASET']['ROOT_DIR'] = dataset_f
   logger = get_logger(_cfg._dict['OUTPUT']['OUTPUT_PATH'], 'logs_train.log')
