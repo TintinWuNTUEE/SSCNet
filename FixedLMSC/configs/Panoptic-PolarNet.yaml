@@ -18,6 +18,7 @@ dataset:
 
 model:
     model_save_path: ./weights
+    best: ./weights/best
     pretrained_model: /pretrained_weight/Panoptic_SemKITTI_PolarNet.pt
     train_log: ./weights
     polar: False

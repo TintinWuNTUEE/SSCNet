@@ -101,8 +101,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       optimizer.step()
       if t % 1000 == 0:
         logger.info ("LOSS:{}".format(loss.item()))
-    best_loss, checkpoint_path = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
-    _cfg.update_config(resume=True,checkpoint_path=checkpoint_path)
+    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
     get_mem_allocated(device)
 
@@ -176,11 +175,12 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
     checkpoint_path = None
     if loss<best_loss:
       best_loss=loss
-      checkpoint_path=p_args['model']['model_save_path']
+      checkpoint_path=p_args['model']['best']
       checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,epoch)
-  
-  return best_loss, checkpoint_path
-
+    else:
+      checkpoint_path = p_args['model']['model_save_path']
+      checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,epoch)
+  return best_loss
 def main():
   LMSC_args = parse_args('LMSCNet')
   p_args=parse_args('Panoptic Polarnet')
