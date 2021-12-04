@@ -180,9 +180,8 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       best_loss=loss
       checkpoint_path=p_args['model']['best']
       checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,epoch)
-    else:
-      checkpoint_path = p_args['model']['model_save_path']
-      checkpoint.save_panoptic(checkpoint_path,model2,optimizer,scheduler,epoch)
+    checkpoint_path = p_args['model']['model_save_path']
+    checkpoint.save_last(checkpoint_path,model2,optimizer,scheduler,epoch)
   return best_loss
 def main():
   LMSC_args = parse_args('LMSCNet')
