@@ -84,3 +84,17 @@ def save_panoptic(path, model, optimizer, scheduler, epoch):
     'scheduler': scheduler.state_dict(),
   }, weights_fpath)
   print('model saved to %s' % weights_fpath)
+
+def save_last(path, model, optimizer, scheduler, epoch):
+  '''
+  Save checkpoint file
+  '''
+  weights_fpath = os.path.join(path, 'Panoptic_epoch_last')
+
+  torch.save({
+    'startEpoch': epoch+1,  # To start on next epoch when loading the dict...
+    'model': model.state_dict(),
+    'optimizer': optimizer.state_dict(),
+    'scheduler': scheduler.state_dict(),
+  }, weights_fpath)
+  print('model saved to %s' % weights_fpath)
