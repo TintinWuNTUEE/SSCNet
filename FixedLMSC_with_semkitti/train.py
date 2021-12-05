@@ -1,7 +1,9 @@
 
 import os
+os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 import argparse
 import torch
+
 import torch.nn as nn
 import sys
 import yaml
@@ -89,7 +91,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
     for t, (data, _) in enumerate(dset):
-      voxel_label = SemKITTI2train(data['3D_LABEL']).type(torch.LongTensor).to(device).permute(0,1,3,2)
+      voxel_label = SemKITTI2train(data['3D_LABEL'].type(torch.int32)).type(torch.LongTensor).to(device).permute(0,1,3,2)
       data = dict_to(data, device, dtype)
       scores = model1(data)
       _,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
@@ -99,6 +101,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       
       sem_prediction,center,offset = model2(input_feature)
+      
       # loss2
       loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
       # backward + optimize
@@ -142,7 +145,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       # mask will be done in eval.py when foreground is none
       # for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
       # for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
-      voxel_label = SemKITTI2train(data['3D_LABEL']).type(torch.LongTensor).to(device).permute(0,1,3,2)
+      voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device)
       data= dict_to(data, device, dtype)
       scores = model1(data)
       _,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
@@ -151,7 +154,6 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
 
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction,center,offset = model2(input_feature)
-
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
