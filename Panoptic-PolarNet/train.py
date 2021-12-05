@@ -124,10 +124,12 @@ def main(args):
                     
                     for i_iter_val,(val_vox_fea,val_vox_label,val_gt_center,val_gt_offset,val_grid,val_pt_labels,val_pt_ints,val_pt_fea,_) in enumerate(val_dataset_loader):
                         val_vox_fea_ten = val_vox_fea.to(pytorch_device)
+                        print(val_vox_label.dtype)
                         val_vox_label = SemKITTI2train(val_vox_label)
                         val_pt_fea_ten = [torch.from_numpy(i).type(torch.FloatTensor).to(pytorch_device) for i in val_pt_fea]
                         val_grid_ten = [torch.from_numpy(i[:,:2]).to(pytorch_device) for i in val_grid]
                         val_label_tensor=val_vox_label.type(torch.LongTensor).to(pytorch_device)
+                        print(val_label_tensor)
                         val_gt_center_tensor = val_gt_center.to(pytorch_device)
                         val_gt_offset_tensor = val_gt_offset.to(pytorch_device)
                         if visibility:
@@ -183,6 +185,7 @@ def main(args):
             # training
             try:
                 train_vox_fea_ten = train_vox_fea.to(pytorch_device)
+                
                 train_label_tensor = SemKITTI2train(train_label_tensor)
                 train_pt_fea_ten = [torch.from_numpy(i).type(torch.FloatTensor).to(pytorch_device) for i in train_pt_fea]
                 train_grid_ten = [torch.from_numpy(i[:,:2]).to(pytorch_device) for i in train_grid]

@@ -6,3 +6,4 @@ semanticKITTI/*
 **/ofile
 *.log
 */SSC_out/*
+*wandb
