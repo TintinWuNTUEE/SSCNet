@@ -26,8 +26,8 @@ def load_panoptic(model,scheduler,optimizer, path, logger):
     checkpoint = torch.load(file_path, map_location='cpu')
     model = load_panoptic_model(model,checkpoint['model'])
     epoch = checkpoint.pop('startEpoch')
-    optimizer.load_state_dict(checkpoint.pop('optimizer'))
-    scheduler.load_state_dict(checkpoint.pop('scheduler'))
+    # optimizer.load_state_dict(checkpoint.pop('optimizer'))
+    # scheduler.load_state_dict(checkpoint.pop('scheduler'))
     logger.info('=> Continuing training routine. Checkpoint loaded at {}'.format(file_path))
     return model, optimizer, scheduler, epoch
   else:

@@ -219,7 +219,8 @@ def main():
   
   #build scheduler
   logger.info('=> Loading scheduler...')
-  lambda1 = lambda epoch: (0.98) ** (epoch)
+  lambda1 = lambda epoch: 1
+  # lambda1 = lambda epoch: (0.98) ** (epoch)
   scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
   
   model1= checkpoint.load_LMSC(model1,optimizer,scheduler,_cfg._dict['STATUS']['RESUME'],_cfg._dict['STATUS']['LAST'],logger)
