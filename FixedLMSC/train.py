@@ -97,12 +97,13 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       optimizer.zero_grad()
       loss.backward()
       optimizer.step()
-      scheduler.step()
+  
       if t % 1000 == 0:
         logger.info ("LOSS:{}".format(loss.item()))
       wandb.log({"loss": loss})
       # Optional
       wandb.watch(model2)
+    scheduler.step()
     best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
     get_mem_allocated(device)
