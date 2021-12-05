@@ -80,7 +80,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     logger.info('=> =========== Epoch [{}/{}] ==========='.format(epoch, nbr_epochs))
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
 
-    logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
+    logger.info('=> Learning rate: {}'.format(scheduler.get_last_lr()[0]))
     for t, (data, _) in enumerate(dset):
       voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data = dict_to(data, device, dtype)
