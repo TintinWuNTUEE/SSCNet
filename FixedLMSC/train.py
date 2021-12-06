@@ -74,8 +74,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
   loss_fn = panoptic_loss(center_loss_weight = p_args['model']['center_loss_weight'], offset_loss_weight = p_args['model']['offset_loss_weight'],\
                             center_loss = p_args['model']['center_loss'], offset_loss=p_args['model']['offset_loss'])
   for epoch in range(start_epoch, nbr_epochs+1):
-    checkpoint_path = p_args['model']['model_save_path']
-    checkpoint.save_last(checkpoint_path,model2,optimizer,scheduler,epoch)
+
     model1.train()
     model2.train()
     logger.info('=> =========== Epoch [{}/{}] ==========='.format(epoch, nbr_epochs))
@@ -221,7 +220,6 @@ def main():
   #build scheduler
   logger.info('=> Loading scheduler...')
   lambda1 = lambda epoch: (0.98) ** (epoch)
-  # lambda1 = lambda epoch: (0.98) ** (epoch)
   scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
   
   model1= checkpoint.load_LMSC(model1,optimizer,scheduler,_cfg._dict['STATUS']['RESUME'],_cfg._dict['STATUS']['LAST'],logger)
