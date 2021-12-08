@@ -115,15 +115,16 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
   grid_size = p_args['dataset']['grid_size']  
   dset = dataset['val']
   logger.info('=> Passing the network on the validation set...')
-  #evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
-  evaluator = PanopticEval(20+1, None, [0], min_points=50)
-  
   #prepare miou fun  
   SemKITTI_label_name = dict()
   for i in sorted(list(dset.dataset.dataset_config['learning_map'].keys()))[::-1]:
       SemKITTI_label_name[dset.dataset.dataset_config['learning_map'][i]] = dset.dataset.dataset_config['labels'][i]
   unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
   unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
+  evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
+  # evaluator = PanopticEval(20+1, None, [0], min_points=50)
+  
+
   
   model1.eval()
   model2.eval()
@@ -139,7 +140,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       
       data= dict_to(data, device, dtype)
       scores = model1(data)
-      label,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
+      _,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
       
       val_gt_center_tensor,val_gt_offset_tensor =val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
       loss1 = model1.compute_loss(scores, data)
