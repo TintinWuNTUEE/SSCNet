@@ -81,11 +81,12 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_last_lr()[0]))
+    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
     for t, (data, _) in enumerate(dset):
       voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data = dict_to(data, device, dtype)
       scores = model1(data)
-      label,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
+      _,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
       train_gt_center_tensor,train_gt_offset_tensor =train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
       # forward
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
@@ -104,7 +105,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       # Optional
       wandb.watch(model2)
     scheduler.step()
-    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
+    
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
     get_mem_allocated(device)
 
