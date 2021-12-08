@@ -122,6 +122,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       SemKITTI_label_name[dset.dataset.dataset_config['learning_map'][i]] = dset.dataset.dataset_config['labels'][i]
   unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
   unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
+  print(len(unique_label)+1)
   evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
   # evaluator = PanopticEval(20+1, None, [0], min_points=50)
   
