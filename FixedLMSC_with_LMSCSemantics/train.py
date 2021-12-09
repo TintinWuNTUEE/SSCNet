@@ -149,23 +149,20 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       loss1 = model1.compute_loss(scores, data)
 
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      sem_prediction= scores['pred_semantic_1_1'].view(-1,256,256,32).unsqueeze(dim=0).type(torch.FloatTensor).to(device)
+      sem_prediction= scores['pred_semantic_1_1'].permute(0, 1, 3, 4, 2)
+      # print(sem_prediction.shape)
       center,offset = model2(input_feature)
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
-      
+      print(panoptic_labels.dtype)
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
       
       # backward + optimize
       loss = loss1['total']+loss2
       loss = loss.item()
-
-      # for l_key in loss1:
-      #   tbwriter.add_scalar('validation_loss_batch/{}'.format(l_key), loss1[l_key].item(), len(dset) * (epoch-1) + t)
-      # Updating batch losses to then get mean for epoch loss
 
       if (t + 1) % _cfg._dict['VAL']['SUMMARY_PERIOD'] == 0:
         print('=> Epoch [{}/{}], Iteration [{}/{}], Val Losses:{} '.format(epoch, nbr_epochs, t+1, len(dset),loss))
