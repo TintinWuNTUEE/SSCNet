@@ -212,7 +212,7 @@ def main():
   
   #build optimizer
   logger.info('=> Loading optimizer...')
-  params = list(model1.parameters)+list(model2.parameters())
+  params = list(model1.parameters())+list(model2.parameters())
   optimizer = torch.optim.Adam(params,lr=_cfg._dict['OPTIMIZER']['BASE_LR'],betas=(0.9, 0.999))
   
   #build scheduler
