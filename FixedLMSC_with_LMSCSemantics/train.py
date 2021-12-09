@@ -1,9 +1,7 @@
 
 import os
-os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 import argparse
 import torch
-
 import torch.nn as nn
 import sys
 import yaml
@@ -18,13 +16,6 @@ from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
 import wandb
-def SemKITTI2train(label):
-    if isinstance(label, list):
-        return [SemKITTI2train_single(a) for a in label]
-    else:
-        return SemKITTI2train_single(label)
-def SemKITTI2train_single(label):
-    return label - 1 # uint8 trick
 def get_mem_allocated(device):
     if device.type == 'cuda':
         print(torch.cuda.get_device_name(0))
@@ -83,25 +74,25 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
   loss_fn = panoptic_loss(center_loss_weight = p_args['model']['center_loss_weight'], offset_loss_weight = p_args['model']['offset_loss_weight'],\
                             center_loss = p_args['model']['center_loss'], offset_loss=p_args['model']['offset_loss'])
   for epoch in range(start_epoch, nbr_epochs+1):
-    
+
     model1.train()
     model2.train()
     logger.info('=> =========== Epoch [{}/{}] ==========='.format(epoch, nbr_epochs))
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
 
-    logger.info('=> Learning rate: {}'.format(scheduler.get_lr()[0]))
+    logger.info('=> Learning rate: {}'.format(scheduler.get_last_lr()[0]))
+    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
     for t, (data, _) in enumerate(dset):
-      voxel_label = SemKITTI2train(data['3D_LABEL'].type(torch.int32)).type(torch.LongTensor).to(device).permute(0,1,3,2)
+      voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data = dict_to(data, device, dtype)
       scores = model1(data)
       _,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
       train_gt_center_tensor,train_gt_offset_tensor =train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
-      
       # forward
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      
-      sem_prediction,center,offset = model2(input_feature)
-      
+      sem_prediction = scores['pred_semantic_1_1'].view(-1,256,256,32).argmax(axis=0)
+      print(sem_prediction.shape)
+      center,offset = model2(input_feature)
       # loss2
       loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
       # backward + optimize
@@ -109,12 +100,14 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       optimizer.zero_grad()
       loss.backward()
       optimizer.step()
+  
       if t % 1000 == 0:
         logger.info ("LOSS:{}".format(loss.item()))
       wandb.log({"loss": loss})
       # Optional
       wandb.watch(model2)
-    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
+    scheduler.step()
+    
     logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
     get_mem_allocated(device)
 
@@ -125,15 +118,17 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
   grid_size = p_args['dataset']['grid_size']  
   dset = dataset['val']
   logger.info('=> Passing the network on the validation set...')
-  #evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
-  evaluator = PanopticEval(20+1, None, [0], min_points=50)
-  
   #prepare miou fun  
   SemKITTI_label_name = dict()
   for i in sorted(list(dset.dataset.dataset_config['learning_map'].keys()))[::-1]:
       SemKITTI_label_name[dset.dataset.dataset_config['learning_map'][i]] = dset.dataset.dataset_config['labels'][i]
   unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
   unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
+  # print(len(unique_label)+1)
+  evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
+  # evaluator = PanopticEval(20+1, None, [0], min_points=50)
+  
+
   
   model1.eval()
   model2.eval()
@@ -145,20 +140,23 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       # mask will be done in eval.py when foreground is none
       # for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
       # for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
-      voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device)
+      voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data= dict_to(data, device, dtype)
       scores = model1(data)
       _,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
+      
       val_gt_center_tensor,val_gt_offset_tensor =val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
       loss1 = model1.compute_loss(scores, data)
 
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      sem_prediction,center,offset = model2(input_feature)
+      sem_prediction= scores['pred_semantic_1_1'].view(-1,256,256,32).unsqueeze(dim=0).type(torch.FloatTensor).to(device)
+      center,offset = model2(input_feature)
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
+      
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
       
       # backward + optimize

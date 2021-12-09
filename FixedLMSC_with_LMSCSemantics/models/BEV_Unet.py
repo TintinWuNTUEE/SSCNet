@@ -15,14 +15,9 @@ class BEV_Unet(nn.Module):
             self.network = UNet(n_class*n_height,n_height,n_feature,dilation,group_conv,input_batch_norm,dropout,circular_padding,dropblock)
 
     def forward(self, x):
-        x,center,offset = self.network(x)
-        
-        x = x.permute(0,2,3,1)
-        new_shape = list(x.size())[:3] + [self.n_height,self.n_class]
-        x = x.view(new_shape)
-        x = x.permute(0,4,1,2,3)
+        center,offset = self.network(x)
 
-        return x,center,offset
+        return center,offset
     def weights_initializer(self, m):
         if isinstance(m, nn.Conv2d):
             nn.init.kaiming_uniform_(m.weight)
@@ -69,8 +64,8 @@ class UNet(nn.Module):
         x = self.up1(x5, x4)
         x = self.up2(x, x3)
         x = self.up3(x, x2)
-        s_x = self.up4(x, x1)
-        s_x = self.outc(self.dropout(s_x))
+        # s_x = self.up4(x, x1)
+        # s_x = self.outc(self.dropout(s_x))
         # instance
         # i_x = self.i_up1(x5, x4)
         # i_x = self.i_up2(i_x, x3)
@@ -83,7 +78,7 @@ class UNet(nn.Module):
         i_x_offset = self.i_up4_offset(x, x1)
         i_x_offset = self.i_outc_offset(self.dropout(i_x_offset))
 
-        return s_x, i_x_center, i_x_offset
+        return i_x_center, i_x_offset
     
 
 class double_conv(nn.Module):

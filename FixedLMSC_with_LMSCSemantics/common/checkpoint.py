@@ -89,7 +89,7 @@ def save_last(path, model, optimizer, scheduler, epoch):
   '''
   Save checkpoint file
   '''
-  weights_fpath = os.path.join(path, 'Panoptic_epoch_last')
+  weights_fpath = os.path.join(path, 'Panoptic_epoch_last.pth')
 
   torch.save({
     'startEpoch': epoch+1,  # To start on next epoch when loading the dict...
