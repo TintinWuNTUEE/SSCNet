@@ -76,7 +76,6 @@ class SemanticKITTI(Dataset):
 
 
     def get_filepaths(self, modality):
-        print(os.path.join(self.root_dir, 'dataset', 'sequences', '*'))
         sequences = list(sorted(glob(os.path.join(self.root_dir, 'dataset', 'sequences', '*')))[i] for i in self.split[self.phase])
 
         if self.phase != 'test':
@@ -110,7 +109,6 @@ class SemanticKITTI(Dataset):
                 assert len(os.listdir(sequence)) > 0, 'Error, No files in sequence: {}'.format(sequence)
 
                 self.filepaths['PREPROCESS'] += sorted(glob(os.path.join(sequence, 'preprocess', '*.pt')))
-                print( sorted(glob(os.path.join(sequence, 'preprocess', '*.pt'))))
 
         #????
         # if modality == 'PANOPTIC':

@@ -10,7 +10,7 @@ def get_model(_cfg,dataset):
     class_frequencies = dataset.class_frequencies
     nbr_classes = 20
     model1 = LMSCNet_SS(nbr_classes, grid_dims, class_frequencies)
-    model2 = BEV_Unet(20,feature_shape[1],feature_shape[0], input_batch_norm = True, dropout = 0.5, circular_padding = False, use_vis_fea=False)
+    model2 = BEV_Unet(nbr_classes,feature_shape[1],feature_shape[0], input_batch_norm = True, dropout = 0.5, circular_padding = False, use_vis_fea=False)
     return model1, model2
 
 if __name__ == '__main__':

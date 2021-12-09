@@ -42,7 +42,6 @@ class PanopticEval:
     idxs = np.stack([x_sem.cpu().squeeze(), y_sem.cpu().squeeze()], axis=0)
     idxs = np.where(idxs==255,0,idxs)
     # make confusion matrix (cols = gt, rows = pred)
-    print(idxs.shape)
     np.add.at(self.px_iou_conf_matrix, tuple(idxs), 1)
 
   def getSemIoUStats(self):
