@@ -198,7 +198,7 @@ def get_panoptic_segmentation(sem, ctr_hmp, offsets, thing_list, label_divisor=2
     if sem.dim() == 5:
         semantic = torch.argmax(sem, dim=1)
         # shift back to original label idx 
-        semantic = torch.add(semantic, 1)
+        # semantic = torch.add(semantic, 1)
         sem = F.softmax(sem)
     else:
         semantic = sem.type(torch.ByteTensor).cuda()

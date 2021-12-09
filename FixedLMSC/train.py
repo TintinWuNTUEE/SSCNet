@@ -122,9 +122,9 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       SemKITTI_label_name[dset.dataset.dataset_config['learning_map'][i]] = dset.dataset.dataset_config['labels'][i]
   unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
   unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
-  print(len(unique_label)+1)
-  # evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
-  evaluator = PanopticEval(20+1, None, [0], min_points=50)
+  # print(len(unique_label)+1)
+  evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
+  # evaluator = PanopticEval(20+1, None, [0], min_points=50)
   
 
   
@@ -139,7 +139,6 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       # for_mask = torch.zeros(1,grid_size[0],grid_size[1],grid_size[2],dtype=torch.bool).to(device)
       # for_mask[(val_label_tensor>=0 )& (val_label_tensor<8)] = True 
       voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
-      
       data= dict_to(data, device, dtype)
       scores = model1(data)
       _,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
@@ -149,12 +148,13 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
 
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction,center,offset = model2(input_feature)
-
+      print(sem_prediction.dim())
       # loss2
       loss2 = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
+      
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
       
       # backward + optimize
