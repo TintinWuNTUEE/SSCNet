@@ -16,7 +16,6 @@ class BEV_Unet(nn.Module):
 
     def forward(self, x):
         center,offset = self.network(x)
-
         return center,offset
     def weights_initializer(self, m):
         if isinstance(m, nn.Conv2d):

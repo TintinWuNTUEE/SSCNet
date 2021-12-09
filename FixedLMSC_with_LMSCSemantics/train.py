@@ -90,8 +90,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       train_gt_center_tensor,train_gt_offset_tensor =train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
       # forward
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      sem_prediction = scores['pred_semantic_1_1'].view(-1,256,256,32).argmax(axis=0)
-      print(sem_prediction.shape)
+      sem_prediction= scores['pred_semantic_1_1'].permute(0, 1, 3, 4, 2)
       center,offset = model2(input_feature)
       # loss2
       loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
@@ -146,14 +145,12 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       _,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
       
       val_gt_center_tensor,val_gt_offset_tensor =val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
-      loss1 = model1.compute_loss(scores, data)
-
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction= scores['pred_semantic_1_1'].permute(0, 1, 3, 4, 2)
       # print(sem_prediction.shape)
       center,offset = model2(input_feature)
       # loss2
-      loss2 = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
+      loss = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
@@ -161,7 +158,6 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
       
       # backward + optimize
-      loss = loss1['total']+loss2
       loss = loss.item()
 
       if (t + 1) % _cfg._dict['VAL']['SUMMARY_PERIOD'] == 0:
@@ -216,7 +212,7 @@ def main():
   
   #build optimizer
   logger.info('=> Loading optimizer...')
-  params = model2.parameters()
+  params = list(model1.parameters)+list(model2.parameters())
   optimizer = torch.optim.Adam(params,lr=_cfg._dict['OPTIMIZER']['BASE_LR'],betas=(0.9, 0.999))
   
   #build scheduler
