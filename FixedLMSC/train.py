@@ -99,9 +99,9 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       optimizer.step()
   
       if t % 1000 == 0:
-        logger.info ("semantic loss:{}".format(loss_dict['semantic_loss'].item()))
-        logger.info ("heatmap loss:{}".format(loss_dict['heatmap_loss'].item()))    
-        logger.info ("offset loss:{}".format(loss_dict['offset_loss'].item()))
+        logger.info ("semantic loss:{}".format(loss_dict['semantic_loss']))
+        logger.info ("heatmap loss:{}".format(loss_dict['heatmap_loss']))    
+        logger.info ("offset loss:{}".format(loss_dict['offset_loss']))
     scheduler.step()
 
 def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, best_loss):
