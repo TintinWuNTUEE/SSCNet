@@ -91,7 +91,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction,center,offset = model2(input_feature)
       # loss2
-      loss,loss_dict = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
+      loss,center_loss,offset_loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
       # backward + optimize
       # gradient accumulator
       optimizer.zero_grad()
@@ -99,9 +99,9 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       optimizer.step()
   
       if t % 1000 == 0:
-        logger.info ("semantic loss:{}".format(loss_dict['semantic_loss']))
-        logger.info ("heatmap loss:{}".format(loss_dict['heatmap_loss']))    
-        logger.info ("offset loss:{}".format(loss_dict['offset_loss']))
+        logger.info ("semantic loss:{}".format(loss.item()))
+        logger.info ("center loss:{}".format(center_loss.item()))    
+        logger.info ("offset loss:{}".format(offset_loss.item()))
     scheduler.step()
 
 def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, best_loss):

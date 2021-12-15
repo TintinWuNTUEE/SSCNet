@@ -91,4 +91,4 @@ class panoptic_loss(torch.nn.Module):
         if save_loss:
             self.lost_dict['offset_loss'].append(offset_loss.item())
         loss += offset_loss
-        return loss,self.lost_dict
+        return loss,center_loss,offset_loss
