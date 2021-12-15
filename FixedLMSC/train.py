@@ -69,7 +69,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
   dset = dataset['train']
 
-  nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
+  nbr_epochs = p_args._dict['model']['max_epoch']
   loss_fn = panoptic_loss(center_loss_weight = p_args['model']['center_loss_weight'], offset_loss_weight = p_args['model']['offset_loss_weight'],\
                             center_loss = p_args['model']['center_loss'], offset_loss=p_args['model']['offset_loss'])
   for epoch in range(start_epoch, nbr_epochs+1):
