@@ -83,7 +83,7 @@ def validation(model1, model2,dataset,_cfg,p_args):
             loss1 = model1.compute_loss(scores, data)
 
             input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-            first_stage_sem_prediction = scores['pred_semantic_1_1'].view(-1,256,256,32)
+            first_stage_sem_prediction = scores['pred_semantic_1_1'].view(-1,32,256,256)
             sem_prediction,center,offset = model2(input_feature)
             
             first_stage_sem_prediction = first_stage_sem_prediction.cpu().numpy()
@@ -99,27 +99,31 @@ def validation(model1, model2,dataset,_cfg,p_args):
             print(center.shape)
             print(offset.shape)
             
+            
             thing_list = [i for i in dset.dataset.dataset_config['thing_class'].keys() if dset.dataset.dataset_config['thing_class'][i]==True]
             mask2 = np.zeros_like(first_stage_sem_prediction,dtype=bool)
             for label in thing_list:
                 mask2[first_stage_sem_prediction == label] = True
+                
+            print(mask2.sum())
             first_stage_sem_prediction[~mask2] = 0
-            first_stage_sem_prediction_bev = ((first_stage_sem_prediction>0).sum(axis=2))>0
+            first_stage_sem_prediction_bev = ((first_stage_sem_prediction>0).sum(axis=0))>0
             plot0 = plt.figure('first_stage_sem_prediction')
             plt.imshow(first_stage_sem_prediction_bev,cmap=plt.cm.gray,origin='lower')
             first_stage_sem_prediction_bev_nonzero = np.nonzero(first_stage_sem_prediction_bev)
             # print(partial_voxel_bev_nonzero)
-            for row, col in zip(first_stage_sem_prediction_bev[0],first_stage_sem_prediction_bev[1]):
+            for row, col in zip(first_stage_sem_prediction_bev_nonzero[0],first_stage_sem_prediction_bev_nonzero[1]):
                 for i in range(32):
-                    if first_stage_sem_prediction[row, col, i] != 0:
+                    if first_stage_sem_prediction[i,row, col] != 0:
                         # plt.text(col, row, str(data[row, col, i]), color='green',fontsize=12)
-                        plt.text(col, row, str(first_stage_sem_prediction[row, col, i]), color='red',fontsize=12)
+                        plt.text(col, row, str(first_stage_sem_prediction[i,row, col]), color='red',fontsize=12)
                         break
             
             
             mask1 = np.zeros_like(sem_prediction,dtype=bool)
             for label in thing_list:
                 mask1[sem_prediction == label] = True
+            print(mask1.sum())
             sem_prediction[~mask1] = 0
             sem_prediction_bev = ((sem_prediction>0).sum(axis=2))>0
             plot0 = plt.figure('sem_prediction_bev')
