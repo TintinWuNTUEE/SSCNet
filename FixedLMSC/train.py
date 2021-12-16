@@ -92,6 +92,14 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       sem_prediction,center,offset = model2(input_feature)
       # loss2
       loss,center_loss,offset_loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
+      panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
+                                                                threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
+                                                                top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
+      inst_labels = torch.unique(panoptic_labels)
+      for label in inst_labels:
+        instance = panoptic_labels[panoptic_labels==label]
+        print(label)
+        print(instance)
       # backward + optimize
       # gradient accumulator
       optimizer.zero_grad()
@@ -143,7 +151,6 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
 
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction,center,offset = model2(input_feature)
-      print(sem_prediction.shape)
       # loss2
       loss2,_,_ = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
@@ -151,7 +158,16 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
       
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
-      
+      inst_labels = []
+      instances = []
+      for things in dset.dataset.thing_list:
+        inst_label = torch.unique(panoptic_labels)
+        inst_labels.append(inst_label[(inst_label&0xFFFF) == things])
+      inst_labels = torch.cat(inst_labels,dim=0)
+      print(inst_labels.shape[0])
+      for instance in inst_labels:
+        instances.append((panoptic_labels==instance).nonzero()[:,1:])
+      print(len(instances))
       # backward + optimize
       loss = loss1['total']+loss2
       loss = loss.item()
