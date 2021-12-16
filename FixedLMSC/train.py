@@ -97,8 +97,8 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
       inst_labels = []
       instances = []
+      inst_label = torch.unique(panoptic_labels)
       for things in dset.dataset.thing_list:
-        inst_label = torch.unique(panoptic_labels)
         inst_labels.append(inst_label[(inst_label&0xFFFF) == things])
       inst_labels = torch.cat(inst_labels,dim=0)
       print(inst_labels.shape[0])
@@ -165,8 +165,8 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
       inst_labels = []
       instances = []
+      inst_label = torch.unique(panoptic_labels)
       for things in dset.dataset.thing_list:
-        inst_label = torch.unique(panoptic_labels)
         inst_labels.append(inst_label[(inst_label&0xFFFF) == things])
       inst_labels = torch.cat(inst_labels,dim=0)
       print(inst_labels.shape[0])
