@@ -95,11 +95,16 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
-      inst_labels = torch.unique(panoptic_labels)
-      for label in inst_labels:
-        instance = panoptic_labels[panoptic_labels==label]
-        print(label)
-        print(instance)
+      inst_labels = []
+      instances = []
+      for things in dset.dataset.thing_list:
+        inst_label = torch.unique(panoptic_labels)
+        inst_labels.append(inst_label[(inst_label&0xFFFF) == things])
+      inst_labels = torch.cat(inst_labels,dim=0)
+      print(inst_labels.shape[0])
+      for instance in inst_labels:
+        instances.append((panoptic_labels==instance).nonzero()[:,1:])
+      print(len(instances))
       # backward + optimize
       # gradient accumulator
       optimizer.zero_grad()
