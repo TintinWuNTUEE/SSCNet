@@ -15,7 +15,6 @@ from common.dataset import get_dataset
 from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
-from common.instance import get_instance
 def get_mem_allocated(device):
     if device.type == 'cuda':
         print(torch.cuda.get_device_name(0))
@@ -94,7 +93,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       # loss2
       loss,center_loss,offset_loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
 
-      instances,_= get_instance(p_args,voxel_label,train_gt_center_tensor,train_gt_offset_tensor,dset)
+    
       # backward + optimize
       # gradient accumulator
       optimizer.zero_grad()
@@ -110,7 +109,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, best_loss):
   device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
-  nbr_epochs = p_args['model']['max_epoch']
+  nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
   grid_size = p_args['dataset']['grid_size']  
   dset = dataset['val']
   logger.info('=> Passing the network on the validation set...')
@@ -148,7 +147,10 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       sem_prediction,center,offset = model2(input_feature)
       # loss2
       loss2,_,_ = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
-      instances,panoptic_labels = get_instance(p_args,sem_prediction,center,offset,dset,False)
+      panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
+                                                                threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
+                                                                top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
+      
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
       # backward + optimize
       loss = loss1['total']+loss2

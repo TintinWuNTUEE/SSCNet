@@ -15,7 +15,7 @@ from common.dataset import get_dataset
 from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
-import wandb
+from common.instance import get_instance
 def get_mem_allocated(device):
     if device.type == 'cuda':
         print(torch.cuda.get_device_name(0))
@@ -70,7 +70,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
   dset = dataset['train']
 
-  nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
+  nbr_epochs = p_args['model']['max_epoch']
   loss_fn = panoptic_loss(center_loss_weight = p_args['model']['center_loss_weight'], offset_loss_weight = p_args['model']['offset_loss_weight'],\
                             center_loss = p_args['model']['center_loss'], offset_loss=p_args['model']['offset_loss'])
   for epoch in range(start_epoch, nbr_epochs+1):
@@ -81,7 +81,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_last_lr()[0]))
-    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
+    # best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
     for t, (data, _) in enumerate(dset):
       voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data = dict_to(data, device, dtype)
@@ -90,10 +90,11 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       train_gt_center_tensor,train_gt_offset_tensor =train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
       # forward
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      sem_prediction= scores['pred_semantic_1_1'].permute(0, 1, 3, 4, 2)
-      center,offset = model2(input_feature)
+      sem_prediction,center,offset = model2(input_feature)
       # loss2
-      loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
+      loss,center_loss,offset_loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
+
+      instances,_= get_instance(p_args,voxel_label,train_gt_center_tensor,train_gt_offset_tensor,dset)
       # backward + optimize
       # gradient accumulator
       optimizer.zero_grad()
@@ -101,19 +102,15 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       optimizer.step()
   
       if t % 1000 == 0:
-        logger.info ("LOSS:{}".format(loss.item()))
-      wandb.log({"loss": loss})
-      # Optional
-      wandb.watch(model2)
+        logger.info ("semantic loss:{}".format(loss.item()))
+        logger.info ("center loss:{}".format(center_loss.item()))    
+        logger.info ("offset loss:{}".format(offset_loss.item()))
     scheduler.step()
-    
-    logger.info ("FINAL SUMMARY=>LOSS:{}".format(loss.item()))
-    get_mem_allocated(device)
 
 def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, best_loss):
   device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
-  nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
+  nbr_epochs = p_args['model']['max_epoch']
   grid_size = p_args['dataset']['grid_size']  
   dset = dataset['val']
   logger.info('=> Passing the network on the validation set...')
@@ -145,19 +142,21 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       _,val_gt_center_tensor,val_gt_offset_tensor = data['PREPROCESS']
       
       val_gt_center_tensor,val_gt_offset_tensor =val_gt_center_tensor.to(device),val_gt_offset_tensor.to(device)
+      loss1 = model1.compute_loss(scores, data)
+
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
-      sem_prediction= scores['pred_semantic_1_1'].permute(0, 1, 3, 4, 2)
-      # print(sem_prediction.shape)
-      center,offset = model2(input_feature)
+      sem_prediction,center,offset = model2(input_feature)
       # loss2
-      loss = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
-      panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
-                                                                threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
-                                                                top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
+      loss2,_,_ = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
+      instances,panoptic_labels = get_instance(p_args,sem_prediction,center,offset,dset,False)
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
-      
       # backward + optimize
+      loss = loss1['total']+loss2
       loss = loss.item()
+
+      # for l_key in loss1:
+      #   tbwriter.add_scalar('validation_loss_batch/{}'.format(l_key), loss1[l_key].item(), len(dset) * (epoch-1) + t)
+      # Updating batch losses to then get mean for epoch loss
 
       if (t + 1) % _cfg._dict['VAL']['SUMMARY_PERIOD'] == 0:
         print('=> Epoch [{}/{}], Iteration [{}/{}], Val Losses:{} '.format(epoch, nbr_epochs, t+1, len(dset),loss))
@@ -173,7 +172,6 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       logger.info('%15s : %6.2f%%'%(class_name, class_iou*100))
     print('Current val miou is %.3f'%(miou*100))
     logger.info(('Current val miou is %.3f'%(miou*100)))
-    wandb.log({"miou": miou})
     checkpoint_path = None
     if loss<best_loss:
       best_loss=loss
@@ -188,16 +186,10 @@ def main():
   train_f = LMSC_args.config_file
   dataset_f = LMSC_args.dataset_root
   
-  wandb.init(project="SSCNET", entity="tintinwu")
   
   # Read train configuration file
   _cfg = CFG()
   _cfg.from_config_yaml(train_f)
-  wandb.config = {
-  "learning_rate": _cfg._dict['OPTIMIZER']['BASE_LR'],
-  "epochs": 80,
-  "batch_size": 4
-}
   if dataset_f is not None:
     _cfg._dict['DATASET']['ROOT_DIR'] = dataset_f
   logger = get_logger(_cfg._dict['OUTPUT']['OUTPUT_PATH'], 'logs_train.log')
@@ -211,7 +203,7 @@ def main():
   
   #build optimizer
   logger.info('=> Loading optimizer...')
-  params = list(model1.parameters())+list(model2.parameters())
+  params = model2.parameters()
   optimizer = torch.optim.Adam(params,lr=_cfg._dict['OPTIMIZER']['BASE_LR'],betas=(0.9, 0.999))
   
   #build scheduler
