@@ -95,7 +95,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 
       panoptic_labels=[]
       for i in range(p_args['model']['train_batch_size']):
-        panoptic_label, _ = get_panoptic_segmentation(voxel_label[i].unsqueeze(0), center[i].unsqueeze(0), offset[i].unsqueeze(0), dset.dataset.thing_list,\
+        panoptic_label, _ = get_panoptic_segmentation(voxel_label[i].unsqueeze(0), train_gt_center_tensor[i].unsqueeze(0), train_gt_offset_tensor[i].unsqueeze(0), dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
         panoptic_labels.append(panoptic_label)
