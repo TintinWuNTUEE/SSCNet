@@ -1,6 +1,7 @@
 
 import os
 import argparse
+from numpy.lib.arraysetops import unique
 import torch
 import torch.nn as nn
 import sys
@@ -15,7 +16,8 @@ from common.dataset import get_dataset
 from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
-from common.instance import get_instance
+from common.utils import get_instance
+from common.utils import get_unique_label
 def get_mem_allocated(device):
     if device.type == 'cuda':
         print(torch.cuda.get_device_name(0))
@@ -54,6 +56,7 @@ def parse_args(modelname):
   
   return args
 
+
 def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epoch, logger):
   device = torch.device('cuda')
   dtype = torch.float32
@@ -81,7 +84,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
     logger.info('=> Reminder - Output of routine on {}'.format(_cfg._dict['OUTPUT']['OUTPUT_PATH']))
 
     logger.info('=> Learning rate: {}'.format(scheduler.get_last_lr()[0]))
-    # best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
+    best_loss = validation(model1, model2, optimizer,scheduler,loss_fn,dataset, _cfg,p_args,epoch, logger,best_loss)
     for t, (data, _) in enumerate(dset):
       voxel_label = data['3D_LABEL'].type(torch.LongTensor).to(device).permute(0,1,3,2)
       data = dict_to(data, device, dtype)
@@ -91,12 +94,11 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       # forward
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction,center,offset = model2(input_feature)
-      # loss2
+      # loss
       loss,center_loss,offset_loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
-
+      # instances
       instances,_= get_instance(p_args,voxel_label,train_gt_center_tensor,train_gt_offset_tensor,dset)
       # backward + optimize
-      # gradient accumulator
       optimizer.zero_grad()
       loss.backward()
       optimizer.step()
@@ -110,21 +112,12 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
 def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args,epoch, logger, best_loss):
   device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
-  nbr_epochs = p_args['model']['max_epoch']
-  grid_size = p_args['dataset']['grid_size']  
+  nbr_epochs = p_args['model']['max_epoch']  
   dset = dataset['val']
   logger.info('=> Passing the network on the validation set...')
   #prepare miou fun  
-  SemKITTI_label_name = dict()
-  for i in sorted(list(dset.dataset.dataset_config['learning_map'].keys()))[::-1]:
-      SemKITTI_label_name[dset.dataset.dataset_config['learning_map'][i]] = dset.dataset.dataset_config['labels'][i]
-  unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
-  unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
-  # print(len(unique_label)+1)
+  unique_label,unique_label_str = get_unique_label(dset)
   evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
-  # evaluator = PanopticEval(20+1, None, [0], min_points=50)
-  
-
   
   model1.eval()
   model2.eval()
