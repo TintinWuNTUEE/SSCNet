@@ -39,6 +39,28 @@ def get_dataset(_cfg):
                                                     shuffle = False,
                                                     num_workers = 4)
     return dataset
+def get_preprocess_dataset(_cfg):
+    grid_size = _cfg['dataset']['grid_size']
+    data_path = _cfg['dataset']['path']
+    train_batch_size = 1
+    val_batch_size = 1
+    
+    dataset={}
+    train_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'train', return_ref = True, instance_pkl_path=_cfg['dataset']['instance_pkl_path'])
+    val_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'val', return_ref = True, instance_pkl_path=_cfg['dataset']['instance_pkl_path'])
+    train_dataset=voxel_dataset(train_pt_dataset, _cfg['dataset'], grid_size = grid_size, ignore_label = 0,use_aug = True,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
+    val_dataset=voxel_dataset(val_pt_dataset, _cfg['dataset'], grid_size = grid_size, ignore_label = 0,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2],phase='val')
+    dataset['train']= DataLoader(dataset = train_dataset,
+                                                    batch_size = train_batch_size,
+                                                    collate_fn = collate_fn_BEV,
+                                                    shuffle = False,
+                                                    num_workers = 4)
+    dataset['val'] = DataLoader(dataset = val_dataset,
+                                                    batch_size = val_batch_size,
+                                                    collate_fn = collate_fn_BEV,
+                                                    shuffle = False,
+                                                    num_workers = 4)
+    return dataset
 class SemKITTI(Dataset):
     def __init__(self, data_path, imageset = 'train', return_ref = False, instance_pkl_path ='data'):
         self.return_ref = return_ref

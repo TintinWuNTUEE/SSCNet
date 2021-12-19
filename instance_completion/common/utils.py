@@ -5,28 +5,19 @@ def get_instance(p_args,sem,center,offset,dset,train=True):
     '''
     Get instance and return a list of instance labels
     '''
-    if train:
-        batch_size = p_args['model']['train_batch_size']
-    else:
-        batch_size = 1
-    panoptic_labels=[]
-    for i in range(batch_size):
-        panoptic_label,_ = get_panoptic_segmentation(sem[i].unsqueeze(0), center[i].unsqueeze(0), offset[i].unsqueeze(0), dset.dataset.thing_list,\
+    inst_label = []
+    instance = []
+    panoptic_label,_ = get_panoptic_segmentation(sem, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
-        panoptic_labels.append(panoptic_label)
-    panoptic_labels=torch.cat(panoptic_labels,dim=0)
-    inst_labels = []
-    instances = []
-    inst_label = torch.unique(panoptic_labels)
-    
+    label = torch.unique(panoptic_label)
     for things in dset.dataset.thing_list:
-        inst_labels.append(inst_label[(inst_label&0xFFFF) == things])
-    inst_labels = torch.cat(inst_labels,dim=0)
-    for instance in inst_labels:
-        instances.append((panoptic_labels==instance).nonzero()[:,1:])
-
-    return instances,inst_labels
+        inst_label.append(label[(label&0xFFFF) == things])
+    inst_label = torch.cat(inst_label,dim=0)
+    for inst in inst_label:
+        instance.append((panoptic_label==inst).nonzero()[:,1:])  
+    
+    return instance,inst_label
 
 def get_unique_label(dset):
     '''
@@ -38,11 +29,14 @@ def get_unique_label(dset):
     unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
     unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
     return unique_label,unique_label_str
-def sample(instances,type):
+def sample(instances,class_list,type,sample_num=0):
     '''
     Sample the instance either with voxel padding or points
     '''
     if type =="points":
+        for i in range(len(instances)):
+            print(instances[i].shape)
+            print(class_list[i]&0xFFFF)
         return instances
     elif type =="voxel":
         # pad your instance here
