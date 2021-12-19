@@ -10,6 +10,7 @@ from common.configs import merge_configs
 from common.utils import get_instance
 from common.utils import get_unique_label
 from common.logger import get_logger
+from common.utils import sample
 device=torch.device('cuda')
 ############################## grid size setting ##############################
 max_bound = np.asarray([51.2,25.6,4.4])
@@ -36,20 +37,37 @@ def parse_args():
     args = merge_configs(args,new_args)
   
     return args
-def train(dataset,args,start_epoch=0):
+def train(model,loss_fn,scheduler,optimizer,dataset,args,start_epoch=0):
     dset = dataset['train']
     nbr_epochs = args['model']['max_epoch']
+    sample_type = "points"
     dtype = torch.float32
+    model.train()
     for epoch in range(start_epoch,nbr_epochs+1):
-        for _,(val_in,val_center,val_offset,_,_,_,_,filenames,gt_sem,gt_center,gt_offset)  in enumerate(dset):
-            val_in,val_center,val_offset= val_in.to(device),val_center.to(device),val_offset.to(device)
+        for _,(pos_in,center_in,offset_in,_,_,_,_,filenames,gt_sem,gt_center,gt_offset)  in enumerate(dset):
+            pos_in,center_in,offset_in= pos_in.to(device),center_in.to(device),offset_in.to(device)
             # print(val_in.dtype)
             # print(gt_sem.shape)
             gt_sem,gt_center,gt_offset =gt_sem.to(device),gt_center.to(device),gt_offset.to(device)
-            instance_input,_ = get_instance(args,val_in,val_center,val_offset,dset)
-            instance_label,_ = get_instance(args,gt_sem,gt_center,gt_offset,dset)
+            instance_input,input_class_list = get_instance(args,pos_in,center_in,offset_in,dset)
+            instance_label,label_class_list = get_instance(args,gt_sem,gt_center,gt_offset,dset)
+            input_class_nbr = len(input_class_list)
+            label_class_nbr = len(label_class_list)
+            class_nbr = np.min((input_class_nbr,label_class_nbr))
             
-    return
+            instance_input = sample(instance_input,type=sample_type)
+            
+            pred_list = []
+            for i in range(class_nbr):
+                pred = model(instance_input[i])
+                pred_list.append(pred)
+            pred_list = torch.cat(pred_list,dim=0)
+            loss = loss_fn(pred_list,instance_label)
+            
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+        scheduler.step()
 if __name__ == '__main__':
     args = parse_args()
     dataset=get_dataset(args)

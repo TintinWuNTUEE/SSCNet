@@ -20,10 +20,8 @@ def get_instance(p_args,sem,center,offset,dset,train=True):
     inst_label = torch.unique(panoptic_labels)
     
     for things in dset.dataset.thing_list:
-        # print((inst_label&0xFFFF))
         inst_labels.append(inst_label[(inst_label&0xFFFF) == things])
     inst_labels = torch.cat(inst_labels,dim=0)
-    print(inst_labels)
     for instance in inst_labels:
         instances.append((panoptic_labels==instance).nonzero()[:,1:])
     return instances,inst_labels
@@ -34,3 +32,9 @@ def get_unique_label(dset):
     unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
     unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
     return unique_label,unique_label_str
+def sample(type):
+    if type =="points":
+        return
+    elif type =="voxel":
+        return
+    return
