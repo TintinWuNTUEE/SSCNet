@@ -35,7 +35,7 @@ def parse_args():
     with open(args.configs, 'r') as s:
         new_args = yaml.safe_load(s)
     args = merge_configs(args,new_args)
-  
+
     return args
 def splitPath(path):
     folderpath = os.path.split(path)[0]
@@ -52,8 +52,6 @@ def main(args,dataset):
         input_class_nbr = len(input_class_list)
         label_class_nbr = len(label_class_list)
         class_nbr = np.min((input_class_nbr,label_class_nbr))
-        
-        
         for i in range(class_nbr):
             data_tuple = (instance_input[i],input_class_list[i],instance_label[i],label_class_list[i])
             folder_path,filename = splitPath(filenames[0])

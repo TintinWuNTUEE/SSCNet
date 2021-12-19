@@ -82,7 +82,6 @@ class SemKITTI(Dataset):
         for i_folder in split:
             self.im_idx += absoluteFilePaths('/'.join([data_path,str(i_folder).zfill(2),'velodyne']))
         self.im_idx.sort()
-        self.im_idx=self.im_idx[::5]
         # get class distribution weight 
         epsilon_w = 0.001
         origin_class = semkittiyaml['content'].keys()
@@ -119,6 +118,8 @@ class SemKITTI(Dataset):
 
 def absoluteFilePaths(directory):
     for dirpath,_,filenames in os.walk(directory):
+        filenames = sorted(filenames)
+        filenames = filenames[::5]
         for f in filenames:
             yield os.path.abspath(os.path.join(dirpath, f))
 
