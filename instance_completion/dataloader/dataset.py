@@ -22,22 +22,12 @@ def get_dataset(_cfg):
     data_path = _cfg['dataset']['path']
     train_batch_size = _cfg['model']['train_batch_size']
     val_batch_size = _cfg['model']['val_batch_size']
-    
+    num_workers = 4
     dataset={}
-    train_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'train', return_ref = True, instance_pkl_path=_cfg['dataset']['instance_pkl_path'])
-    val_pt_dataset = SemKITTI(data_path + '/sequences/', imageset = 'val', return_ref = True, instance_pkl_path=_cfg['dataset']['instance_pkl_path'])
-    train_dataset=voxel_dataset(train_pt_dataset, _cfg['dataset'], grid_size = grid_size, ignore_label = 0,use_aug = True,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2])
-    val_dataset=voxel_dataset(val_pt_dataset, _cfg['dataset'], grid_size = grid_size, ignore_label = 0,max_volume_space = [51.2,25.6,4.4], min_volume_space = [0,-25.6,-2],phase='val')
-    dataset['train']= DataLoader(dataset = train_dataset,
-                                                    batch_size = train_batch_size,
-                                                    collate_fn = collate_fn_BEV,
-                                                    shuffle = True,
-                                                    num_workers = 4)
-    dataset['val'] = DataLoader(dataset = val_dataset,
-                                                    batch_size = val_batch_size,
-                                                    collate_fn = collate_fn_BEV,
-                                                    shuffle = False,
-                                                    num_workers = 4)
+    train_instance_dataset = Instance_Dataset(_cfg['dataset'],phase='train')
+    val_instance_dataset = Instance_Dataset(_cfg['dataset'],phase='val')
+    dataset['train'] = DataLoader(train_instance_dataset,batch_size=train_batch_size,num_workers=num_workers,shuffle=True)
+    dataset['val'] = DataLoader(val_instance_dataset,batch_size=val_batch_size, num_workers=num_workers, shuffle=False)
     return dataset
 def get_preprocess_dataset(_cfg):
     grid_size = _cfg['dataset']['grid_size']
@@ -61,6 +51,59 @@ def get_preprocess_dataset(_cfg):
                                                     shuffle = False,
                                                     num_workers = 4)
     return dataset
+
+class Instance_Dataset(Dataset):
+    def __init__(self,args, sample_num=2048,type='points',phase='train'):
+        self.phase = phase
+        self.filepaths=[]
+        self.sample_num = sample_num
+        self.type = type
+        self.root_dir = args['path']
+        self.split = {'train': [0, 1, 2, 3, 4, 5, 6, 7, 9, 10], 'val': [8], 'test': [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]}
+        
+        self.get_filepaths()
+        self.nbr_files = len(self.filepaths)
+        
+    def get_filepaths(self):
+        # print(glob(os.path.join(self.root_dir, 'sequences', '*')))
+        sequences = list(sorted(glob(os.path.join(self.root_dir, 'sequences', '*')))[i] for i in self.split[self.phase])
+        for sequence in sequences:
+            assert len(os.listdir(sequence)) > 0, 'Error, No files in sequence: {}'.format(sequence)
+            self.filepaths+= sorted(glob(os.path.join(sequence, 'instance', '*.pt')))
+
+    def get_data(self, index):
+        DATA = torch.load(self.filepaths[index])
+        print(self.filepaths[index])
+        instance_input,input_class_list,instance_label,label_class_list = DATA
+        
+        return instance_input,input_class_list,instance_label,label_class_list
+
+    def sample(self,instances,class_list):
+        '''
+        Sample the instance either with voxel padding or points
+        '''
+        if self.type =="points":
+            print(instances.shape)
+            print(class_list&0xFFFF)
+            return instances
+        elif self.type =="voxel":
+            # pad your instance here
+            return instances
+        
+        return instances
+    def __getitem__(self, index):
+        #get data
+        instance_input,input_class_list,instance_label,label_class_list = self.get_data(index)
+        # sample
+        instance_input = self.sample(instance_input,input_class_list)
+        instance_label = self.sample(instance_label,label_class_list)
+        
+        return instance_input,input_class_list,instance_label,label_class_list
+    def __len__(self):
+        """
+        Return the length of the dataset
+        """
+        return self.nbr_files
 class SemKITTI(Dataset):
     def __init__(self, data_path, imageset = 'train', return_ref = False, instance_pkl_path ='data'):
         self.return_ref = return_ref
@@ -358,9 +401,9 @@ def collate_fn_BEV_test(data):
 
 if __name__ == '__main__':
     device = torch.device('cuda')
-    with open('../configs/Panoptic-PolarNet.yaml','r') as stream:
+    with open('Panoptic-PolarNet.yaml','r') as stream:
         config = yaml.safe_load(stream)
     dset = get_dataset(config)
-    for _,(val_in,val__center,val_offset,_,_,_,_,filenames,gt_sem,gt_center,gt_offset) in enumerate(dset['train']):
-        print(val_in.shape)
-        print(gt_sem.to(device).shape)
+    for _,(instance_input,input_class_list,instance_label,label_class_list) in enumerate(dset['train']):
+        print(instance_input.shape)
+        print(instance_label.shape)

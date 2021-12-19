@@ -10,7 +10,6 @@ from common.configs import merge_configs
 from common.utils import get_instance
 from common.utils import get_unique_label
 from common.logger import get_logger
-from common.utils import sample
 device=torch.device('cuda')
 ############################## grid size setting ##############################
 max_bound = np.asarray([51.2,25.6,4.4])

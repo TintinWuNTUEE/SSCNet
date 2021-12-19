@@ -29,17 +29,4 @@ def get_unique_label(dset):
     unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
     unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
     return unique_label,unique_label_str
-def sample(instances,class_list,type,sample_num=0):
-    '''
-    Sample the instance either with voxel padding or points
-    '''
-    if type =="points":
-        for i in range(len(instances)):
-            print(instances[i].shape)
-            print(class_list[i]&0xFFFF)
-        return instances
-    elif type =="voxel":
-        # pad your instance here
-        return instances
-    
-    return instances
+
