@@ -203,7 +203,7 @@ def get_panoptic_segmentation(sem, ctr_hmp, offsets, thing_list, label_divisor=2
     else:
         semantic = sem.type(torch.ByteTensor).cuda()
         # shift back to original label idx 
-        semantic = torch.add(semantic, 1).type(torch.LongTensor).cuda()
+        # semantic = torch.add(semantic, 1).type(torch.LongTensor).cuda()
         one_hot = torch.zeros((sem.size(0),torch.max(semantic).item()+1,sem.size(1),sem.size(2),sem.size(3))).cuda()
         sem = one_hot.scatter_(1,torch.unsqueeze(semantic,1),1.)
         sem = sem[:,1:,:,:,:]
