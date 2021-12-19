@@ -55,7 +55,7 @@ def fix_label_tensor(data):
     '''fixing uint 8 trick'''
     out = data.cpu().numpy()
     out = out&0xffff
-    # out = np.array(out)+1
+    out = np.array(out)+1
     return out
 def mask(voxel_label,label_tensor):
     '''applying mask'''
@@ -116,7 +116,8 @@ def main(args):
     knn_1 = KNeighborsClassifier(n_neighbors=1,n_jobs=4,weights='distance')
     PanopticLabelGenerator = PanopticLabelGenerator_VoxelVersion((256,256,32))
     for _,(_,val_vox_label,val_gt_center,val_gt_offset,val_grid,_,_,_,filenames) in enumerate(val_dataset_loader):
-        # val_vox_label = SemKITTI2train(val_vox_label)
+        val_vox_label = SemKITTI2train(val_vox_label)
+        val_label_tensor=val_vox_label.to(device)
         # val_gt_center_tensor = val_gt_center.to(device)
         # val_gt_offset_tensor = val_gt_offset.to(device)
         
@@ -126,10 +127,8 @@ def main(args):
                 continue
             voxel_label = np.fromfile(voxel_label_path, dtype=np.uint16).reshape(256,256,32)
             voxel_label =torch.from_numpy(remap_lut[voxel_label.astype(np.uint16)]).to(device)
-
-            val_label = val_vox_label[i]
-            val_label =torch.from_numpy(remap_lut[val_label.cpu().numpy().astype(np.uint16)]).to(device)
-            # print(val_label)
+            
+            val_label = val_label_tensor[i]
             voxel_label,mask1,mask2 = mask(voxel_label,val_label)
             if (~mask1).all() or (~mask2).all():
                 voxel_label,mask1 = voxel_label.cpu().numpy(),mask1.cpu().numpy()
@@ -146,7 +145,7 @@ def main(args):
 
                 voxel_label,mask1 = voxel_label.cpu().numpy(),mask1.cpu().numpy()
                 voxel_label[mask1]=predict
-            
+                # print(np.sum(voxel_label==-1))
             ########################## update center offset ################################
             center, offset = PanopticLabelGenerator(voxel_label,min_bound,intervals,mask1)
             ########################## update center offset ################################

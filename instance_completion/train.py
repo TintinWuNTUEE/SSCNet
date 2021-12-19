@@ -10,7 +10,6 @@ from common.configs import merge_configs
 from common.utils import get_instance
 from common.utils import get_unique_label
 from common.logger import get_logger
-from common.utils import sample
 device=torch.device('cuda')
 ############################## grid size setting ##############################
 max_bound = np.asarray([51.2,25.6,4.4])
@@ -55,7 +54,7 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,start_epoch=0):
             label_class_nbr = len(label_class_list)
             class_nbr = np.min((input_class_nbr,label_class_nbr))
             
-            instance_input = sample(instance_input,input_class_list,type=sample_type)
+            # instance_input = sample(instance_input,input_class_list,type=sample_type)
             
             pred_list = []
             for i in range(class_nbr):

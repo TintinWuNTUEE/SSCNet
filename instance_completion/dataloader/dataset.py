@@ -73,7 +73,6 @@ class Instance_Dataset(Dataset):
 
     def get_data(self, index):
         DATA = torch.load(self.filepaths[index])
-        print(self.filepaths[index])
         instance_input,input_class_list,instance_label,label_class_list = DATA
         
         return instance_input,input_class_list,instance_label,label_class_list
@@ -83,8 +82,8 @@ class Instance_Dataset(Dataset):
         Sample the instance either with voxel padding or points
         '''
         if self.type =="points":
-            print(instances.shape)
-            print(class_list&0xFFFF)
+            # print(instances.shape)
+            # print(class_list&0xFFFF)
             return instances
         elif self.type =="voxel":
             # pad your instance here
@@ -405,5 +404,4 @@ if __name__ == '__main__':
         config = yaml.safe_load(stream)
     dset = get_dataset(config)
     for _,(instance_input,input_class_list,instance_label,label_class_list) in enumerate(dset['train']):
-        print(instance_input.shape)
-        print(instance_label.shape)
+        continue
