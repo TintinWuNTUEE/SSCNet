@@ -2,7 +2,7 @@ model_name: Panoptic_PolarNet
 
 dataset:
     name: semantickitti
-    path: ../../semanticKITTI/dataset
+    path: ../semanticKITTI/dataset
     output_path: out/SemKITTI
     instance_pkl_path: ../semanticKITTI/panoptic_polarnet_preproc
     rotate_aug: False

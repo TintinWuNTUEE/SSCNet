@@ -14,9 +14,9 @@ from torch.utils.data import DataLoader,Dataset
 from glob import glob
 import random
 
-import io_data as SemanticKittiIO
-from process_panoptic import PanopticLabelGenerator
-from instance_augmentation import instance_augmentation
+# from .io_data import io_data 
+from .process_panoptic import PanopticLabelGenerator
+from .instance_augmentation import instance_augmentation
 def get_dataset(_cfg):
     grid_size = _cfg['dataset']['grid_size']
     data_path = _cfg['dataset']['path']
@@ -42,7 +42,7 @@ def get_dataset(_cfg):
 class SemKITTI(Dataset):
     def __init__(self, data_path, imageset = 'train', return_ref = False, instance_pkl_path ='data'):
         self.return_ref = return_ref
-        with open("semantic-kitti.yaml", 'r') as stream:
+        with open("configs/semantic-kitti.yaml", 'r') as stream:
             semkittiyaml = yaml.safe_load(stream)
         self.learning_map = semkittiyaml['learning_map']
         thing_class = semkittiyaml['thing_class']
@@ -70,6 +70,8 @@ class SemKITTI(Dataset):
                 weights[semkittiyaml['learning_map'][class_num]-1] += semkittiyaml['content'][class_num]
         self.CLS_LOSS_WEIGHT = 1/(weights + epsilon_w)
         self.instance_pkl_path = instance_pkl_path
+        
+        
          
     def __len__(self):
         'Denotes the total number of samples'
@@ -93,52 +95,6 @@ class SemKITTI(Dataset):
 
         return data_tuple
 
-    def save_instance(self, out_dir, min_points = 10):
-        'instance data preparation'
-        instance_dict={label:[] for label in self.thing_list}
-        for data_path in self.im_idx:
-            print('process instance for:'+data_path)
-            # get x,y,z,ref,semantic label and instance label
-            raw_data = np.fromfile(data_path, dtype=np.float32).reshape((-1, 4))
-            annotated_data = np.fromfile(data_path.replace('velodyne','labels')[:-3]+'label', dtype=np.uint32).reshape((-1,1))
-            sem_data = annotated_data & 0xFFFF #delete high 16 digits binary
-            sem_data = np.vectorize(self.learning_map.__getitem__)(sem_data)
-            inst_data = annotated_data
-
-            # instance mask
-            mask = np.zeros_like(sem_data,dtype=bool)
-            for label in self.thing_list:
-                mask[sem_data == label] = True
-
-            # create unqiue instance list
-            inst_label = inst_data[mask].squeeze()
-            unique_label = np.unique(inst_label)
-            num_inst = len(unique_label)
-
-            inst_count = 0
-            for inst in unique_label:
-                # get instance index
-                index = np.where(inst_data == inst)[0]
-                # get semantic label
-                class_label = sem_data[index[0]]
-                # skip small instance
-                if index.size<min_points: continue
-                # save
-                _,dir2 = data_path.split('/sequences/',1)
-                new_save_dir = out_dir + '/sequences/' +dir2.replace('velodyne','instance')[:-4]+'_'+str(inst_count)+'.bin'
-                if not os.path.exists(os.path.dirname(new_save_dir)):
-                    try:
-                        os.makedirs(os.path.dirname(new_save_dir))
-                    except OSError as exc:
-                        if exc.errno != errno.EEXIST:
-                            raise
-                inst_fea = raw_data[index]
-                inst_fea.tofile(new_save_dir)
-                instance_dict[int(class_label)].append(new_save_dir)
-                inst_count+=1
-        with open(out_dir+'/instance_path.pkl', 'wb') as f:
-            pickle.dump(instance_dict, f)
-
 def absoluteFilePaths(directory):
     for dirpath,_,filenames in os.walk(directory):
         for f in filenames:
@@ -147,6 +103,8 @@ def absoluteFilePaths(directory):
 class voxel_dataset(Dataset):
     def __init__(self, in_dataset, args, grid_size, ignore_label = 0, return_test = False, fixed_volume_space= True, use_aug = False, max_volume_space = [50,50,1.5], min_volume_space = [-50,-50,-3],phase='train'):
         'Initialization'
+        with open("configs/semantic-kitti.yaml",'r') as stream:
+            self.dataset_config = yaml.safe_load(stream)
         self.point_cloud_dataset = in_dataset
         self.grid_size = np.asarray(grid_size)
         self.rotate_aug = args['rotate_aug'] if use_aug else False
@@ -168,7 +126,8 @@ class voxel_dataset(Dataset):
         self.split = {'train': [0, 1, 2, 3, 4, 5, 6, 7, 9, 10], 'val': [8], 'test': [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]}
         self.phase = phase
         self.get_preprocess_filepaths()
-        
+        thing_class = self.dataset_config['thing_class']
+        self.thing_list = [class_nbr for class_nbr, is_thing in thing_class.items() if is_thing]
     def __len__(self):
         'Denotes the total number of samples'
         return len(self.point_cloud_dataset)
@@ -265,6 +224,7 @@ class voxel_dataset(Dataset):
         processed_label += processed_inst
         
         preprocess_label,preprocess_center,preprocess_offset = self.get_preprocess_data(index)
+        # print(preprocess_center.shape)
         data_tuple = (processed_label,center,offset)
          # center data on each voxel for PTnet
         voxel_centers = (grid_ind.astype(np.float32) + 0.5)*intervals + min_bound
@@ -352,7 +312,7 @@ def collate_fn_BEV(data):
     gt_label2stack=np.stack([d[8] for d in data])
     gt_center2stack=np.stack([d[9] for d in data])
     gt_offset2stack=np.stack([d[10] for d in data])
-    return torch.from_numpy(label2stack),torch.from_numpy(center2stack),torch.from_numpy(offset2stack),grid_ind_stack,point_label,point_inst,xyz,filename,gt_label2stack,gt_center2stack,gt_offset2stack
+    return torch.from_numpy(label2stack),torch.from_numpy(center2stack),torch.from_numpy(offset2stack),grid_ind_stack,point_label,point_inst,xyz,filename,torch.from_numpy(gt_label2stack),torch.from_numpy(gt_center2stack),torch.from_numpy(gt_offset2stack)
 
 def collate_fn_BEV_test(data):    
     label2stack=np.stack([d[0] for d in data])
@@ -366,11 +326,11 @@ def collate_fn_BEV_test(data):
     return torch.from_numpy(label2stack),torch.from_numpy(center2stack),torch.from_numpy(offset2stack),grid_ind_stack,point_label,point_inst,xyz,index
 
 # load Semantic KITTI class info
-with open("semantic-kitti.yaml", 'r') as stream:
-    semkittiyaml = yaml.safe_load(stream)
-SemKITTI_label_name = dict()
-for i in sorted(list(semkittiyaml['learning_map'].keys()))[::-1]:
-    SemKITTI_label_name[semkittiyaml['learning_map'][i]] = semkittiyaml['labels'][i]
+# with open("semantic-kitti.yaml", 'r') as stream:
+#     semkittiyaml = yaml.safe_load(stream)
+# SemKITTI_label_name = dict()
+# for i in sorted(list(semkittiyaml['learning_map'].keys()))[::-1]:
+#     SemKITTI_label_name[semkittiyaml['learning_map'][i]] = semkittiyaml['labels'][i]
 
 
 if __name__ == '__main__':
