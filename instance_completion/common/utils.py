@@ -2,6 +2,9 @@ import numpy as np
 import torch
 from common.instance_post_processing import get_panoptic_segmentation
 def get_instance(p_args,sem,center,offset,dset,train=True):
+    '''
+    Get instance and return a list of instance labels
+    '''
     if train:
         batch_size = p_args['model']['train_batch_size']
     else:
@@ -13,8 +16,6 @@ def get_instance(p_args,sem,center,offset,dset,train=True):
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
         panoptic_labels.append(panoptic_label)
     panoptic_labels=torch.cat(panoptic_labels,dim=0)
-    # panoptic_centers = torch.cat(panoptic_centers,dim=0)
-    # print(panoptic_labels.shape)
     inst_labels = []
     instances = []
     inst_label = torch.unique(panoptic_labels)
@@ -24,17 +25,27 @@ def get_instance(p_args,sem,center,offset,dset,train=True):
     inst_labels = torch.cat(inst_labels,dim=0)
     for instance in inst_labels:
         instances.append((panoptic_labels==instance).nonzero()[:,1:])
+
     return instances,inst_labels
+
 def get_unique_label(dset):
+    '''
+    Get unique label from learning map
+    '''
     SemKITTI_label_name = dict()
     for i in sorted(list(dset.dataset.dataset_config['learning_map'].keys()))[::-1]:
         SemKITTI_label_name[dset.dataset.dataset_config['learning_map'][i]] = dset.dataset.dataset_config['labels'][i]
     unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
     unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
     return unique_label,unique_label_str
-def sample(type):
+def sample(instances,type):
+    '''
+    Sample the instance either with voxel padding or points
+    '''
     if type =="points":
-        return
+        return instances
     elif type =="voxel":
-        return
-    return
+        # pad your instance here
+        return instances
+    
+    return instances
