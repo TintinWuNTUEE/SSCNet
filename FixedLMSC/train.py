@@ -15,6 +15,7 @@ from common.dataset import get_dataset
 from common.config import CFG, merge_configs
 from models.model import get_model
 from common.logger import get_logger
+from common.utils import get_unique_label
 def get_mem_allocated(device):
     if device.type == 'cuda':
         print(torch.cuda.get_device_name(0))
@@ -87,13 +88,13 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       scores = model1(data)
       _,train_gt_center_tensor,train_gt_offset_tensor = data['PREPROCESS']
       train_gt_center_tensor,train_gt_offset_tensor =train_gt_center_tensor.to(device),train_gt_offset_tensor.to(device)
+      print(train_gt_center_tensor.dtype)
       # forward
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction,center,offset = model2(input_feature)
       # loss2
-      loss,center_loss,offset_loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
+      loss,center_loss,offset_loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor) 
       # backward + optimize
-      # gradient accumulator
       optimizer.zero_grad()
       loss.backward()
       optimizer.step()
@@ -108,26 +109,16 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
   device = torch.device('cuda')
   dtype = torch.float32  # Tensor type to be used
   nbr_epochs = _cfg._dict['TRAIN']['EPOCHS']
-  grid_size = p_args['dataset']['grid_size']  
   dset = dataset['val']
   logger.info('=> Passing the network on the validation set...')
-  #prepare miou fun  
-  SemKITTI_label_name = dict()
-  for i in sorted(list(dset.dataset.dataset_config['learning_map'].keys()))[::-1]:
-      SemKITTI_label_name[dset.dataset.dataset_config['learning_map'][i]] = dset.dataset.dataset_config['labels'][i]
-  unique_label=np.asarray(sorted(list(SemKITTI_label_name.keys())))[1:] - 1
-  unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
-  # print(len(unique_label)+1)
-  evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
-  # evaluator = PanopticEval(20+1, None, [0], min_points=50)
-  
 
-  
+  unique_label,unique_label_str = get_unique_label(dset)
+  evaluator = PanopticEval(len(unique_label)+1, None, [0], min_points=50)
+
   model1.eval()
   model2.eval()
   
   with torch.no_grad():
-
     for t, (data,_) in enumerate(dset):
       
       # mask will be done in eval.py when foreground is none
@@ -143,7 +134,6 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
 
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction,center,offset = model2(input_feature)
-      print(sem_prediction.shape)
       # loss2
       loss2,_,_ = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
@@ -151,7 +141,6 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
       
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
-      
       # backward + optimize
       loss = loss1['total']+loss2
       loss = loss.item()
