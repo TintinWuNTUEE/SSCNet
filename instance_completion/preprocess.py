@@ -36,6 +36,13 @@ def parse_args():
     args = merge_configs(args,new_args)
 
     return args
+def SemKITTI2train(label):
+    if isinstance(label, list):
+        return [SemKITTI2train_single(a) for a in label]
+    else:
+        return SemKITTI2train_single(label)
+def SemKITTI2train_single(label):
+    return label - 1 # uint8 trick
 def splitPath(path):
     folderpath = os.path.split(path)[0]
     basename = os.path.basename(path)
@@ -44,6 +51,7 @@ def splitPath(path):
 def main(args,dataset):
     dset = dataset['train']
     for _,(pos_in,center_in,offset_in,_,_,_,_,filenames,gt_sem,gt_center,gt_offset)  in enumerate(dset):
+        pos_in=pos_in = SemKITTI2train(pos_in)
         pos_in,center_in,offset_in= pos_in.to(device),center_in.to(device),offset_in.to(device)
         gt_sem,gt_center,gt_offset =gt_sem.to(device),gt_center.to(device),gt_offset.to(device)
         instance_input,input_class_list = get_instance(args,pos_in,center_in,offset_in,dset)
@@ -62,6 +70,7 @@ def main(args,dataset):
             torch.save(data_tuple,save_path)
     dset = dataset['val']
     for _,(pos_in,center_in,offset_in,_,_,_,_,filenames,gt_sem,gt_center,gt_offset)  in enumerate(dset):
+        pos_in=pos_in = SemKITTI2train(pos_in)
         pos_in,center_in,offset_in= pos_in.to(device),center_in.to(device),offset_in.to(device)
         gt_sem,gt_center,gt_offset =gt_sem.to(device),gt_center.to(device),gt_offset.to(device)
         instance_input,input_class_list = get_instance(args,pos_in,center_in,offset_in,dset)

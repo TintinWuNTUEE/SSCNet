@@ -2,6 +2,57 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
+class PanopticLabelGenerator_VoxelVersion():
+    def __init__(self,grid_size,sigma=5):
+        self.grid_size = grid_size
+        self.sigma = sigma
+        size = 6 * sigma + 3
+        x = np.arange(0,size,1,float)
+        y = x[:,np.newaxis]
+        x0,y0 = 3 * sigma + 1, 3 * sigma + 1
+        self.g = np.exp(-((x-x0) ** 2 + (y - y0) ** 2) / (2 * sigma **2))
+        self.indice = np.moveaxis(np.array(np.meshgrid(np.arange(0,256,1),np.arange(0,256,1))),(0,1,2),(2,1,0))
+
+        
+    def __call__(self, voxel_label, min_bound, intervals, mask):
+        height, width = self.grid_size[0], self.grid_size[1]
+        center_pts = []
+        center = np.zeros((1, height, width), dtype=np.float32)
+        offset = np.zeros((2, height, width), dtype=np.float32)
+        inst_data = np.zeros(voxel_label.shape, dtype=np.float32)
+        inst_data[mask] = (voxel_label[mask] & 0xffff0000)>>16
+        inst_labels = np.unique(inst_data)
+        if 0 in inst_labels:
+            inst_labels = inst_labels[inst_labels!=0] #delete instance label 0, it isn't foreground instance
+        if inst_labels.size == 0:
+            return center, offset
+        for inst_label in inst_labels:
+            mask_ = np.where(inst_data==inst_label)
+            center_x, center_y = np.mean(mask_[0]), np.mean(mask_[1])
+            # generate center heatmap
+            x, y = int(np.floor(center_x)), int(np.floor(center_y))
+            center_pts.append([x, y])
+            if x < 0 or y < 0 or x >= height or y >= width:
+                continue
+            sigma = self.sigma
+            # upper left
+            ul = int(np.round(x - 3 * sigma - 1)), int(np.round(y - 3 * sigma - 1))
+            # bottom right
+            br = int(np.round(x + 3 * sigma + 2)), int(np.round(y + 3 * sigma + 2))
+            
+            c, d = max(0,-ul[0]), min(br[0], height) - ul[0]
+            a, b = max(0,-ul[1]), min(br[1], width) - ul[1]
+            
+            cc, dd = max(0,ul[0]), min(br[0], height)
+            aa, bb = max(0, ul[1]), min(br[1], width)
+            
+            center[0, cc:dd, aa:bb] = np.maximum(center[0, cc:dd, aa:bb], self.g[c:d,a:b])
+            offset[0,mask_[0],mask_[1]] = (center_x - mask_[0])
+            offset[1,mask_[0],mask_[1]] = (center_y - mask_[1])
+        return center, offset
+
+
+        
 class PanopticLabelGenerator(object):
     def __init__(self,grid_size,sigma=5,polar=False):
         """Initialize panoptic ground truth generator
