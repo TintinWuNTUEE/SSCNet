@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 from common.instance_post_processing import get_panoptic_segmentation
-def get_instance(p_args,sem,center,offset,dset,train=True):
+def get_instance(p_args,sem,center,offset,dset,train=True,label=False):
     '''
     Get instance and return a list of instance labels
     '''
@@ -9,7 +9,7 @@ def get_instance(p_args,sem,center,offset,dset,train=True):
     instance = []
     panoptic_label,_ = get_panoptic_segmentation(sem, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
-                                                                top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
+                                                                top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'],label=label)
     label = torch.unique(panoptic_label)
     for things in dset.dataset.thing_list:
         inst_label.append(label[(label&0xFFFF) == things])

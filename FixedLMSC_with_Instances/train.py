@@ -97,6 +97,7 @@ def train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, start_epo
       # loss
       loss,center_loss,offset_loss = loss_fn(sem_prediction,center,offset,voxel_label,train_gt_center_tensor,train_gt_offset_tensor)
       # instances
+      
       instances,_= get_instance(p_args,voxel_label,train_gt_center_tensor,train_gt_offset_tensor,dset)
       # backward + optimize
       optimizer.zero_grad()
@@ -140,7 +141,8 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       input_feature = scores['pred_semantic_1_1_feature'].view(-1,256,256,256)  # [bs, C, H, W, D] -> [bs, C*H, W, D]
       sem_prediction,center,offset = model2(input_feature)
       # loss2
-      loss2,_,_ = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
+      # print(voxel_label.dtype)
+      loss2,_,_ = loss_fn(voxel_label,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
       instances,panoptic_labels = get_instance(p_args,sem_prediction,center,offset,dset,False)
       evaluator.addBatch(panoptic_labels & 0xFFFF, panoptic_labels, voxel_label)
       # backward + optimize

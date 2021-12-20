@@ -136,6 +136,7 @@ def validation(model1, model2, optimizer,scheduler, loss_fn,dataset, _cfg,p_args
       sem_prediction,center,offset = model2(input_feature)
       # loss2
       loss2,_,_ = loss_fn(sem_prediction,center,offset,voxel_label,val_gt_center_tensor,val_gt_offset_tensor)
+      print(sem_prediction.shape)
       panoptic_labels, _ = get_panoptic_segmentation(sem_prediction, center, offset, dset.dataset.thing_list,\
                                                                 threshold=p_args['model']['post_proc']['threshold'], nms_kernel=p_args['model']['post_proc']['nms_kernel'],\
                                                                 top_k=p_args['model']['post_proc']['top_k'], polar=p_args['model']['polar'])
