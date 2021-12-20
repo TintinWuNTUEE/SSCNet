@@ -64,9 +64,9 @@ def mask(voxel_label,label_tensor):
     thing_list = [i for i in dataset_config['thing_class'].keys() if dataset_config['thing_class'][i]==True]
     data = fix_label_tensor(label_tensor)
     for label in thing_list:
-        mask1[voxel_label == label] = True
+        mask1[torch.add(voxel_label,1) == label] = True
         mask2[data==label] = True
-    voxel_label[~mask1] = 0
+    voxel_label[~mask1] = -1
     return voxel_label,mask1,mask2
 ###############################################################################
 def SemKITTI2train(label):
@@ -126,7 +126,7 @@ def main(args):
             if(os.path.isfile(voxel_label_path)==False):
                 continue
             voxel_label = np.fromfile(voxel_label_path, dtype=np.uint16).reshape(256,256,32)
-            voxel_label =torch.from_numpy(remap_lut[voxel_label.astype(np.uint16)]).to(device)
+            voxel_label =SemKITTI2train(torch.from_numpy(remap_lut[voxel_label.astype(np.uint16)])).to(device)
             
             val_label = val_label_tensor[i]
             voxel_label,mask1,mask2 = mask(voxel_label,val_label)

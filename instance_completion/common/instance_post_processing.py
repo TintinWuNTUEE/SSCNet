@@ -161,7 +161,7 @@ def merge_semantic_and_instance(sem_seg, sem, ins_seg, label_divisor, thing_list
 
 
 def get_panoptic_segmentation(sem, ctr_hmp, offsets, thing_list, label_divisor=2**16, void_label=0,
-                              threshold=0.1, nms_kernel=5, top_k=100, foreground_mask=None, polar=False):
+                              threshold=0.1, nms_kernel=5, top_k=100, foreground_mask=None, polar=False,label=False):
     """
     Post-processing for panoptic segmentation.
     Arguments:

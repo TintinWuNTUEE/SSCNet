@@ -47,6 +47,7 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,start_epoch=0):
             pos_in,center_in,offset_in= pos_in.to(device),center_in.to(device),offset_in.to(device)
             # print(val_in.dtype)
             # print(gt_sem.shape)
+            print(gt_sem)
             gt_sem,gt_center,gt_offset =gt_sem.to(device),gt_center.to(device),gt_offset.to(device)
             instance_input,input_class_list = get_instance(args,pos_in,center_in,offset_in,dset)
             instance_label,label_class_list = get_instance(args,gt_sem,gt_center,gt_offset,dset)
