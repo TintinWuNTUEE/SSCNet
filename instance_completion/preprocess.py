@@ -60,7 +60,7 @@ def main(args,dataset):
         label_class_nbr = len(label_class_list)
         class_nbr = np.min((input_class_nbr,label_class_nbr))
         for i in range(class_nbr):
-            data_tuple = (instance_input[i],input_class_list[i],instance_label[i],label_class_list[i])
+            data_tuple = (instance_input[i].cpu().numpy(),input_class_list[i].cpu().numpy(),instance_label[i].cpu().numpy(),label_class_list[i].cpu().numpy())
             folder_path,filename = splitPath(filenames[0])
             folder_path=folder_path.replace('velodyne','instance')
             filename=filename+'_'+str(i)+'.pt'

@@ -22,12 +22,12 @@ def get_dataset(_cfg):
     data_path = _cfg['dataset']['path']
     train_batch_size = _cfg['model']['train_batch_size']
     val_batch_size = _cfg['model']['val_batch_size']
-    num_workers = 1
+    num_workers = 4
     dataset={}
     train_instance_dataset = Instance_Dataset(_cfg['dataset'],phase='train')
     val_instance_dataset = Instance_Dataset(_cfg['dataset'],phase='val')
-    dataset['train'] = DataLoader(train_instance_dataset,batch_size=train_batch_size,num_workers=num_workers,shuffle=True)
-    dataset['val'] = DataLoader(val_instance_dataset,batch_size=val_batch_size, num_workers=num_workers, shuffle=False)
+    dataset['train'] = DataLoader(train_instance_dataset,batch_size=train_batch_size,num_workers=num_workers,shuffle=True,pin_memory=True)
+    dataset['val'] = DataLoader(val_instance_dataset,batch_size=val_batch_size, num_workers=num_workers, shuffle=False,pin_memory=True)
     return dataset
 def get_preprocess_dataset(_cfg):
     grid_size = _cfg['dataset']['grid_size']
@@ -71,11 +71,10 @@ class Instance_Dataset(Dataset):
 
     def get_data(self, index):
         DATA = torch.load(self.filepaths[index])
-        instance_input,input_class_list,instance_label,label_class_list = DATA
-        
-        return instance_input,input_class_list,instance_label,label_class_list
+        instance_input,input_class,instance_label,label_class = DATA
+        return instance_input,input_class,instance_label,label_class
 
-    def sample(self,instances,class_list,sample_num=4096):
+    def sample(self,instances,sample_num=4096):
         '''
         Sample the instance either with voxel padding or points
         '''
@@ -84,10 +83,11 @@ class Instance_Dataset(Dataset):
         
         if self.type =="points":
             instance_num = len(instances)           
-            instance_grid = torch.zeros((sample_num,3))
-            instance_grid += torch.tensor([256,256,32])
-            print(instance_num)
-            for i in range (np.min((instance_num,sample_num))):
+            instance_grid = np.zeros((sample_num,3))
+            instance_grid += np.array([256,256,32])
+            if instance_num > sample_num:
+                instance_num = sample_num
+            for i in range (instance_num):
                 instance_grid[i] = instances[i]
             return instance_grid
         elif self.type =="voxel":
@@ -97,12 +97,12 @@ class Instance_Dataset(Dataset):
         return instances
     def __getitem__(self, index):
         #get data
-        instance_input,input_class_list,instance_label,label_class_list = self.get_data(index)
+        instance_input,input_class,instance_label,label_class = self.get_data(index)
         # sample
-        instance_input = self.sample(instance_input,input_class_list)
-        instance_label = self.sample(instance_label,label_class_list,sample_num=16384)
+        instance_input = self.sample(instance_input)
+        instance_label = self.sample(instance_label,sample_num=16384)
         
-        return instance_input,input_class_list,instance_label,label_class_list
+        return instance_input,input_class,instance_label,label_class
     def __len__(self):
         """
         Return the length of the dataset
