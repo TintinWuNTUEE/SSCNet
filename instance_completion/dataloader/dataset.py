@@ -15,8 +15,8 @@ from glob import glob
 import random
 
 # from .io_data import io_data 
-from process_panoptic import PanopticLabelGenerator
-from instance_augmentation import instance_augmentation
+from .process_panoptic import PanopticLabelGenerator
+from .instance_augmentation import instance_augmentation
 def get_dataset(_cfg):
     grid_size = _cfg['dataset']['grid_size']
     data_path = _cfg['dataset']['path']
@@ -26,8 +26,8 @@ def get_dataset(_cfg):
     dataset={}
     train_instance_dataset = Instance_Dataset(_cfg['dataset'],phase='train')
     val_instance_dataset = Instance_Dataset(_cfg['dataset'],phase='val')
-    dataset['train'] = DataLoader(train_instance_dataset,batch_size=train_batch_size,num_workers=num_workers,shuffle=True)
-    dataset['val'] = DataLoader(val_instance_dataset,batch_size=val_batch_size, num_workers=num_workers, shuffle=False)
+    dataset['train'] = DataLoader(train_instance_dataset,batch_size=train_batch_size,num_workers=num_workers,shuffle=True,pin_memory=True)
+    dataset['val'] = DataLoader(val_instance_dataset,batch_size=val_batch_size, num_workers=num_workers, shuffle=False,pin_memory=True)
     return dataset
 def get_preprocess_dataset(_cfg):
     grid_size = _cfg['dataset']['grid_size']
@@ -83,9 +83,11 @@ class Instance_Dataset(Dataset):
         
         if self.type =="points":
             instance_num = len(instances)           
-            instance_grid = torch.zeros((sample_num,3))
-            instance_grid += torch.tensor([256,256,32])
-            for i in range (np.min((instance_num,sample_num))):
+            instance_grid = np.zeros((sample_num,3))
+            instance_grid += np.array([256,256,32])
+            if instance_num > sample_num:
+                instance_num = sample_num
+            for i in range (instance_num):
                 instance_grid[i] = instances[i]
             return instance_grid
         elif self.type =="voxel":

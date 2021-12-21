@@ -10,7 +10,7 @@ from common.configs import merge_configs
 from common.utils import get_instance
 from common.utils import get_unique_label
 from common.logger import get_logger
-device=torch.device('cuda')
+from models.model import SaNet
 ############################## grid size setting ##############################
 max_bound = np.asarray([51.2,25.6,4.4])
 min_bound = np.asarray([0,-25.6,-2])
@@ -37,32 +37,21 @@ def parse_args():
   
     return args
 def train(model,loss_fn,scheduler,optimizer,dataset,args,start_epoch=0):
+    device=torch.device('cuda')
     dset = dataset['train']
     nbr_epochs = args['model']['max_epoch']
     sample_type = "points"
     dtype = torch.float32
-    # model.train()
+    model.to(device)
+    model.train()
     for epoch in range(start_epoch,nbr_epochs+1):
-        for _,(pos_in,center_in,offset_in,_,_,_,_,filenames,gt_sem,gt_center,gt_offset)  in enumerate(dset):
-            pos_in,center_in,offset_in= pos_in.to(device),center_in.to(device),offset_in.to(device)
-            # print(val_in.dtype)
-            # print(gt_sem.shape)
-            print(gt_sem)
-            gt_sem,gt_center,gt_offset =gt_sem.to(device),gt_center.to(device),gt_offset.to(device)
-            instance_input,input_class_list = get_instance(args,pos_in,center_in,offset_in,dset)
-            instance_label,label_class_list = get_instance(args,gt_sem,gt_center,gt_offset,dset)
-            input_class_nbr = len(input_class_list)
-            label_class_nbr = len(label_class_list)
-            class_nbr = np.min((input_class_nbr,label_class_nbr))
+        for _,(input_pos,input_class,label_pos,label_class)  in enumerate(dset):
+            input_pos,input_class,label_pos,label_class= input_pos.to(device),input_class.to(device),label_pos.to(device),label_class.to(device)
             
-            # instance_input = sample(instance_input,input_class_list,type=sample_type)
+            print(input_pos.shape)
             
-            pred_list = []
-            for i in range(class_nbr):
-                pred = model(instance_input[i])
-                pred_list.append(pred)
-            pred_list = torch.cat(pred_list,dim=0)
-            loss = loss_fn(pred_list,instance_label)
+            pred = model(input_pos)
+            loss = loss_fn(pred,label_pos)
             
             optimizer.zero_grad()
             loss.backward()
@@ -71,7 +60,7 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,start_epoch=0):
 if __name__ == '__main__':
     args = parse_args()
     dataset=get_dataset(args)
-    model = None
+    model = SaNet()
     loss_fn = None
     scheduler = None
     optimizer = None
