@@ -1,10 +1,14 @@
 model_name: Panoptic_PolarNet
 
+TRAIN:
+    learning_rate: 0.001
+    weight_decay: 1e-4 
 dataset:
     name: semantickitti
     path: ../semanticKITTI/dataset
     output_path: out/SemKITTI
     instance_pkl_path: ../semanticKITTI/panoptic_polarnet_preproc
+    type: voxel # voxel or points
     rotate_aug: False
     flip_aug: False    
     inst_aug: False
@@ -18,6 +22,7 @@ dataset:
 
 model:
     model_save_path: ./weights/Panoptic_SemKITTI.pt
+    voxel_instance_model_save_path: ./weights/
     pretrained_model: /pretrained_weight/Panoptic_SemKITTI_PolarNet.pt
     bev_save_path: ./weights/BEV_SemKITTI.pt
     train_log: ./weights
