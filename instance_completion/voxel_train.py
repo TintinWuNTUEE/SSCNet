@@ -11,7 +11,7 @@ from dataloader.dataset import get_dataset
 from common.configs import merge_configs
 from common.utils import get_instance, get_unique_label, get_lr
 from common.logger import get_logger
-from common.iou import iou_pytorch, iou_numpy
+from common.iou import iou_pytorch, iou_numpy, iou
 from models.Unet import Unet
 from common.checkpoint import save, load
 ############################## grid size setting ##############################
@@ -51,6 +51,9 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,logger,start_epoch=0):
         epoch_loss = []
         epoch_iou = []
         for i,(input_pos,input_class,label_pos,label_class)  in enumerate(dset):
+            # print(input_class.shape)
+            # print(iou(label_pos,label_pos, n_classes=1))
+            # return
             # print(i)
             input_pos,input_class,label_pos,label_class= input_pos.to(device),input_class.to(device),label_pos.to(device),label_class.to(device)
             # print(input_pos.shape)
@@ -66,7 +69,7 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,logger,start_epoch=0):
             optimizer.zero_grad()
             with torch.no_grad():
                 epoch_loss += [loss.item()]
-                epoch_iou += [iou_pytorch(pred, label_pos).mean()]
+                epoch_iou += iou(pred, label_pos, n_classes=1)
                 # print(loss.item())
         epoch_loss = sum(epoch_loss)/len(epoch_loss)
         epoch_iou = sum(epoch_iou)/len(epoch_iou)
