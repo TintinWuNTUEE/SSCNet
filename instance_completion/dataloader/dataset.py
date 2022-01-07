@@ -74,6 +74,7 @@ class Instance_Dataset(Dataset):
         self.split = {'train': [0, 1, 2, 3, 4, 5, 6, 7, 9, 10], 'val': [8], 'test': [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]}
         self.get_filepaths()
         self.nbr_files = len(self.filepaths)
+        self.normalize_fail = 0
         
     def get_filepaths(self):
         # print(glob(os.path.join(self.root_dir, 'sequences', '*')))
