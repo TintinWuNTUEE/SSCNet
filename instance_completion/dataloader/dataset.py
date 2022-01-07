@@ -70,11 +70,11 @@ class Instance_Dataset(Dataset):
             self.filepaths+= sorted(glob(os.path.join(sequence, 'instance', '*.pt')))
 
     def get_data(self, index):
-        DATA = torch.load(self.filepaths[index])
-        instance_input,input_class,instance_label,label_class = DATA
+        data = torch.load(self.filepaths[index])
+        instance_input,input_class,instance_label,label_class = data
         return instance_input,input_class,instance_label,label_class
 
-    def sample(self,instances,sample_num=4096):
+    def sample(self,instances,sample_num=4096,grid_size=(80,80,32),instance_center=None,ins_class=None,phase=None,index=None):
         '''
         Sample the instance either with voxel padding or points
         '''
@@ -90,19 +90,46 @@ class Instance_Dataset(Dataset):
             for i in range (instance_num):
                 instance_grid[i] = instances[i]
             return instance_grid
+        
         elif self.type =="voxel":
             # pad your instance here
-            return instances
+            instance_grid = np.zeros(grid_size,dtype=np.float32)
+            padding = ((instances.max(axis=0)-instances.min(axis=0))).astype(np.int16)
+            center_now = ((instances.max(axis=0)+instances.min(axis=0))/2).astype(np.int16)
+            try:
+                instances -= ((instances.max(axis=0)+instances.min(axis=0))/2).astype(np.int16)
+                instances += [40,40,16]
+                instance_grid[instances[:,0],instances[:,1],instances[:,2]] = 1
+                instance_grid = np.expand_dims(instance_grid, axis=0)
+                return instance_grid
+            except:
+                self.normalize_fail += 1
+                # print('========================== normalize fail ===========================')
+                # print(padding)
+                # print(center_now)
+                # print(instance_center)
+                # print(ins_class&0xffff)
+                # print(phase)
+                # print(self.filepaths[index])
+                # print('=====================================================================')
+                instance_grid = np.expand_dims(instance_grid, axis=0)
+                return None
         
         return instances
     def __getitem__(self, index):
         #get data
         instance_input,input_class,instance_label,label_class = self.get_data(index)
         # sample
-        instance_input = self.sample(instance_input)
-        instance_label = self.sample(instance_label,sample_num=16384)
+        if self.type == 'points':
+            instance_input = self.sample(instance_input)
+            instance_label = self.sample(instance_label,sample_num=16384)
+        elif self.type == 'voxel':
+            instance_label_center = ((instance_label.max(axis=0)+instance_label.min(axis=0))/2).astype(np.int16)
+            instance_input = self.sample(instance_input,grid_size=(80,80,32),instance_center=instance_label_center,ins_class=input_class,phase='input',index=index)
+            instance_label = self.sample(instance_label,grid_size=(80,80,32),instance_center=instance_label_center,ins_class=label_class,phase='label',index=index)
         
         return instance_input,input_class,instance_label,label_class
+    
     def __len__(self):
         """
         Return the length of the dataset
@@ -405,7 +432,7 @@ def collate_fn_BEV_test(data):
 
 if __name__ == '__main__':
     device = torch.device('cuda')
-    with open('Panoptic-PolarNet.yaml','r') as stream:
+    with open('../configs/Panoptic-PolarNet.yaml','r') as stream:
         config = yaml.safe_load(stream)
     dset = get_dataset(config)
     for _,(instance_input,input_class_list,instance_label,label_class_list) in enumerate(dset['train']):

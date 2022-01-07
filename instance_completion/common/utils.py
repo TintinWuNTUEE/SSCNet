@@ -30,3 +30,6 @@ def get_unique_label(dset):
     unique_label_str=[SemKITTI_label_name[x] for x in unique_label+1]
     return unique_label,unique_label_str
 
+def get_lr(optimizer):
+    for param_group in optimizer.param_groups:
+        return param_group['lr']
