@@ -10,24 +10,37 @@ import numba as nb
 import yaml
 import pickle
 import errno
-from torch.utils.data import DataLoader,Dataset
+from torch.utils.data import DataLoader,Dataset 
+from torch.utils.data.dataloader import default_collate
 from glob import glob
 import random
 
 # from .io_data import io_data 
 from .process_panoptic import PanopticLabelGenerator
 from .instance_augmentation import instance_augmentation
+zero = np.zeros((1,80,80,32),dtype=np.float32)
+def my_collate(batch):
+    # print(np.array(batch).shape)
+    # print(batch[0].shape)
+    # print(batch[0][1].shape)
+    batch = list(filter(lambda x:all(v is not None for v in x), batch))
+    batch = list(filter(lambda x:x[1]&0xffff == 1, batch))
+    # print(np.array(batch).shape)
+    if len(batch) == 0:
+        batch = [(zero, np.array([255]), zero, np.array([255]))]
+    return default_collate(batch)
 def get_dataset(_cfg):
     grid_size = _cfg['dataset']['grid_size']
     data_path = _cfg['dataset']['path']
+    dset_type = _cfg['dataset']['type']
     train_batch_size = _cfg['model']['train_batch_size']
     val_batch_size = _cfg['model']['val_batch_size']
     num_workers = 4
     dataset={}
-    train_instance_dataset = Instance_Dataset(_cfg['dataset'],phase='train')
-    val_instance_dataset = Instance_Dataset(_cfg['dataset'],phase='val')
-    dataset['train'] = DataLoader(train_instance_dataset,batch_size=train_batch_size,num_workers=num_workers,shuffle=True,pin_memory=True)
-    dataset['val'] = DataLoader(val_instance_dataset,batch_size=val_batch_size, num_workers=num_workers, shuffle=False,pin_memory=True)
+    train_instance_dataset = Instance_Dataset(_cfg['dataset'],type=dset_type,phase='train')
+    val_instance_dataset = Instance_Dataset(_cfg['dataset'],type=dset_type,phase='val')
+    dataset['train'] = DataLoader(train_instance_dataset,batch_size=train_batch_size,num_workers=num_workers,shuffle=False,pin_memory=True,collate_fn=my_collate)
+    dataset['val'] = DataLoader(val_instance_dataset,batch_size=val_batch_size, num_workers=num_workers, shuffle=False,pin_memory=True,collate_fn=my_collate)
     return dataset
 def get_preprocess_dataset(_cfg):
     grid_size = _cfg['dataset']['grid_size']
