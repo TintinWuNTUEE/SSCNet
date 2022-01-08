@@ -7,7 +7,6 @@ import os
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
-from torch.autograd import Variable
 from common.io_tools import dict_to
 from dataloader.dataset import get_dataset
 from common.configs import merge_configs
@@ -16,6 +15,7 @@ from common.logger import get_logger
 from common.iou import iou_pytorch, iou_numpy, iou
 from models.Unet import Unet, SegmentationHead
 from common.checkpoint import save, load
+from loss import BinaryFocalLossWithLogits, FocalLoss
 ############################## grid size setting ##############################
 max_bound = np.asarray([51.2,25.6,4.4])
 min_bound = np.asarray([0,-25.6,-2])
@@ -123,39 +123,15 @@ def validation(model,loss_fn,dataset,args,logger,start_epoch=0):
         # logger.info('lr : {}'.format(get_lr(optimizer)))
         return
         
-def to_one_hot(tensor,nClasses):
-    n,c,h,w,z = tensor.size()
-    one_hot = torch.zeros(n,nClasses,h,w,z).cuda().scatter_(1,tensor.view(n,1,h,w,z),1)
-    return one_hot
-    
-class FocalLoss(nn.Module):
-    
-    def __init__(self,classes, gamma=2,alpha=0.75, eps=1e-7):
-        super(FocalLoss, self).__init__()
-        self.gamma = gamma
-        self.eps = eps
-        self.classes = classes
-        self.alpha = alpha
-
-    def forward(self, input_, target_):
-        
-        y = Variable(to_one_hot(target_.data, self.classes))
-
-        logit = input_.sigmoid()
-        logit = logit.clamp(self.eps, 1. - self.eps)
-        loss = -1 * torch.log(logit) * y.float() # cross entropy
-        loss = self.alpha * loss * (1 - logit) ** self.gamma # focal loss
-        loss = torch.mean(loss)
-        
-        return loss        
 
 if __name__ == '__main__':
     args = parse_args()
     dataset=get_dataset(args)
-    model = Unet()
+    model = Unet(out_channel=1)
     # model = SegmentationHead(1,2,2,[1,2,3])
     # loss_fn = nn.CrossEntropyLoss()
-    loss_fn = FocalLoss(2)
+    # loss_fn = FocalLoss(2)
+    loss_fn = BinaryFocalLossWithLogits(0.25,2.,'mean')
     optimizer = optim.SGD(model.parameters(),lr=args['TRAIN']['learning_rate'])
     lambda1 = lambda epoch: (0.98) ** (epoch)
     scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
