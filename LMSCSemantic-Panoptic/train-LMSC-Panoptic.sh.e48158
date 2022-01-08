@@ -1,0 +1,102 @@
+wandb: Currently logged in as: tintinwu (use `wandb login --relogin` to force relogin)
+wandb: Tracking run with wandb version 0.12.7
+wandb: Syncing run cerulean-spaceship-125
+wandb: ⭐️ View project at https://wandb.ai/tintinwu/SSCNET
+wandb: 🚀 View run at https://wandb.ai/tintinwu/SSCNET/runs/318zxbo5
+wandb: Run data is saved locally in /home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/wandb/run-20211210_231401-318zxbo5
+wandb: Run `wandb offline` to turn off syncing.
+2021-12-10 23:14:04,854 -- ============ Training routine: "configs/LMSCNet_SS.yaml" ============
+
+2021-12-10 23:14:05,069 -- => Loading network architecture...
+2021-12-10 23:14:05,156 -- => Loading optimizer...
+2021-12-10 23:14:05,157 -- => Loading scheduler...
+2021-12-10 23:14:05,677 -- => Continuing training routine. Checkpoint loaded at ./weights/Panoptic_epoch_last.pth
+2021-12-10 23:14:07,798 -- => =========== Epoch [7/80] ===========
+2021-12-10 23:14:07,798 -- => Reminder - Output of routine on ./SSC_out
+2021-12-10 23:14:07,798 -- => Learning rate: 0.0009039207967999999
+2021-12-10 23:14:07,798 -- => Passing the network on the validation set...
+/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/losses/loss.py:69: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  loss = lovasz_softmax(torch.nn.functional.softmax(prediction), gt_label,ignore=255) + self.CE_loss(prediction,gt_label)
+/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/common/instance_post_processing.py:202: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  sem = F.softmax(sem)
+2021-12-10 23:19:54,254 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-10 23:19:54,254 --             car :   0.00%
+2021-12-10 23:19:54,254 --         bicycle :   0.07%
+2021-12-10 23:19:54,255 --      motorcycle :   0.00%
+2021-12-10 23:19:54,255 --           truck :   0.00%
+2021-12-10 23:19:54,255 --             bus :   0.00%
+2021-12-10 23:19:54,255 --          person :   0.11%
+2021-12-10 23:19:54,255 --       bicyclist :   0.00%
+2021-12-10 23:19:54,255 --    motorcyclist :   0.00%
+2021-12-10 23:19:54,255 --            road :  72.67%
+2021-12-10 23:19:54,255 --         parking :  16.70%
+2021-12-10 23:19:54,255 --        sidewalk :  39.72%
+2021-12-10 23:19:54,255 --    other-ground :   0.00%
+2021-12-10 23:19:54,255 --        building :  38.94%
+2021-12-10 23:19:54,256 --           fence :  12.41%
+2021-12-10 23:19:54,256 --      vegetation :  43.48%
+2021-12-10 23:19:54,256 --           trunk :  15.47%
+2021-12-10 23:19:54,256 --         terrain :  48.06%
+2021-12-10 23:19:54,256 --            pole :  25.60%
+2021-12-10 23:19:54,256 --    traffic-sign :   0.85%
+2021-12-10 23:19:54,256 -- Current val miou is 16.530
+2021-12-10 23:20:07,767 -- LOSS:699.68505859375
+2021-12-11 02:27:56,860 -- FINAL SUMMARY=>LOSS:5735958888579072.0
+2021-12-11 02:27:56,862 -- => =========== Epoch [8/80] ===========
+2021-12-11 02:27:56,862 -- => Reminder - Output of routine on ./SSC_out
+2021-12-11 02:27:56,862 -- => Learning rate: 0.0008858423808639999
+2021-12-11 02:27:56,863 -- => Passing the network on the validation set...
+2021-12-11 02:34:47,689 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-11 02:34:47,689 --             car :   0.00%
+2021-12-11 02:34:47,689 --         bicycle :   0.00%
+2021-12-11 02:34:47,689 --      motorcycle :   0.00%
+2021-12-11 02:34:47,689 --           truck :   0.00%
+2021-12-11 02:34:47,690 --             bus :   0.00%
+2021-12-11 02:34:47,690 --          person :   0.00%
+2021-12-11 02:34:47,690 --       bicyclist :   0.00%
+2021-12-11 02:34:47,690 --    motorcyclist :   0.00%
+2021-12-11 02:34:47,690 --            road :   0.00%
+2021-12-11 02:34:47,690 --         parking :   0.00%
+2021-12-11 02:34:47,690 --        sidewalk :   0.00%
+2021-12-11 02:34:47,690 --    other-ground :   0.00%
+2021-12-11 02:34:47,690 --        building :   0.00%
+2021-12-11 02:34:47,690 --           fence :   0.00%
+2021-12-11 02:34:47,690 --      vegetation :   0.00%
+2021-12-11 02:34:47,691 --           trunk :   0.00%
+2021-12-11 02:34:47,691 --         terrain :   0.00%
+2021-12-11 02:34:47,691 --            pole :   0.00%
+2021-12-11 02:34:47,691 --    traffic-sign :   0.00%
+2021-12-11 02:34:47,691 -- Current val miou is 0.000
+2021-12-11 02:34:59,347 -- LOSS:5806232069734400.0
+Traceback (most recent call last):
+  File "train.py", line 230, in <module>
+    main()
+  File "train.py", line 226, in main
+    train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, epoch, logger)
+  File "train.py", line 100, in train
+    loss.backward()
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/torch/tensor.py", line 195, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/torch/autograd/__init__.py", line 99, in backward
+    allow_unreachable=True)  # allow_unreachable flag
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/wandb_torch.py", line 285, in <lambda>
+    handle = var.register_hook(lambda grad: _callback(grad, log_track))
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/wandb_torch.py", line 283, in _callback
+    self.log_tensor_stats(grad.data, name)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/wandb_torch.py", line 235, in log_tensor_stats
+    tensor = flat.histc(bins=self._num_bins, min=tmin, max=tmax)
+RuntimeError: max must be larger than min
+wandb: Waiting for W&B process to finish, PID 358249... (failed 1). Press ctrl-c to abort syncing.
+wandb: - 0.00MB of 0.00MB uploaded (0.00MB deduped)wandb: \ 0.00MB of 0.00MB uploaded (0.00MB deduped)wandb: | 0.00MB of 0.03MB uploaded (0.00MB deduped)wandb: / 0.00MB of 0.05MB uploaded (0.00MB deduped)wandb: - 0.00MB of 0.05MB uploaded (0.00MB deduped)wandb: \ 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: | 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: / 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: - 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: \ 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: | 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: / 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: - 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb:                                                                                
+wandb: Run history:
+wandb:   loss ▁█▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:   miou █▁
+wandb: 
+wandb: Run summary:
+wandb:   loss 5635124330758144.0
+wandb:   miou 0.0
+wandb: 
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Synced cerulean-spaceship-125: https://wandb.ai/tintinwu/SSCNET/runs/318zxbo5
+wandb: Find logs at: ./wandb/run-20211210_231401-318zxbo5/logs/debug.log
+wandb: 

@@ -1,0 +1,102 @@
+wandb: Currently logged in as: tintinwu (use `wandb login --relogin` to force relogin)
+wandb: Tracking run with wandb version 0.12.7
+wandb: Syncing run kind-wildflower-128
+wandb: ⭐️ View project at https://wandb.ai/tintinwu/SSCNET
+wandb: 🚀 View run at https://wandb.ai/tintinwu/SSCNET/runs/2ctt57h1
+wandb: Run data is saved locally in /home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/wandb/run-20211212_161609-2ctt57h1
+wandb: Run `wandb offline` to turn off syncing.
+2021-12-12 16:16:15,658 -- ============ Training routine: "configs/LMSCNet_SS.yaml" ============
+
+2021-12-12 16:16:15,910 -- => Loading network architecture...
+2021-12-12 16:16:16,043 -- => Loading optimizer...
+2021-12-12 16:16:16,044 -- => Loading scheduler...
+2021-12-12 16:16:16,589 -- => Continuing training routine. Checkpoint loaded at ./weights/Panoptic_epoch_last.pth
+2021-12-12 16:16:20,445 -- => =========== Epoch [9/80] ===========
+2021-12-12 16:16:20,446 -- => Reminder - Output of routine on ./SSC_out
+2021-12-12 16:16:20,446 -- => Learning rate: 0.0008858423808639999
+2021-12-12 16:16:20,446 -- => Passing the network on the validation set...
+/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/losses/loss.py:69: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  loss = lovasz_softmax(torch.nn.functional.softmax(prediction), gt_label,ignore=255) + self.CE_loss(prediction,gt_label)
+/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/common/instance_post_processing.py:202: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  sem = F.softmax(sem)
+2021-12-12 16:22:23,831 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-12 16:22:23,832 --             car :   0.00%
+2021-12-12 16:22:23,832 --         bicycle :   0.07%
+2021-12-12 16:22:23,832 --      motorcycle :   0.00%
+2021-12-12 16:22:23,832 --           truck :   0.00%
+2021-12-12 16:22:23,832 --             bus :   0.00%
+2021-12-12 16:22:23,832 --          person :   0.00%
+2021-12-12 16:22:23,832 --       bicyclist :   0.00%
+2021-12-12 16:22:23,832 --    motorcyclist :   0.00%
+2021-12-12 16:22:23,833 --            road :  72.67%
+2021-12-12 16:22:23,833 --         parking :  16.70%
+2021-12-12 16:22:23,833 --        sidewalk :  39.72%
+2021-12-12 16:22:23,833 --    other-ground :   0.00%
+2021-12-12 16:22:23,833 --        building :  38.94%
+2021-12-12 16:22:23,833 --           fence :  12.41%
+2021-12-12 16:22:23,833 --      vegetation :  43.48%
+2021-12-12 16:22:23,833 --           trunk :  15.47%
+2021-12-12 16:22:23,833 --         terrain :  48.06%
+2021-12-12 16:22:23,833 --            pole :  25.60%
+2021-12-12 16:22:23,834 --    traffic-sign :   0.85%
+2021-12-12 16:22:23,834 -- Current val miou is 16.524
+2021-12-12 16:22:35,990 -- LOSS:2.8562261604560378e+20
+2021-12-12 18:58:38,390 -- FINAL SUMMARY=>LOSS:1.5048607627476992e+16
+2021-12-12 18:58:38,458 -- => =========== Epoch [10/80] ===========
+2021-12-12 18:58:38,458 -- => Reminder - Output of routine on ./SSC_out
+2021-12-12 18:58:38,458 -- => Learning rate: 0.00086812553324672
+2021-12-12 18:58:38,459 -- => Passing the network on the validation set...
+2021-12-12 19:05:20,168 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-12 19:05:20,168 --             car :   0.00%
+2021-12-12 19:05:20,168 --         bicycle :   0.05%
+2021-12-12 19:05:20,168 --      motorcycle :   0.00%
+2021-12-12 19:05:20,169 --           truck :   0.00%
+2021-12-12 19:05:20,169 --             bus :   0.00%
+2021-12-12 19:05:20,169 --          person :   0.00%
+2021-12-12 19:05:20,169 --       bicyclist :   0.00%
+2021-12-12 19:05:20,169 --    motorcyclist :   0.00%
+2021-12-12 19:05:20,169 --            road :  23.72%
+2021-12-12 19:05:20,169 --         parking :   0.02%
+2021-12-12 19:05:20,169 --        sidewalk :   0.72%
+2021-12-12 19:05:20,169 --    other-ground :   0.00%
+2021-12-12 19:05:20,169 --        building :   0.00%
+2021-12-12 19:05:20,170 --           fence :   0.02%
+2021-12-12 19:05:20,170 --      vegetation :   3.25%
+2021-12-12 19:05:20,170 --           trunk :   0.00%
+2021-12-12 19:05:20,170 --         terrain :   4.97%
+2021-12-12 19:05:20,170 --            pole :   4.47%
+2021-12-12 19:05:20,170 --    traffic-sign :   0.88%
+2021-12-12 19:05:20,170 -- Current val miou is 2.006
+2021-12-12 19:05:30,208 -- LOSS:1.2940946916245504e+16
+Traceback (most recent call last):
+  File "train.py", line 230, in <module>
+    main()
+  File "train.py", line 226, in main
+    train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, epoch, logger)
+  File "train.py", line 100, in train
+    loss.backward()
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/torch/tensor.py", line 195, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/torch/autograd/__init__.py", line 99, in backward
+    allow_unreachable=True)  # allow_unreachable flag
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/wandb_torch.py", line 285, in <lambda>
+    handle = var.register_hook(lambda grad: _callback(grad, log_track))
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/wandb_torch.py", line 283, in _callback
+    self.log_tensor_stats(grad.data, name)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/wandb_torch.py", line 235, in log_tensor_stats
+    tensor = flat.histc(bins=self._num_bins, min=tmin, max=tmax)
+RuntimeError: max must be larger than min
+wandb: Waiting for W&B process to finish, PID 396121... (failed 1). Press ctrl-c to abort syncing.
+wandb: - 0.00MB of 0.00MB uploaded (0.00MB deduped)wandb: \ 0.00MB of 0.00MB uploaded (0.00MB deduped)wandb: | 0.00MB of 0.00MB uploaded (0.00MB deduped)wandb: / 0.00MB of 0.05MB uploaded (0.00MB deduped)wandb: - 0.00MB of 0.05MB uploaded (0.00MB deduped)wandb: \ 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: | 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: / 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: - 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: \ 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: | 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: / 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb: - 0.05MB of 0.05MB uploaded (0.00MB deduped)wandb:                                                                                
+wandb: Run history:
+wandb:   loss █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:   miou █▁
+wandb: 
+wandb: Run summary:
+wandb:   loss 1.0774037131165696e+16
+wandb:   miou 0.02006
+wandb: 
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Synced kind-wildflower-128: https://wandb.ai/tintinwu/SSCNET/runs/2ctt57h1
+wandb: Find logs at: ./wandb/run-20211212_161609-2ctt57h1/logs/debug.log
+wandb: 

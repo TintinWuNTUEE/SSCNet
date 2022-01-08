@@ -1,0 +1,208 @@
+wandb: Currently logged in as: tintinwu (use `wandb login --relogin` to force relogin)
+wandb: Tracking run with wandb version 0.12.7
+wandb: Syncing run dashing-sun-122
+wandb: ⭐️ View project at https://wandb.ai/tintinwu/SSCNET
+wandb: 🚀 View run at https://wandb.ai/tintinwu/SSCNET/runs/157t4z9j
+wandb: Run data is saved locally in /home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/wandb/run-20211209_223551-157t4z9j
+wandb: Run `wandb offline` to turn off syncing.
+2021-12-09 22:35:57,065 -- ============ Training routine: "configs/LMSCNet_SS.yaml" ============
+
+2021-12-09 22:35:57,280 -- => Loading network architecture...
+2021-12-09 22:35:57,366 -- => Loading optimizer...
+2021-12-09 22:35:57,367 -- => Loading scheduler...
+2021-12-09 22:35:57,399 -- => No checkpoint. Initializing model from scratch
+2021-12-09 22:36:01,412 -- => =========== Epoch [1/80] ===========
+2021-12-09 22:36:01,412 -- => Reminder - Output of routine on ./SSC_out
+2021-12-09 22:36:01,413 -- => Learning rate: 0.001
+2021-12-09 22:36:01,413 -- => Passing the network on the validation set...
+/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/losses/loss.py:69: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  loss = lovasz_softmax(torch.nn.functional.softmax(prediction), gt_label,ignore=255) + self.CE_loss(prediction,gt_label)
+/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/common/instance_post_processing.py:202: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  sem = F.softmax(sem)
+2021-12-09 22:39:37,174 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-09 22:39:37,176 --             car :   0.00%
+2021-12-09 22:39:37,177 --         bicycle :   0.07%
+2021-12-09 22:39:37,177 --      motorcycle :   0.00%
+2021-12-09 22:39:37,177 --           truck :   0.00%
+2021-12-09 22:39:37,177 --             bus :   0.00%
+2021-12-09 22:39:37,177 --          person :   0.01%
+2021-12-09 22:39:37,177 --       bicyclist :   0.00%
+2021-12-09 22:39:37,177 --    motorcyclist :   0.00%
+2021-12-09 22:39:37,177 --            road :  72.67%
+2021-12-09 22:39:37,177 --         parking :  16.70%
+2021-12-09 22:39:37,177 --        sidewalk :  39.72%
+2021-12-09 22:39:37,177 --    other-ground :   0.00%
+2021-12-09 22:39:37,178 --        building :  38.94%
+2021-12-09 22:39:37,178 --           fence :  12.41%
+2021-12-09 22:39:37,178 --      vegetation :  43.48%
+2021-12-09 22:39:37,178 --           trunk :  15.47%
+2021-12-09 22:39:37,178 --         terrain :  48.06%
+2021-12-09 22:39:37,178 --            pole :  25.60%
+2021-12-09 22:39:37,178 --    traffic-sign :   0.85%
+2021-12-09 22:39:37,178 -- Current val miou is 16.525
+2021-12-09 22:39:44,045 -- LOSS:406.1363525390625
+2021-12-10 01:43:50,841 -- FINAL SUMMARY=>LOSS:1.7107547521591187
+2021-12-10 01:43:51,187 -- => =========== Epoch [2/80] ===========
+2021-12-10 01:43:51,187 -- => Reminder - Output of routine on ./SSC_out
+2021-12-10 01:43:51,187 -- => Learning rate: 0.00098
+2021-12-10 01:43:51,187 -- => Passing the network on the validation set...
+2021-12-10 01:49:43,494 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-10 01:49:43,494 --             car :   0.00%
+2021-12-10 01:49:43,494 --         bicycle :   0.00%
+2021-12-10 01:49:43,494 --      motorcycle :   0.00%
+2021-12-10 01:49:43,494 --           truck :   0.00%
+2021-12-10 01:49:43,494 --             bus :   0.00%
+2021-12-10 01:49:43,494 --          person :   0.00%
+2021-12-10 01:49:43,494 --       bicyclist :   0.00%
+2021-12-10 01:49:43,495 --    motorcyclist :   0.00%
+2021-12-10 01:49:43,495 --            road :   0.00%
+2021-12-10 01:49:43,495 --         parking :   0.00%
+2021-12-10 01:49:43,495 --        sidewalk :   0.00%
+2021-12-10 01:49:43,495 --    other-ground :   0.00%
+2021-12-10 01:49:43,495 --        building :   0.00%
+2021-12-10 01:49:43,495 --           fence :   0.00%
+2021-12-10 01:49:43,495 --      vegetation :   0.00%
+2021-12-10 01:49:43,495 --           trunk :   0.00%
+2021-12-10 01:49:43,495 --         terrain :   0.00%
+2021-12-10 01:49:43,495 --            pole :   0.00%
+2021-12-10 01:49:43,495 --    traffic-sign :   0.00%
+2021-12-10 01:49:43,495 -- Current val miou is 0.000
+2021-12-10 01:49:52,396 -- LOSS:3.3626813888549805
+wandb: ERROR Summary data exceeds maximum size of 10.4MB. Dropping it.
+2021-12-10 04:57:30,733 -- FINAL SUMMARY=>LOSS:2.103931188583374
+2021-12-10 04:57:30,754 -- => =========== Epoch [3/80] ===========
+2021-12-10 04:57:30,754 -- => Reminder - Output of routine on ./SSC_out
+2021-12-10 04:57:30,754 -- => Learning rate: 0.0009603999999999999
+2021-12-10 04:57:30,754 -- => Passing the network on the validation set...
+2021-12-10 05:02:57,749 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-10 05:02:57,749 --             car :   0.00%
+2021-12-10 05:02:57,749 --         bicycle :   0.00%
+2021-12-10 05:02:57,750 --      motorcycle :   0.00%
+2021-12-10 05:02:57,750 --           truck :   0.00%
+2021-12-10 05:02:57,750 --             bus :   0.00%
+2021-12-10 05:02:57,750 --          person :   0.00%
+2021-12-10 05:02:57,750 --       bicyclist :   0.00%
+2021-12-10 05:02:57,750 --    motorcyclist :   0.00%
+2021-12-10 05:02:57,750 --            road :   0.02%
+2021-12-10 05:02:57,750 --         parking :   0.00%
+2021-12-10 05:02:57,750 --        sidewalk :   0.01%
+2021-12-10 05:02:57,750 --    other-ground :   0.00%
+2021-12-10 05:02:57,750 --        building :   0.00%
+2021-12-10 05:02:57,750 --           fence :   0.00%
+2021-12-10 05:02:57,751 --      vegetation :   0.00%
+2021-12-10 05:02:57,751 --           trunk :   0.00%
+2021-12-10 05:02:57,751 --         terrain :   0.00%
+2021-12-10 05:02:57,751 --            pole :   0.00%
+2021-12-10 05:02:57,751 --    traffic-sign :   0.00%
+2021-12-10 05:02:57,751 -- Current val miou is 0.001
+2021-12-10 05:03:11,033 -- LOSS:2.410717725753784
+wandb: ERROR Dropped streaming file chunk (see wandb/debug-internal.log)
+ERROR:root:dropped chunk 413 Client Error: Request Entity Too Large for url: https://api.wandb.ai/files/tintinwu/SSCNET/157t4z9j/file_stream
+NoneType: None
+2021-12-10 08:10:50,973 -- FINAL SUMMARY=>LOSS:5.573270320892334
+2021-12-10 08:10:50,976 -- => =========== Epoch [4/80] ===========
+2021-12-10 08:10:50,976 -- => Reminder - Output of routine on ./SSC_out
+2021-12-10 08:10:50,977 -- => Learning rate: 0.000941192
+2021-12-10 08:10:50,977 -- => Passing the network on the validation set...
+2021-12-10 08:16:33,462 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-10 08:16:33,462 --             car :   0.00%
+2021-12-10 08:16:33,463 --         bicycle :   0.00%
+2021-12-10 08:16:33,463 --      motorcycle :   0.00%
+2021-12-10 08:16:33,463 --           truck :   0.00%
+2021-12-10 08:16:33,463 --             bus :   0.00%
+2021-12-10 08:16:33,463 --          person :   0.00%
+2021-12-10 08:16:33,463 --       bicyclist :   0.00%
+2021-12-10 08:16:33,463 --    motorcyclist :   0.00%
+2021-12-10 08:16:33,463 --            road :   5.54%
+2021-12-10 08:16:33,463 --         parking :   0.00%
+2021-12-10 08:16:33,463 --        sidewalk :   1.10%
+2021-12-10 08:16:33,463 --    other-ground :   0.00%
+2021-12-10 08:16:33,463 --        building :   0.00%
+2021-12-10 08:16:33,463 --           fence :   0.00%
+2021-12-10 08:16:33,464 --      vegetation :   0.00%
+2021-12-10 08:16:33,464 --           trunk :   0.00%
+2021-12-10 08:16:33,464 --         terrain :   0.00%
+2021-12-10 08:16:33,464 --            pole :   0.00%
+2021-12-10 08:16:33,464 --    traffic-sign :   0.00%
+2021-12-10 08:16:33,464 -- Current val miou is 0.350
+2021-12-10 08:16:46,902 -- LOSS:2.2376813888549805
+2021-12-10 10:21:27,699 -- FINAL SUMMARY=>LOSS:3.557445526123047
+2021-12-10 10:21:27,780 -- => =========== Epoch [5/80] ===========
+2021-12-10 10:21:27,780 -- => Reminder - Output of routine on ./SSC_out
+2021-12-10 10:21:27,780 -- => Learning rate: 0.0009223681599999999
+2021-12-10 10:21:27,781 -- => Passing the network on the validation set...
+2021-12-10 10:24:54,402 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-10 10:24:54,403 --             car :   0.00%
+2021-12-10 10:24:54,403 --         bicycle :   0.00%
+2021-12-10 10:24:54,403 --      motorcycle :   0.00%
+2021-12-10 10:24:54,403 --           truck :   0.00%
+2021-12-10 10:24:54,403 --             bus :   0.00%
+2021-12-10 10:24:54,403 --          person :   0.00%
+2021-12-10 10:24:54,404 --       bicyclist :   0.00%
+2021-12-10 10:24:54,404 --    motorcyclist :   0.00%
+2021-12-10 10:24:54,404 --            road :  14.49%
+2021-12-10 10:24:54,404 --         parking :   0.00%
+2021-12-10 10:24:54,404 --        sidewalk :   2.10%
+2021-12-10 10:24:54,404 --    other-ground :   0.00%
+2021-12-10 10:24:54,404 --        building :   0.00%
+2021-12-10 10:24:54,404 --           fence :   0.00%
+2021-12-10 10:24:54,404 --      vegetation :   0.00%
+2021-12-10 10:24:54,404 --           trunk :   0.00%
+2021-12-10 10:24:54,404 --         terrain :   0.00%
+2021-12-10 10:24:54,405 --            pole :   0.00%
+2021-12-10 10:24:54,405 --    traffic-sign :   0.00%
+2021-12-10 10:24:54,405 -- Current val miou is 0.874
+2021-12-10 10:25:01,895 -- LOSS:6.2064313888549805
+wandb: ERROR Dropped streaming file chunk (see wandb/debug-internal.log)
+ERROR:root:dropped chunk 500 Server Error: Internal Server Error for url: https://api.wandb.ai/files/tintinwu/SSCNET/157t4z9j/file_stream
+NoneType: None
+2021-12-10 12:05:24,424 -- FINAL SUMMARY=>LOSS:1.0632617473602295
+2021-12-10 12:05:24,463 -- => =========== Epoch [6/80] ===========
+2021-12-10 12:05:24,463 -- => Reminder - Output of routine on ./SSC_out
+2021-12-10 12:05:24,463 -- => Learning rate: 0.0009039207967999999
+2021-12-10 12:05:24,463 -- => Passing the network on the validation set...
+2021-12-10 12:08:59,258 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-10 12:08:59,259 --             car :   0.00%
+2021-12-10 12:08:59,259 --         bicycle :   0.00%
+2021-12-10 12:08:59,259 --      motorcycle :   0.00%
+2021-12-10 12:08:59,259 --           truck :   0.00%
+2021-12-10 12:08:59,259 --             bus :   0.00%
+2021-12-10 12:08:59,260 --          person :   0.00%
+2021-12-10 12:08:59,260 --       bicyclist :   0.00%
+2021-12-10 12:08:59,260 --    motorcyclist :   0.00%
+2021-12-10 12:08:59,260 --            road :  18.10%
+2021-12-10 12:08:59,260 --         parking :   0.03%
+2021-12-10 12:08:59,260 --        sidewalk :   3.96%
+2021-12-10 12:08:59,260 --    other-ground :   0.00%
+2021-12-10 12:08:59,260 --        building :   0.00%
+2021-12-10 12:08:59,260 --           fence :   0.01%
+2021-12-10 12:08:59,260 --      vegetation :   0.01%
+2021-12-10 12:08:59,260 --           trunk :   0.00%
+2021-12-10 12:08:59,260 --         terrain :   0.01%
+2021-12-10 12:08:59,261 --            pole :   0.00%
+2021-12-10 12:08:59,261 --    traffic-sign :   0.00%
+2021-12-10 12:08:59,261 -- Current val miou is 1.164
+2021-12-10 12:09:07,737 -- LOSS:2.4063539505004883
+Traceback (most recent call last):
+  File "train.py", line 230, in <module>
+    main()
+  File "train.py", line 226, in main
+    train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, epoch, logger)
+  File "train.py", line 105, in train
+    wandb.log({"loss": loss})
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/sdk/wandb_run.py", line 1345, in log
+    self.history._row_add(data)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/sdk/wandb_history.py", line 44, in _row_add
+    self._flush()
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/sdk/wandb_history.py", line 59, in _flush
+    self._callback(row=self._data, step=self._step)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/sdk/wandb_run.py", line 1024, in _history_callback
+    row, step, publish_step=not_using_tensorboard
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/sdk/interface/interface.py", line 501, in publish_history
+    self._publish_history(history)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/sdk/interface/interface_queue.py", line 74, in _publish_history
+    self._publish(rec)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/wandb/sdk/interface/interface_queue.py", line 223, in _publish
+    raise Exception("The wandb backend process has shutdown")
+Exception: The wandb backend process has shutdown
+=>> PBS: job killed: walltime 86414 exceeded limit 86400

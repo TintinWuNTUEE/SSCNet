@@ -1,0 +1,74 @@
+wandb: Currently logged in as: tintinwu (use `wandb login --relogin` to force relogin)
+wandb: Tracking run with wandb version 0.12.7
+wandb: Syncing run floral-shadow-131
+wandb: ⭐️ View project at https://wandb.ai/tintinwu/SSCNET
+wandb: 🚀 View run at https://wandb.ai/tintinwu/SSCNET/runs/3qci23ty
+wandb: Run data is saved locally in /home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/wandb/run-20211214_090255-3qci23ty
+wandb: Run `wandb offline` to turn off syncing.
+2021-12-14 09:02:59,301 -- ============ Training routine: "configs/LMSCNet_SS.yaml" ============
+
+2021-12-14 09:02:59,585 -- => Loading network architecture...
+2021-12-14 09:02:59,679 -- => Loading optimizer...
+2021-12-14 09:02:59,679 -- => Loading scheduler...
+2021-12-14 09:03:00,568 -- => Continuing training routine. Checkpoint loaded at ./weights/Panoptic_epoch_last.pth
+2021-12-14 09:03:05,516 -- => =========== Epoch [11/80] ===========
+2021-12-14 09:03:05,517 -- => Reminder - Output of routine on ./SSC_out
+2021-12-14 09:03:05,517 -- => Learning rate: 0.00086812553324672
+2021-12-14 09:03:05,517 -- => Passing the network on the validation set...
+/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/losses/loss.py:69: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  loss = lovasz_softmax(torch.nn.functional.softmax(prediction), gt_label,ignore=255) + self.CE_loss(prediction,gt_label)
+/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/common/instance_post_processing.py:202: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  sem = F.softmax(sem)
+2021-12-14 09:09:20,071 -- Validation per class IoU(Panoptic polarnet): 
+2021-12-14 09:09:20,072 --             car :   0.00%
+2021-12-14 09:09:20,072 --         bicycle :   0.07%
+2021-12-14 09:09:20,072 --      motorcycle :   0.00%
+2021-12-14 09:09:20,072 --           truck :   0.00%
+2021-12-14 09:09:20,072 --             bus :   0.00%
+2021-12-14 09:09:20,072 --          person :   0.00%
+2021-12-14 09:09:20,072 --       bicyclist :   0.00%
+2021-12-14 09:09:20,072 --    motorcyclist :   0.00%
+2021-12-14 09:09:20,073 --            road :  72.67%
+2021-12-14 09:09:20,073 --         parking :  16.70%
+2021-12-14 09:09:20,073 --        sidewalk :  39.72%
+2021-12-14 09:09:20,073 --    other-ground :   0.00%
+2021-12-14 09:09:20,073 --        building :  38.94%
+2021-12-14 09:09:20,073 --           fence :  12.41%
+2021-12-14 09:09:20,073 --      vegetation :  43.48%
+2021-12-14 09:09:20,073 --           trunk :  15.47%
+2021-12-14 09:09:20,073 --         terrain :  48.06%
+2021-12-14 09:09:20,073 --            pole :  25.60%
+2021-12-14 09:09:20,073 --    traffic-sign :   0.85%
+2021-12-14 09:09:20,073 -- Current val miou is 16.524
+Traceback (most recent call last):
+  File "train.py", line 230, in <module>
+    main()
+  File "train.py", line 226, in main
+    train(model1, model2, optimizer, scheduler, dataset, _cfg, p_args, epoch, logger)
+  File "train.py", line 88, in train
+    scores = model1(data)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/models/LMSCNet_SS.py", line 146, in forward
+    out_scale_feature, out_scale_1_1__3D = self.seg_head_1_1(out_scale_1_1__2D)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/eegroup/eefrank/b07901031/SSCNet/LMSCSemantic-Panoptic/models/LMSCNet_SS.py", line 36, in forward
+    x_in = self.relu(self.conv0(x_in))
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/eegroup/eefrank/anaconda3/envs/b07901031/lib/python3.6/site-packages/torch/nn/modules/conv.py", line 480, in forward
+    self.padding, self.dilation, self.groups)
+RuntimeError: CUDA out of memory. Tried to allocate 256.00 MiB (GPU 0; 15.78 GiB total capacity; 739.15 MiB already allocated; 219.00 MiB free; 888.00 MiB reserved in total by PyTorch)
+wandb: Waiting for W&B process to finish, PID 69753... (failed 1). Press ctrl-c to abort syncing.
+wandb: - 0.00MB of 0.00MB uploaded (0.00MB deduped)wandb: \ 0.00MB of 0.00MB uploaded (0.00MB deduped)wandb: | 0.00MB of 0.00MB uploaded (0.00MB deduped)wandb: / 0.00MB of 0.02MB uploaded (0.00MB deduped)wandb: - 0.00MB of 0.02MB uploaded (0.00MB deduped)wandb: \ 0.00MB of 0.02MB uploaded (0.00MB deduped)wandb: | 0.02MB of 0.02MB uploaded (0.00MB deduped)wandb: / 0.02MB of 0.02MB uploaded (0.00MB deduped)wandb: - 0.02MB of 0.02MB uploaded (0.00MB deduped)wandb: \ 0.02MB of 0.02MB uploaded (0.00MB deduped)wandb: | 0.02MB of 0.02MB uploaded (0.00MB deduped)wandb: / 0.02MB of 0.02MB uploaded (0.00MB deduped)wandb: - 0.02MB of 0.02MB uploaded (0.00MB deduped)wandb:                                                                                
+wandb: Run history:
+wandb:   miou ▁
+wandb: 
+wandb: Run summary:
+wandb:   miou 0.16524
+wandb: 
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Synced floral-shadow-131: https://wandb.ai/tintinwu/SSCNET/runs/3qci23ty
+wandb: Find logs at: ./wandb/run-20211214_090255-3qci23ty/logs/debug.log
+wandb: 
