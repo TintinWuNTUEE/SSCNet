@@ -111,7 +111,7 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,logger,start_epoch=0):
         epoch_iou = sum(epoch_iou)/len(epoch_iou)
         logger.info('=> [Epoch {} - Total Train Loss = {}, Total Train IOU = {}]'.format(epoch, epoch_loss, epoch_iou))
         logger.info('lr : {}'.format(get_lr(optimizer)))
-        scheduler.step()
+        # scheduler.step()
     save(args['model']['voxel_instance_model_save_path'],'voxel_instance.pt',model,optimizer,epoch,args)
 
 def validation(model,loss_fn,dataset,args,logger,start_epoch=0):
@@ -153,9 +153,11 @@ if __name__ == '__main__':
     # loss_fn = nn.CrossEntropyLoss()
     # loss_fn = FocalLoss(2)
     loss_fn = BinaryFocalLossWithLogits(0.25,2.,'mean')
-    optimizer = optim.SGD(model.parameters(),lr=args['TRAIN']['learning_rate'])
+    # optimizer = optim.SGD(model.parameters(),lr=args['TRAIN']['learning_rate'])
+    optimizer = optim.Adam(model.parameters(),lr=args['TRAIN']['learning_rate'])
     lambda1 = lambda epoch: (0.98) ** (epoch)
-    scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
+    # scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
+    scheduler = None
     logger = get_logger(args['model']['train_log'],'voxel_train.log')
     train(model,loss_fn,scheduler,optimizer,dataset,args,logger)
     # validation(model,loss_fn,dataset,args,logger)
