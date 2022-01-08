@@ -41,6 +41,8 @@ def iou(pred, target, n_classes = 12):
     # pred = pred.squeeze(1)  # BATCH x 1 x H x W => BATCH x H x W
     # target = target.squeeze(1).long() 
     target = target.long() 
+    # print(pred.shape)
+    # print(target.shape)
 
     # Ignore IoU for background class ("0")
     for i in range(pred.shape[0]):
@@ -49,10 +51,12 @@ def iou(pred, target, n_classes = 12):
             target_inds = target[i] == cls
             # print(target_inds.sum())
             intersection = (pred_inds[target_inds]).long().sum().data.cpu()  # Cast to long to prevent overflows
-            # print(intersection)
+            # print('intersection = ',intersection)
             union = pred_inds.long().sum().data.cpu() + target_inds.long().sum().data.cpu() - intersection
+            # print('union = ',union)
             if union == 0:
-                ious.append(float('nan'))  # If there is no ground truth, do not include in evaluation
+                pass
+                # ious.append(float('nan'))  # If there is no ground truth, do not include in evaluation
             else:
                 ious.append(float(intersection) / float(max(union, 1)))
     return ious

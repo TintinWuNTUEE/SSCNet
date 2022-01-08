@@ -1,18 +1,20 @@
 import argparse
 import torch
 import yaml
+import random
 import sys
 import os
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
+from torch.autograd import Variable
 from common.io_tools import dict_to
 from dataloader.dataset import get_dataset
 from common.configs import merge_configs
 from common.utils import get_instance, get_unique_label, get_lr
 from common.logger import get_logger
 from common.iou import iou_pytorch, iou_numpy, iou
-from models.Unet import Unet
+from models.Unet import Unet, SegmentationHead
 from common.checkpoint import save, load
 ############################## grid size setting ##############################
 max_bound = np.asarray([51.2,25.6,4.4])
@@ -21,6 +23,14 @@ crop_range = max_bound-min_bound
 cur_grid_size = np.asarray([256,256,32])
 intervals = crop_range/(cur_grid_size-1)
 ############################## grid size setting ##############################
+# Seed
+seed = 321
+torch.manual_seed(seed)
+torch.cuda.manual_seed(seed)
+torch.cuda.manual_seed_all(seed)
+np.random.seed(seed)
+random.seed(seed)
+
 def get_mem_allocated(device):
     if device.type == 'cuda':
         print(torch.cuda.get_device_name(0))
@@ -51,6 +61,10 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,logger,start_epoch=0):
         epoch_loss = []
         epoch_iou = []
         for i,(input_pos,input_class,label_pos,label_class)  in enumerate(dset):
+            # print(input_pos.sum((2,3,4)))
+            # print([i & 0xffff for i in input_class])
+            # print(label_pos.sum((2,3,4)))
+            # print([i & 0xffff for i in label_class])
             # print(input_class.shape)
             # print(iou(label_pos,label_pos, n_classes=1))
             # return
@@ -63,7 +77,7 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,logger,start_epoch=0):
             # print(label_pos.shape)
             # print(pred.type())
             # print(label_pos.type())
-            loss = loss_fn(pred,label_pos.squeeze(axis=1).long())
+            loss = loss_fn(pred,label_pos.long())
             loss.backward()
             optimizer.step()
             optimizer.zero_grad()
@@ -71,11 +85,12 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,logger,start_epoch=0):
                 epoch_loss += [loss.item()]
                 epoch_iou += iou(pred, label_pos, n_classes=1)
                 # print(loss.item())
+        # print(epoch_iou)
         epoch_loss = sum(epoch_loss)/len(epoch_loss)
         epoch_iou = sum(epoch_iou)/len(epoch_iou)
         logger.info('=> [Epoch {} - Total Train Loss = {}, Total Train IOU = {}]'.format(epoch, epoch_loss, epoch_iou))
         logger.info('lr : {}'.format(get_lr(optimizer)))
-        # scheduler.step()
+        scheduler.step()
     save(args['model']['voxel_instance_model_save_path'],'voxel_instance.pt',model,optimizer,epoch,args)
 
 def validation(model,loss_fn,dataset,args,logger,start_epoch=0):
@@ -108,13 +123,42 @@ def validation(model,loss_fn,dataset,args,logger,start_epoch=0):
         # logger.info('lr : {}'.format(get_lr(optimizer)))
         return
         
+def to_one_hot(tensor,nClasses):
+    n,c,h,w,z = tensor.size()
+    one_hot = torch.zeros(n,nClasses,h,w,z).cuda().scatter_(1,tensor.view(n,1,h,w,z),1)
+    return one_hot
+    
+class FocalLoss(nn.Module):
+    
+    def __init__(self,classes, gamma=2,alpha=0.75, eps=1e-7):
+        super(FocalLoss, self).__init__()
+        self.gamma = gamma
+        self.eps = eps
+        self.classes = classes
+        self.alpha = alpha
+
+    def forward(self, input_, target_):
+        
+        y = Variable(to_one_hot(target_.data, self.classes))
+
+        logit = input_.sigmoid()
+        logit = logit.clamp(self.eps, 1. - self.eps)
+        loss = -1 * torch.log(logit) * y.float() # cross entropy
+        loss = self.alpha * loss * (1 - logit) ** self.gamma # focal loss
+        loss = torch.mean(loss)
+        
+        return loss        
+
 if __name__ == '__main__':
     args = parse_args()
     dataset=get_dataset(args)
     model = Unet()
-    loss_fn = nn.CrossEntropyLoss()
-    scheduler = None
-    optimizer = optim.Adam(model.parameters(), lr=args['TRAIN']['learning_rate'], weight_decay=float(args['TRAIN']['weight_decay']),betas=(0.9, 0.999))
+    # model = SegmentationHead(1,2,2,[1,2,3])
+    # loss_fn = nn.CrossEntropyLoss()
+    loss_fn = FocalLoss(2)
+    optimizer = optim.SGD(model.parameters(),lr=args['TRAIN']['learning_rate'])
+    lambda1 = lambda epoch: (0.98) ** (epoch)
+    scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
     logger = get_logger(args['model']['train_log'],'voxel_train.log')
     train(model,loss_fn,scheduler,optimizer,dataset,args,logger)
     validation(model,loss_fn,dataset,args,logger)
