@@ -27,7 +27,7 @@ def my_collate(batch):
     batch = list(filter(lambda x:x[1]&0xffff == 1, batch))
     # print(np.array(batch).shape)
     if len(batch) == 0:
-        batch = [(zero, np.array([255]), zero, np.array([255]))]
+        batch = [(zero, 255, zero, 255)]
     return default_collate(batch)
 def get_dataset(_cfg):
     grid_size = _cfg['dataset']['grid_size']
