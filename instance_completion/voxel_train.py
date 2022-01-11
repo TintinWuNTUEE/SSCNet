@@ -14,7 +14,7 @@ from common.configs import merge_configs
 from common.utils import get_instance, get_unique_label, get_lr
 from common.logger import get_logger
 from common.iou import iou_pytorch, iou_numpy, iou
-from models.Unet import Unet, SegmentationHead
+from models.Unet import Simple_Unet, SegmentationHead, UNet
 from common.checkpoint import save, load
 from loss import BinaryFocalLossWithLogits, FocalLoss
 ############################## grid size setting ##############################
@@ -63,22 +63,21 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,logger,start_epoch=0):
         epoch_iou = []
         x = 0
         for i,(input_pos,input_class,label_pos,label_class)  in enumerate(dset):
-            
             # for j in range(input_class.shape[0]):
-                # print(x)
-                # fig = plt.figure(x)
-                # partial_sem = input_class[j]&0xffff
-                # partial_inst = (input_class[j]&0xffff0000)>>16
-                # complete_sem = label_class[j]&0xffff
-                # complete_inst = (label_class[j]&0xffff0000)>>16
+            #     print(x)
+            #     fig = plt.figure(x)
+            #     partial_sem = input_class[j]&0xffff
+            #     partial_inst = (input_class[j]&0xffff0000)>>16
+            #     complete_sem = label_class[j]&0xffff
+            #     complete_inst = (label_class[j]&0xffff0000)>>16
 
-                # voxel1 = fig.add_subplot(121,projection='3d')
-                # voxel1.voxels(input_pos[j].squeeze())
-                # voxel1.title.set_text(" partial_sem : "+str(partial_sem)+" inst : "+str(partial_inst))
-                # voxel2 = fig.add_subplot(122,projection='3d')
-                # voxel2.voxels(label_pos[j].squeeze())
-                # voxel2.title.set_text(" complete_sem : "+str(complete_sem)+" inst : "+str(complete_inst))
-                # x += 1
+            #     voxel1 = fig.add_subplot(121,projection='3d')
+            #     voxel1.voxels(input_pos[j].squeeze())
+            #     voxel1.title.set_text(" partial_sem : "+str(partial_sem)+" inst : "+str(partial_inst))
+            #     voxel2 = fig.add_subplot(122,projection='3d')
+            #     voxel2.voxels(label_pos[j].squeeze())
+            #     voxel2.title.set_text(" complete_sem : "+str(complete_sem)+" inst : "+str(complete_inst))
+            #     x += 1
             # print(input_pos.sum((2,3,4)))
             # print([i & 0xffff for i in input_class])
             # print(label_pos.sum((2,3,4)))
@@ -111,7 +110,7 @@ def train(model,loss_fn,scheduler,optimizer,dataset,args,logger,start_epoch=0):
         epoch_iou = sum(epoch_iou)/len(epoch_iou)
         logger.info('=> [Epoch {} - Total Train Loss = {}, Total Train IOU = {}]'.format(epoch, epoch_loss, epoch_iou))
         logger.info('lr : {}'.format(get_lr(optimizer)))
-        # scheduler.step()
+        scheduler.step()
     save(args['model']['voxel_instance_model_save_path'],'voxel_instance.pt',model,optimizer,epoch,args)
 
 def validation(model,loss_fn,dataset,args,logger,start_epoch=0):
@@ -148,16 +147,16 @@ def validation(model,loss_fn,dataset,args,logger,start_epoch=0):
 if __name__ == '__main__':
     args = parse_args()
     dataset=get_dataset(args)
-    # model = Unet(out_channel=1)
-    model = SegmentationHead(1,2,1,[1,2,3])
+    model = UNet(in_dim=1, out_dim=1, num_filters=4)
+    # model = SegmentationHead(1,2,1,[1,2,3])
     # loss_fn = nn.CrossEntropyLoss()
     # loss_fn = FocalLoss(2)
     loss_fn = BinaryFocalLossWithLogits(0.25,2.,'mean')
-    # optimizer = optim.SGD(model.parameters(),lr=args['TRAIN']['learning_rate'])
-    optimizer = optim.Adam(model.parameters(),lr=args['TRAIN']['learning_rate'])
+    optimizer = optim.SGD(model.parameters(),lr=args['TRAIN']['learning_rate'])
+    # optimizer = optim.Adam(model.parameters(),lr=args['TRAIN']['learning_rate'])
     lambda1 = lambda epoch: (0.98) ** (epoch)
-    # scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
-    scheduler = None
+    scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda1)
+    # scheduler = None
     logger = get_logger(args['model']['train_log'],'voxel_train.log')
     train(model,loss_fn,scheduler,optimizer,dataset,args,logger)
     # validation(model,loss_fn,dataset,args,logger)

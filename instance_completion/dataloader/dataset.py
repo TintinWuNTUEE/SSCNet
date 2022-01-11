@@ -18,7 +18,7 @@ import random
 # from .io_data import io_data 
 from .process_panoptic import PanopticLabelGenerator
 from .instance_augmentation import instance_augmentation
-zero = np.zeros((1,80,80,32),dtype=np.float32)
+zero = np.zeros((1,32,32,32),dtype=np.float32)
 def my_collate(batch):
     # print(np.array(batch).shape)
     # print(batch[0].shape)
@@ -88,7 +88,7 @@ class Instance_Dataset(Dataset):
         instance_input,input_class,instance_label,label_class = data
         return instance_input,input_class,instance_label,label_class
 
-    def sample(self,instances,sample_num=4096,grid_size=(80,80,32),instance_center=None,ins_class=None,phase=None,index=None):
+    def sample(self,instances,sample_num=4096,grid_size=(32,32,32),instance_center=None,ins_class=None,phase=None,index=None):
         '''
         Sample the instance either with voxel padding or points
         '''
@@ -112,7 +112,7 @@ class Instance_Dataset(Dataset):
             center_now = ((instances.max(axis=0)+instances.min(axis=0))/2).astype(np.int16)
             try:
                 instances -= ((instances.max(axis=0)+instances.min(axis=0))/2).astype(np.int16)
-                instances += [40,40,16]
+                instances += [16,16,16]
                 instance_grid[instances[:,0],instances[:,1],instances[:,2]] = 1
                 instance_grid = np.expand_dims(instance_grid, axis=0)
                 return instance_grid
@@ -139,8 +139,8 @@ class Instance_Dataset(Dataset):
             instance_label = self.sample(instance_label,sample_num=16384)
         elif self.type == 'voxel':
             instance_label_center = ((instance_label.max(axis=0)+instance_label.min(axis=0))/2).astype(np.int16)
-            instance_input = self.sample(instance_input,grid_size=(80,80,32),instance_center=instance_label_center,ins_class=input_class,phase='input',index=index)
-            instance_label = self.sample(instance_label,grid_size=(80,80,32),instance_center=instance_label_center,ins_class=label_class,phase='label',index=index)
+            instance_input = self.sample(instance_input,grid_size=(32,32,32),instance_center=instance_label_center,ins_class=input_class,phase='input',index=index)
+            instance_label = self.sample(instance_label,grid_size=(32,32,32),instance_center=instance_label_center,ins_class=label_class,phase='label',index=index)
         
         return instance_input,input_class,instance_label,label_class
     
