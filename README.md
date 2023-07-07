@@ -1,4 +1,4 @@
-# SSCNET![](https://hackmd.io/_uploads/S116TLHK2.png)
+# SSCNET![](https://github.com/TintinWuNTUEE/SSCNet/blob/main/intro.png)
 
 
 ## Method
