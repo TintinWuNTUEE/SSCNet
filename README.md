@@ -1,3 +1,4 @@
+# SSCNET
 ## Method
 Inspired by [SISNet](https://arxiv.org/abs/2104.03640) on indoor scenes tasks, we present a scene-instance-scene approach on outdoor scene datasets.
 ### 1. Dataset
