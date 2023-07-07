@@ -1,4 +1,6 @@
-# SSCNET
+# SSCNET![](https://hackmd.io/_uploads/S116TLHK2.png)
+
+
 ## Method
 Inspired by [SISNet](https://arxiv.org/abs/2104.03640) on indoor scenes tasks, we present a scene-instance-scene approach on outdoor scene datasets.
 ### 1. Dataset
